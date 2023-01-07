@@ -27,6 +27,11 @@ public class Tile {
     }
     
     public void setLetter(char letter) {
+        if(letter != ' ' && (letter < 'A' || letter > 'Z')) {
+            String message = "Bad letter: '" + letter +
+                "' not in range A-Z or ' '";
+            throw new IllegalArgumentException(message);
+        }
         this.letter = letter;
     }
 }
