@@ -1,3 +1,4 @@
+package pij.main;
 public class Tile {
     private char letter;
     private int score;
