@@ -1,12 +1,25 @@
 package pij.main;
 
+import java.util.ArrayList;
+
 public class Bag {
 	
-	int tilesInBag = 0;
+	ArrayList<Tile> tiles;
 	
-	public Tile takeTile(){
-		return new Tile();
-		//take a tile
+	public Bag() {
+		int numOfTiles = 100;
+		tiles = new ArrayList<Tile>(numOfTiles);
+		for(int i = 0; i < numOfTiles; i++) {
+			Tile tile = new Tile();
+			tiles.add(tile);
+		}
+	}
+	public Tile takeTile() {
+		if(tiles.isEmpty()) {
+			throw new InsufficientTilesException();
+		}
+		Tile tile = tiles.remove(0);
+		return tile;
 	}
 	
 }

@@ -28,11 +28,8 @@ public class TestBag {
 		try {
 			bag.takeTile();
 			fail("expected InsufficientTilesException");
-			
 		}
-       catch (Exception exception) {
-            boolean isInsufficientTiles = exception instanceof InsufficientTilesException;
-            assertTrue(isInsufficientTiles);
+       catch (InsufficientTilesException exception) {
             String actualMessage = exception.getMessage();
             assertEquals(expectedMessage, actualMessage);
         }
@@ -42,4 +39,4 @@ public class TestBag {
 	void testTilesAreExpectedTiles() {
 		//check tiles are the expected 100 tiles
 	}
-	}
+}
