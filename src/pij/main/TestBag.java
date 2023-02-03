@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test ;
 
@@ -25,7 +27,7 @@ public class TestBag {
     @Test
     void testTakeTileThrowsExceptionWhenEmpty() {
         // check we get an exception on 101 goes of takeTile();
-    	String expectedMessage = "There are no more tiles!";
+        String expectedMessage = "There are no more tiles!";
 
         int numOfTiles = 100;
         Bag bag = new Bag();
@@ -44,8 +46,8 @@ public class TestBag {
         }
     }
 
-	String expectedTiles = " 3 3"
-    		+ "A1A1A1A1A1A1A1A1A1"
+    String expectedTiles = " 3 3"
+            + "A1A1A1A1A1A1A1A1A1"
             + "B3B3"
             + "C3C3"
             + "D2D2D2D2"
@@ -101,38 +103,24 @@ public class TestBag {
         for (Tile tile : tiles) {
             actualTiles = actualTiles + tile.toString();
         }
-		assertEquals(expectedTiles, actualTiles );
+        assertEquals(expectedTiles, actualTiles );
     }
     
     @Test
     void testRandomness() {
-    	//check tiles come out in a random order
-    	String unexpectedTile = "A1";
-    	String unexpectedTiles = "A1A1A1A1A1A1A1A1A1B3";
-    	String actual10Tiles = "";
-    	
-    	Bag bag = new Bag();
-    	Tile tile = bag.takeTile();
-    	String actualTile1 = tile.toString();
-    	System.out.println(actualTile1);
-    	assertNotEquals(unexpectedTile, actualTile1);
-    	
-    	Bag bag2 = new Bag();
-    	tile = bag2.takeTile();
-    	String actualTile2 = tile.toString();
-    	System.out.println(actualTile2);
-    	assertNotEquals(actualTile1, actualTile2);
-    	
-        ArrayList<Tile> randomtiles = new ArrayList<Tile>();
+        int noOfBags = 10;
 
-    	for(int i = 0; i < 10; i++) {
-    		tile = bag.takeTile();
-    		randomtiles.add(tile);
-    		actual10Tiles = randomtiles.toString();
-    	}
-    	System.out.println(actual10Tiles);
-    	assertNotEquals(unexpectedTiles, actual10Tiles);
-    	
-    	
+        Set<String> bagTilesSet = new HashSet<String>(); //why can I have type interface if I can't make a new one
+
+        for (int i = 0; i < noOfBags ; i++) {
+            Bag bag = new Bag();
+            String tilesInBag = "";
+            while(!bag.isEmpty()) {
+                Tile tile = bag.takeTile();
+                tilesInBag = tilesInBag + tile.toString();
+            }
+            boolean added = bagTilesSet.add(tilesInBag);
+            assertTrue(added);
+        }
     }
 }
