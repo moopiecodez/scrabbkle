@@ -43,9 +43,7 @@ public class Bag {
     
     private void createTiles(char letter, int score, int multiple) {
         for (int i = 0; i < multiple; i++) {
-            Tile tile = new Tile();
-            tile.setLetter(letter);
-            tile.setScore(score);
+            Tile tile = new Tile(letter, score);
             this.tiles.add(tile);
         }
     }

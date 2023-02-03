@@ -10,8 +10,7 @@ public class TestTile {
     void tileGetScore() {
         int expectedScore = 1;
 
-        Tile tile = new Tile();
-        tile.setScore(1);
+        Tile tile = new Tile('S', 1);
 
         int actualScore = tile.getScore();
 
@@ -22,10 +21,10 @@ public class TestTile {
     void tileBadScore() {
         String expectedMessage = "Bad score: -1 not in range 0-10";
 
-        Tile tile = new Tile();
+        Tile tile;
 
         try {
-            tile.setScore(-1);
+            tile = new Tile('S', -1);
             fail("expected IllegalArgumentException");
         }
         catch (Exception exception) {
@@ -39,10 +38,10 @@ public class TestTile {
     @Test
     void tileBadLetter() {
         String expectedMessage = "Bad letter: '*' not in range A-Z or ' '";
-        Tile tile = new Tile();
+        Tile tile;
 
         try {
-            tile.setLetter('*');
+            tile = new Tile('*', 1);
             fail("expected IllegalAgumentException");
         }
         catch (Exception exception) {
@@ -57,8 +56,7 @@ public class TestTile {
     void tileGetLetter() {
         char expectedLetter = 'S';
 
-        Tile tile = new Tile();
-        tile.setLetter('S');
+        Tile tile = new Tile('S', 1);
 
         char actualLetter = tile.getLetter();
 
@@ -69,9 +67,7 @@ public class TestTile {
     void tileToString() {
         String expectedString = "S1";
 
-        Tile tile = new Tile();
-        tile.setLetter('S');
-        tile.setScore(1);
+        Tile tile = new Tile('S', 1);
 
         String actualString = tile.toString();
 
