@@ -1,23 +1,54 @@
 package pij.main;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 public class TestRack {
-	@Test
-	void testSetTile() {
-		//TODO check method setTile calls takeTile and assigns it to empty slot on rack;
-	}
-	
-	@Test
-	void testStateTile() {
-		//TODO check method StateTile returns the tiles currently on rack;
-		//TODO decide if output to user of tiles on their rack is a side effect or separate method;
-	}
-	
-	@Test
-	void testTakeTile() {
-		//TODO test method by which Tiles can be taken from Rack to go on board - query if that has to be in Rack or if Turn/Move can do that?
-		//Presumably method to Return the Tiles being picked has to be in the class holding that data and then another class calls that method?
-	}
+    @Test
+    void emptyRackToString() {
+        String expectedString = "";
+        Rack rack = new Rack();
+        String actualString = rack.toString();
+
+        assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    void fullRackToString() {
+        String expectedString = "[T1], [I1], [U1], [M3], [G2], [R1], [L1]";
+        Rack rack = new Rack();
+        rack.add(new Tile('T', 1));
+        rack.add(new Tile('I', 1));
+        rack.add(new Tile('U', 1));
+        rack.add(new Tile('M', 3));
+        rack.add(new Tile('G', 2));
+        rack.add(new Tile('R', 1));
+        rack.add(new Tile('L', 1));
+
+        String actualString = rack.toString();
+
+        assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    void takeFromRackWithTile() {
+        String expectedTile = "R1";
+        String expectedRack = "[R1]";
+        Rack rack = new Rack();
+        rack.add(new Tile('R', 1));
+        rack.add(new Tile('R', 1));
+        char letter = 'R';
+        
+        Tile tile = rack.take(letter);
+        String actualTile = tile.toString();
+        String actualRack = rack.toString();
+        
+        assertEquals(expectedTile, actualTile);
+        assertEquals(expectedRack, actualRack);
+    }
 
 }
