@@ -11,7 +11,7 @@ public class Rack {
         tiles.add(aTile);
     }
     
-    public int size() {   //why do I need this?
+    public int size() {
         int size = tiles.size();
         return size;
     }

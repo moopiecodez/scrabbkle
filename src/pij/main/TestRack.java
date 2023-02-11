@@ -51,4 +51,31 @@ public class TestRack {
         assertEquals(expectedRack, actualRack);
     }
 
+    @Test
+    void takeFromRackWithoutTile() {
+        Tile expectedTile = null;
+        String expectedRack = "[R1]";
+        Rack rack = new Rack();
+        rack.add(new Tile('R', 1));
+        char letter = 'A';
+        
+        Tile tile = rack.take(letter);
+        Tile actualTile = tile;
+        String actualRack = rack.toString();
+        
+        assertEquals(expectedTile, actualTile);
+        assertEquals(expectedRack, actualRack);
+    }
+
+    @Test
+    void rackSize() {
+        int expectedSize = 3;
+        Rack rack = new Rack();
+        rack.add(new Tile('T', 1));
+        rack.add(new Tile('I', 1));
+        rack.add(new Tile('U', 1));
+        int actualSize = rack.size();
+        
+        assertEquals(expectedSize, actualSize);
+    }
 }
