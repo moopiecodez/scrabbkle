@@ -21,11 +21,9 @@ public class TestTile {
     void tileBadScore() {
         String expectedMessage = "Bad score: -1 not in range 0-10";
 
-        Tile tile;
-
         try {
-            tile = new Tile('S', -1);
-            fail("expected IllegalArgumentException");
+           new Tile('S', -1);
+           fail("expected IllegalArgumentException");
         }
         catch (Exception exception) {
             boolean isIllegalArgument = exception instanceof IllegalArgumentException;
@@ -38,10 +36,9 @@ public class TestTile {
     @Test
     void tileBadLetter() {
         String expectedMessage = "Bad letter: '*' not in range A-Z or ' '";
-        Tile tile;
 
         try {
-            tile = new Tile('*', 1);
+            new Tile('*', 1);
             fail("expected IllegalAgumentException");
         }
         catch (Exception exception) {
