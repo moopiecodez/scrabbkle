@@ -4,11 +4,20 @@ import java.util.ArrayList;
 
 public class Rack {
 
-    private static final int RACK_SIZE = 7;
+    /* declaring RACK_SIZE as a public constant because
+     * everyone can know racks hold 7 tiles. 
+     */
+    public static final int RACK_SIZE = 7; 
     private ArrayList<Tile> tiles = new ArrayList<Tile>(RACK_SIZE);
 
     public void add(Tile aTile) {
-        tiles.add(aTile);
+        if(tiles.size() < RACK_SIZE) {
+            tiles.add(aTile);
+        }
+        else {
+            String message = "The rack is full, no more tiles can be added";
+            throw new IllegalStateException(message);
+        }
     }
     
     public int size() {

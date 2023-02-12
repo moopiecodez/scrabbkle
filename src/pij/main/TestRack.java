@@ -35,6 +35,24 @@ public class TestRack {
     }
 
     @Test
+    void addToFullRack() {
+        String expectedMessage = "The rack is full, no more tiles can be added";
+        Rack rack = new Rack();
+        for(int i = 0; i < Rack.RACK_SIZE; i++) {
+            rack.add(new Tile('T', 1));
+        }
+
+        try {
+            rack.add(new Tile('A', 1));
+            fail("expected IllegalStateException");
+        }
+        catch (IllegalStateException exception){
+            String actualMessage = exception.getMessage();
+            assertEquals(expectedMessage, actualMessage);
+        }
+    }
+
+    @Test
     void takeFromRackWithTile() {
         String expectedTile = "R1";
         String expectedRack = "[R1]";
