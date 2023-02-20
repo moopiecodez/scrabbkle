@@ -5,30 +5,23 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
 public class TestBoardFileLoader {
     @Test
     void testLoader() {
-        String expectedString = "12\n" +
-                            "............" /*+ 
-                            "............\n" + 
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" +
-                            "............\n" */;
+        ArrayList<String> expectedLines = new ArrayList<String>();
+        
+        expectedLines.add("12");
+        expectedLines.add("............");
+        
         String fileName = "resources/reallySimpleBoard.txt";
 
-        String actualString = null;
+        ArrayList<String> actualLines = null;
         try {
-            actualString = BoardFileLoader.load(fileName);
+            actualLines = BoardFileLoader.load(fileName);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -37,6 +30,6 @@ public class TestBoardFileLoader {
             e.printStackTrace();
         }
 
-        assertEquals(expectedString, actualString);
+        assertEquals(expectedLines, actualLines);
     }
 }
