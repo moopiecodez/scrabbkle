@@ -12,19 +12,12 @@ public class BoardFileLoader {
         ArrayList<String> lines = new ArrayList<String>();
         File file = new File(pathname);
         FileReader reader = new FileReader(file);
-        String string = "";
+        String line = "";
 
         int i;
         while ( (i = reader.read()) != -1) {
             char c = (char) i;
-            string += c;
-        }
-
-        int max = string.length();
-        String line = "";
-        for(i = 0; i < max; i++) {
-            char c = string.charAt(i);
-            if(c == 10) {
+            if(c == '\n') {
                 lines.add(line);
                 line = "";
             }
