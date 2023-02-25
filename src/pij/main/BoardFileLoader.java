@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class BoardFileLoader {
+    
     public static ArrayList<String> load(String pathname) throws IOException {
         ArrayList<String> lines = new ArrayList<String>();
         File file = new File(pathname);
@@ -19,5 +20,16 @@ public class BoardFileLoader {
         }
         buff.close();
         return lines;
+    }
+
+    public static int parseFirstLine(String line) {
+        int size = Integer.parseInt(line);
+        if(size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
+            String message =
+                    "Invalid board size: " + size + " not in range "
+                    + Board.MIN_BOARD_SIZE + "-" + Board.MAX_BOARD_SIZE;
+            throw new IllegalArgumentException(message);
+        }
+        return size;
     }
 }
