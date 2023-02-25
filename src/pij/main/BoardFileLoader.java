@@ -32,4 +32,10 @@ public class BoardFileLoader {
         }
         return size;
     }
+
+    public static Square[][] squaresMatrix(int size, ArrayList<String> lines) {
+        Square[][] matrix = new Square[size][size];
+        matrix[0][0] = new Square();
+        return matrix;
+    }
 }

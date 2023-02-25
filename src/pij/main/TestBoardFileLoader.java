@@ -1,7 +1,7 @@
 package pij.main;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class TestBoardFileLoader {
 
     @Test
-    void testLoader() {
+    void loadReallySimpleBoard() {
         String fileName = "resources/reallySimpleBoard.txt";
         ArrayList<String> expectedLines = new ArrayList<String>();
         
@@ -57,5 +57,19 @@ public class TestBoardFileLoader {
             String actualMessage = exception.getMessage();
             assertEquals(expectedMessage, actualMessage);
         }
+    }
+
+    @Test
+    void createSquaresMatrixFor1By1Board() {
+        int size = 1;
+        ArrayList<String> lines = new ArrayList<String>();
+        lines.add(".");
+
+        Square[][] expectedMatrix = new Square[size][size];
+        expectedMatrix[0][0] = new Square();
+
+        Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
+
+        assertArrayEquals(expectedMatrix, actualMatrix); //need to make squares comparable
     }
 }
