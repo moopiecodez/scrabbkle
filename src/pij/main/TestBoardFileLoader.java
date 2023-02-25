@@ -19,7 +19,6 @@ public class TestBoardFileLoader {
         
         expectedLines.add("12");
         expectedLines.add("............");
-        
 
         ArrayList<String> actualLines = null;
         try {
@@ -34,7 +33,7 @@ public class TestBoardFileLoader {
 
         assertEquals(expectedLines, actualLines);
     }
-    
+
     @Test
     void parseFirstLineValid() {
         int expectedInt = 12;
