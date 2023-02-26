@@ -19,24 +19,32 @@ public class BoardFileLoader {
             lines.add(line);
         }
         buff.close();
+
         return lines;
     }
 
     public static int parseFirstLine(String line) {
         int size = Integer.parseInt(line);
+
         if(size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
             String message =
                     "Invalid board size: " + size + " not in range "
                     + Board.MIN_BOARD_SIZE + "-" + Board.MAX_BOARD_SIZE;
             throw new IllegalArgumentException(message);
         }
+
         return size;
     }
 
     public static Square[][] squaresMatrix(int size, ArrayList<String> lines) {
-        Square[][] matrix = new Square[size][size];
-        
-        matrix[0][0] = new Square();
+        Square[][] matrix = new Square[size][];
+
+        for(int i = 0; i < size; i++) {
+            String line = lines.get(i);
+            Square[] row = squaresRow(size, line);
+            matrix[i] = row;
+        }
+
         return matrix;
     }
 
