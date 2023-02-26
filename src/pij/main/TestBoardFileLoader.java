@@ -72,4 +72,28 @@ public class TestBoardFileLoader {
 
         assertArrayEquals(expectedMatrix, actualMatrix); 
     }
+
+    @Test
+    void createSquaresMatrixFor3By3Board() {
+        int size = 3;
+        ArrayList<String> lines = new ArrayList<String>();
+        lines.add("...");
+        lines.add("...");
+        lines.add("...");
+
+        Square[][] expectedMatrix = new Square[size][size];
+        expectedMatrix[0][0] = new Square();
+        expectedMatrix[0][1] = new Square();
+        expectedMatrix[0][2] = new Square();
+        expectedMatrix[1][0] = new Square();
+        expectedMatrix[1][1] = new Square();
+        expectedMatrix[1][2] = new Square();
+        expectedMatrix[2][0] = new Square();
+        expectedMatrix[2][1] = new Square();
+        expectedMatrix[2][2] = new Square();
+        
+        Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
+
+        assertArrayEquals(expectedMatrix, actualMatrix); 
+    }
 }
