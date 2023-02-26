@@ -15,5 +15,10 @@ public class Square {
     public Tile getTile() {
         return this.tile;
     }
-        
+
+    public boolean equals(Object obj) {
+        Class<?> thisClass = this.getClass();
+        boolean isSame = thisClass.isInstance(obj);
+        return isSame;
+    }
 }

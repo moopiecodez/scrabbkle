@@ -70,6 +70,6 @@ public class TestBoardFileLoader {
 
         Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
 
-        assertArrayEquals(expectedMatrix, actualMatrix); //need to make squares comparable
+        assertArrayEquals(expectedMatrix, actualMatrix); 
     }
 }
