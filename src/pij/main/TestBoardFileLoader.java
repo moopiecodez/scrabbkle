@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class TestBoardFileLoader {
 
     @Test
-    void loadReallySimpleBoard() {
+    void loadLinesReallySimpleBoard() {
         String fileName = "resources/reallySimpleBoard.txt";
         ArrayList<String> expectedLines = new ArrayList<String>();
         
@@ -22,7 +22,7 @@ public class TestBoardFileLoader {
 
         ArrayList<String> actualLines = null;
         try {
-            actualLines = BoardFileLoader.load(fileName);
+            actualLines = BoardFileLoader.loadLines(fileName);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

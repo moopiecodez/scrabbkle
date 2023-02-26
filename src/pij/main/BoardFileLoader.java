@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class BoardFileLoader {
     
-    public static ArrayList<String> load(String pathname) throws IOException {
+    public static ArrayList<String> loadLines(String pathname) throws IOException {
         ArrayList<String> lines = new ArrayList<String>();
         File file = new File(pathname);
         FileReader reader = new FileReader(file);
