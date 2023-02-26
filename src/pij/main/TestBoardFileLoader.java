@@ -105,4 +105,29 @@ public class TestBoardFileLoader {
 
         assertArrayEquals(expectedMatrix, actualMatrix); 
     }
+    @Test
+    void loadSimpleBoard() {
+        String fileName = "resources/simpleBoard.txt";
+        int expectedSize = 12;
+        Square[][] expectedMatrix = new Square[expectedSize][expectedSize];
+
+        for(int i = 0; i < expectedSize; i++) {
+            for(int j = 0; j < expectedSize; j++) {
+                expectedMatrix[i][j] = new Square();
+            }
+        }
+
+        Square[][] actualMatrix = null;
+        try {
+            actualMatrix = BoardFileLoader.load(fileName);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        assertArrayEquals(expectedMatrix, actualMatrix); 
+    }
 }

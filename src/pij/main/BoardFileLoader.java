@@ -62,4 +62,12 @@ public class BoardFileLoader {
 
         return row;
     }
+
+    public static Square[][] load(String fileName) throws IOException {
+        ArrayList<String> lines = loadLines(fileName);
+        String firstLine = lines.remove(0);
+        int size = parseFirstLine(firstLine);
+        Square[][] squareMatrix = squaresMatrix(size, lines);
+        return squareMatrix;
+    }
 }
