@@ -35,7 +35,23 @@ public class BoardFileLoader {
 
     public static Square[][] squaresMatrix(int size, ArrayList<String> lines) {
         Square[][] matrix = new Square[size][size];
+        
         matrix[0][0] = new Square();
         return matrix;
+    }
+
+    public static Square[] squaresRow(int size, String line) {
+        Square[] row = new Square[size];
+        // TODO will need to be refactored to cover premium squares
+        for(int i = 0; i < size; i++) {
+            if(line.charAt(i) == '.') {
+                row[i] = new Square();
+            } else {
+                String message = "Incorrect token from line";
+                throw new IllegalArgumentException(message);
+            }
+        }
+
+        return row;
     }
 }

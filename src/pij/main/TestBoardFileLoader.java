@@ -74,6 +74,15 @@ public class TestBoardFileLoader {
     }
 
     @Test
+    void createSquaresRowForASimpleLine() {
+        int size = 3;
+        String line = "...";
+        Square[] expectedRow = { new Square(), new Square(), new Square() };
+        Square[] actualRow = BoardFileLoader.squaresRow(size, line);
+        assertArrayEquals(expectedRow, actualRow);
+    }
+    
+    @Test
     void createSquaresMatrixFor3By3Board() {
         int size = 3;
         ArrayList<String> lines = new ArrayList<String>();
