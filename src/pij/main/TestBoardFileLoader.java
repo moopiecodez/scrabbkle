@@ -75,13 +75,22 @@ public class TestBoardFileLoader {
 
     @Test
     void createSquaresRowForASimpleLine() {
-        int size = 3;
-        String line = "...";
+        String[] tokens  = {".", ".", "."};
         Square[] expectedRow = { new Square(), new Square(), new Square() };
-        Square[] actualRow = BoardFileLoader.squaresRow(size, line);
+        Square[] actualRow = BoardFileLoader.squaresRow(tokens);
         assertArrayEquals(expectedRow, actualRow);
     }
-    
+
+    @Test
+    void createSquareTokensRowForALine() {
+        int size = 12;
+        String line = "..{2}.{3}.(2)..(3)..";
+        String[] expectedRow = {".", ".", "{2}", ".", "{3}", ".", "(2)",
+                ".", ".", "(3)", ".", "." };
+        String[] actualRow = BoardFileLoader.tokensRow(size, line);
+        assertArrayEquals(expectedRow, actualRow);
+    }
+
     @Test
     void createSquaresMatrixFor3By3Board() {
         int size = 3;
