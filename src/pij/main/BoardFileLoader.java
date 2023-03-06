@@ -48,7 +48,7 @@ public class BoardFileLoader {
 
         return matrix;
     }
-    
+
     public static String[] tokensRow(int size, String line) {
         String[] row = new String[size];
         String string = "";
@@ -62,6 +62,7 @@ public class BoardFileLoader {
                 j++;
             }
         }
+        //add illegalArgumentException "incorrect token from line."
         return row;
     }
 
@@ -69,12 +70,8 @@ public class BoardFileLoader {
         int size = tokens.length;
         Square[] row = new Square[size];
         for(int i = 0; i < size; i++) {
-            if(tokens[i].charAt(0) == '.') {
-                row[i] = new Square();
-            } else {
-                String message = "Incorrect token from line";
-                throw new IllegalArgumentException(message);
-            }
+            String token = tokens[i];
+            row[i] = Square.createSquare(token);
         }
 
         return row;
@@ -87,6 +84,5 @@ public class BoardFileLoader {
         Square[][] squareMatrix = squaresMatrix(size, lines);
         return squareMatrix;
     }
-
 
 }

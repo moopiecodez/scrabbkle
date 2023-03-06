@@ -1,10 +1,18 @@
 package pij.main;
 
-public class Square {
+public abstract class Square {
     private Tile tile;
 
+    public static Square createSquare(String token) {
+        Square square = null;
+        if (token.equals(".")) {
+            square = new StandardSquare();
+        }
+        return square;
+    }
+    
     public void setTile(Tile tile) {
-        if(this.tile != null) {
+        if (this.tile != null) {
             String message =
                     "Full square, this square already contains a tile.";
             throw new IllegalStateException(message);

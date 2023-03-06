@@ -66,17 +66,20 @@ public class TestBoardFileLoader {
         lines.add(".");
 
         Square[][] expectedMatrix = new Square[size][size];
-        expectedMatrix[0][0] = new Square();
+        expectedMatrix[0][0] = new StandardSquare();
 
         Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
-
         assertArrayEquals(expectedMatrix, actualMatrix); 
     }
 
     @Test
     void createSquaresRowForASimpleLine() {
         String[] tokens  = {".", ".", "."};
-        Square[] expectedRow = { new Square(), new Square(), new Square() };
+        Square[] expectedRow = {
+            new StandardSquare(),
+            new StandardSquare(),
+            new StandardSquare()
+        };
         Square[] actualRow = BoardFileLoader.squaresRow(tokens);
         assertArrayEquals(expectedRow, actualRow);
     }
@@ -100,15 +103,15 @@ public class TestBoardFileLoader {
         lines.add("...");
 
         Square[][] expectedMatrix = new Square[size][size];
-        expectedMatrix[0][0] = new Square();
-        expectedMatrix[0][1] = new Square();
-        expectedMatrix[0][2] = new Square();
-        expectedMatrix[1][0] = new Square();
-        expectedMatrix[1][1] = new Square();
-        expectedMatrix[1][2] = new Square();
-        expectedMatrix[2][0] = new Square();
-        expectedMatrix[2][1] = new Square();
-        expectedMatrix[2][2] = new Square();
+        expectedMatrix[0][0] = new StandardSquare();
+        expectedMatrix[0][1] = new StandardSquare();
+        expectedMatrix[0][2] = new StandardSquare();
+        expectedMatrix[1][0] = new StandardSquare();
+        expectedMatrix[1][1] = new StandardSquare();
+        expectedMatrix[1][2] = new StandardSquare();
+        expectedMatrix[2][0] = new StandardSquare();
+        expectedMatrix[2][1] = new StandardSquare();
+        expectedMatrix[2][2] = new StandardSquare();
         
         Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
 
@@ -122,7 +125,7 @@ public class TestBoardFileLoader {
 
         for(int i = 0; i < expectedSize; i++) {
             for(int j = 0; j < expectedSize; j++) {
-                expectedMatrix[i][j] = new Square();
+                expectedMatrix[i][j] = new StandardSquare();
             }
         }
 
