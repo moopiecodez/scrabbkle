@@ -3,7 +3,7 @@ package pij.main;
 public abstract class Square {
     private Tile tile;
 
-    public static Square createSquare(String token) {
+    public static Square create(String token) {
         Square square = null;
         if (token.equals(".")) {
             square = new StandardSquare();

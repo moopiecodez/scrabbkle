@@ -9,7 +9,7 @@ public class TestSquare {
     @Test
     public void setTileOnEmptySquare() {
         Tile expectedTile = new Tile('A', 1);
-        Square aSquare = new Square();
+        Square aSquare = Square.create(".");
         
         aSquare.setTile(expectedTile);
         Tile actualTile = aSquare.getTile();
@@ -22,7 +22,7 @@ public class TestSquare {
     @Test
     public void setTileOnFullSquare() {
         Tile aTile = new Tile('A', 1);
-        Square fullSquare = new Square();
+        Square fullSquare = Square.create(".");
         String expectedMessage = 
                 "Full square, this square already contains a tile.";
        

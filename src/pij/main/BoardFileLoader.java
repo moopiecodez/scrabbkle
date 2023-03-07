@@ -71,7 +71,7 @@ public class BoardFileLoader {
         Square[] row = new Square[size];
         for(int i = 0; i < size; i++) {
             String token = tokens[i];
-            row[i] = Square.createSquare(token);
+            row[i] = Square.create(token);
         }
 
         return row;
