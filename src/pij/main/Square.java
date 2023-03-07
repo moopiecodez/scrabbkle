@@ -5,9 +5,20 @@ public abstract class Square {
 
     public static Square create(String token) {
         Square square = null;
-        if (token.equals(".")) {
-            square = new StandardSquare();
+        char first = token.charAt(0);
+
+        switch(first) {
+            case '.':
+                square = new StandardSquare();
+                break;
+            case '(':
+                square = new PremiumLetterSquare();
+                break;
+            case '{':
+                square = new PremiumWordSquare();
+                break;
         }
+
         return square;
     }
     
