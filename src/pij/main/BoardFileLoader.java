@@ -51,14 +51,14 @@ public class BoardFileLoader {
 
     public static String[] tokensRow(int size, String line) {
         String[] row = new String[size];
-        String string = "";
+        String token = "";
         int j = 0;
         for( int i = 0; i< line.length(); i++) {
             char c = line.charAt(i);
-            string += c;
+            token += c;
             if( c == '.' || c == ')'|| c == '}') {
-                row[j] = string;
-                string = "";
+                row[j] = token;
+                token = "";
                 j++;
             }
         }
