@@ -30,4 +30,8 @@ public class PremiumLetterSquare extends Square {
         }
         return string;
     }
+
+    protected int getMultiplier() {
+        return this.multiplier;
+    }
 }

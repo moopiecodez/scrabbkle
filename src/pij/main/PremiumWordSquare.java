@@ -31,4 +31,7 @@ public class PremiumWordSquare extends Square {
         return string;
     }
 
+    protected int getMultiplier() {
+        return this.multiplier;
+    }
 }

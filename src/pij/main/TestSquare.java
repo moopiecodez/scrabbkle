@@ -49,19 +49,29 @@ public class TestSquare {
 
     @Test
     public void createPremiumLetterSquare() {
-        String token = "(3)";
         Class<PremiumLetterSquare> expectedType = PremiumLetterSquare.class;
-        Square actualType = Square.create(token);
-        
-        assertInstanceOf(expectedType, actualType);
+        int expectedMultiplier = 3;
+
+        String token = "(3)";
+
+        Square square = Square.create(token);
+        int actualMultiplier = square.getMultiplier();
+
+        assertInstanceOf(expectedType, square);
+        assertEquals(expectedMultiplier, actualMultiplier);
     }
 
     @Test
     public void createPremiumWordSquare() {
-        String token = "{2}";
         Class<PremiumWordSquare> expectedType = PremiumWordSquare.class;
-        Square actualType = Square.create(token);
+        int expectedMultiplier = 2;
+
+        String token = "{2}";
+
+        Square square = Square.create(token);
+        int actualMultiplier = square.getMultiplier();
         
-        assertInstanceOf(expectedType, actualType);
+        assertInstanceOf(expectedType, square);
+        assertEquals(expectedMultiplier, actualMultiplier);
     }
 }

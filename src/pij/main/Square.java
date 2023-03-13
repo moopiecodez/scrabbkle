@@ -2,9 +2,16 @@ package pij.main;
 
 public abstract class Square {
     private Tile tile;
+    
+    private static int parsePremiumValue(String token) {
+        String value = token.substring(1, token.length() - 1);
+        int multiplier = Integer.parseInt(value);
+        return multiplier;
+    }
 
     public static Square create(String token) {
         Square square = null;
+        int multiplier;
         char first = token.charAt(0);
 
         switch(first) {
@@ -12,10 +19,12 @@ public abstract class Square {
                 square = new StandardSquare();
                 break;
             case '(':
-                square = new PremiumLetterSquare();
+                multiplier = parsePremiumValue(token);
+                square = new PremiumLetterSquare(multiplier);
                 break;
             case '{':
-                square = new PremiumWordSquare();
+                multiplier = parsePremiumValue(token);
+                square = new PremiumWordSquare(multiplier);
                 break;
         }
 
@@ -40,4 +49,10 @@ public abstract class Square {
         boolean isSame = thisClass.isInstance(obj);
         return isSame;
     }
+    
+    public String toString() {
+        return ":-D";
+    }
+
+    protected abstract int getMultiplier();
 }
