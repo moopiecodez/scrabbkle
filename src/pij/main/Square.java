@@ -50,6 +50,15 @@ public abstract class Square {
         return isSame;
     }
     
+    protected static String squareDetailToString(
+            int multiplier, String frontBracket, String endBracket) {
+
+        String string = frontBracket + multiplier;;
+        if(multiplier >= 0 && multiplier <= 9) {
+            string += endBracket;
+        }
+        return string;
+    }
     public String toString() {
         return ":-D";
     }

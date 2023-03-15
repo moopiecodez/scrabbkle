@@ -24,14 +24,16 @@ public class PremiumLetterSquare extends Square {
      * letter multiplier value enclosed in two round brackets.
      */
     public String toString() {
-        String string = "(" + this.multiplier;;
-        if(multiplier >= 0 && multiplier <= 9) {
-            string += ")";
+        String string;
+        if(getTile() != null) {
+            string = String.format("%-3s", getTile());
+        } else {
+            string = squareDetailToString(this.multiplier, "(", ")");
         }
         return string;
     }
 
-    protected int getMultiplier() {
+    public int getMultiplier() {
         return this.multiplier;
     }
 }

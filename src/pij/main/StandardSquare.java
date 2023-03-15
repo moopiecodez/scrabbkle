@@ -7,7 +7,17 @@ public class StandardSquare extends Square {
      * spaces.
      */
     public String toString() {
-        return " . ";
-        //TODO fix to deal with full squares.
+        String string;
+        if( getTile() != null) {
+            string = getTile().toString();
+        } else {
+            string = " . ";
+        }
+        return string;
+    }
+
+    protected int getMultiplier() {
+        throw new UnsupportedOperationException(
+                "StandardSquares do not have a multiplier");
     }
 }
