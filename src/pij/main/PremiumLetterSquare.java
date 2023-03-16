@@ -9,6 +9,10 @@ public class PremiumLetterSquare extends Square {
      */
     public PremiumLetterSquare(int multiplier) {
         this.setMultiplier(multiplier);
+        LetterScoring letterScoring = new PremiumLetterScoring();
+        setLetterScoring(letterScoring);
+        WordScoring wordScoring = new StandardWordScoring();
+        setWordScoring(wordScoring);
     }
 
     /**

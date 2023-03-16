@@ -2,6 +2,13 @@ package pij.main;
 
 public class StandardSquare extends Square {
 
+    public StandardSquare() {
+        LetterScoring letterScoring = new StandardLetterScoring();
+        setLetterScoring(letterScoring);
+        WordScoring wordScoring = new StandardWordScoring();
+        setWordScoring(wordScoring);
+    }
+
     /**
      * The string representation of a StandardSquare is a dot enclosed in two 
      * spaces.

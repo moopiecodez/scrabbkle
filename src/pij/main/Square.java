@@ -1,8 +1,11 @@
 package pij.main;
 
 public abstract class Square {
+
     private Tile tile;
-    
+    private LetterScoring letterScoring;
+    private WordScoring wordScoring;
+
     private static int parsePremiumValue(String token) {
         String value = token.substring(1, token.length() - 1);
         int multiplier = Integer.parseInt(value);
@@ -30,7 +33,7 @@ public abstract class Square {
 
         return square;
     }
-    
+
     public void setTile(Tile tile) {
         if (this.tile != null) {
             String message =
@@ -49,7 +52,7 @@ public abstract class Square {
         boolean isSame = thisClass.isInstance(obj);
         return isSame;
     }
-    
+
     protected static String squareDetailToString(
             int multiplier, String frontBracket, String endBracket) {
 
@@ -59,9 +62,28 @@ public abstract class Square {
         }
         return string;
     }
+
     public String toString() {
         return ":-D";
     }
 
     protected abstract int getMultiplier();
+
+    public int getLetterScore() {
+        int letterScore = this.letterScoring.score(this);
+        return letterScore;
+    }
+
+    public void setLetterScoring(LetterScoring letterScoring) {
+        this.letterScoring = letterScoring;
+    }
+
+    public int getWordMultiplier() {
+        int wordMultiplier = this.wordScoring.multiplier(this);
+        return wordMultiplier;
+    }
+
+    public void setWordScoring(WordScoring wordScoring) {
+        this.wordScoring = wordScoring;
+    }
 }

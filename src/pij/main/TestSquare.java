@@ -74,4 +74,52 @@ public class TestSquare {
         assertInstanceOf(expectedType, square);
         assertEquals(expectedMultiplier, actualMultiplier);
     }
+
+    @Test
+    public void getSquareLetterScoreStandard() {
+        int expectedLetterScore = 3;
+        Square square = new StandardSquare();
+        Tile tile = new Tile('P', 3);
+        square.setTile(tile);        
+
+        int actualLetterScore = square.getLetterScore();
+
+        assertEquals(expectedLetterScore, actualLetterScore);
+    }
+
+    @Test
+    public void getSquareLetterScorePremium() {
+        int expectedLetterScore = 12;
+        Square square = new PremiumLetterSquare(4);
+        Tile tile = new Tile('P', 3);
+        square.setTile(tile);
+
+        int actualLetterScore = square.getLetterScore();
+
+        assertEquals(expectedLetterScore, actualLetterScore);
+    }
+
+    @Test
+    public void getSquareWordMultiplierStandard() {
+        int expectedWordMultiplier = 1;
+        Square square = new StandardSquare();
+        Tile tile = new Tile('P', 3);
+        square.setTile(tile);
+
+        int actualWordMultiplier = square.getWordMultiplier();
+
+        assertEquals(expectedWordMultiplier, actualWordMultiplier);
+    }
+
+    @Test
+    public void getSquareWordMultiplierPremium() {
+        int expectedWordMultiplier = 2;
+        Square square = new PremiumWordSquare(2);
+        Tile tile = new Tile('P', 3);
+        square.setTile(tile);
+
+        int actualWordMultiplier = square.getWordMultiplier();
+
+        assertEquals(expectedWordMultiplier, actualWordMultiplier);
+    }
 }
