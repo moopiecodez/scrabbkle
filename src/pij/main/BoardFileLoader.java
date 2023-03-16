@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import pij.main.square.Square;
+
 public class BoardFileLoader {
     
     public static ArrayList<String> loadLines(String pathname) throws IOException {

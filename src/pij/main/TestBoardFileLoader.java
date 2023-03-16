@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import pij.main.square.Square;
+import pij.main.square.StandardSquare;
+
 public class TestBoardFileLoader {
 
     @Test

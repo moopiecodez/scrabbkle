@@ -1,4 +1,6 @@
-package pij.main;
+package pij.main.square;
+
+import pij.main.Tile;
 
 public abstract class Square {
 

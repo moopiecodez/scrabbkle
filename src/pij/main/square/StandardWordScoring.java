@@ -1,4 +1,4 @@
-package pij.main;
+package pij.main.square;
 
 public class StandardWordScoring implements WordScoring {
 

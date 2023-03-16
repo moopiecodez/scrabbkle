@@ -1,5 +1,7 @@
 package pij.main;
 
+import pij.main.square.Square;
+
 public class Board {
 
     private Square[][] matrix;

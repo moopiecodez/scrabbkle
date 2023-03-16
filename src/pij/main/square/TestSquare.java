@@ -1,9 +1,11 @@
-package pij.main;
+package pij.main.square;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
+
+import pij.main.Tile;
 
 public class TestSquare {
 
