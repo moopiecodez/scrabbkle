@@ -2,8 +2,7 @@ package pij.main;
 
 public class PremiumWordScoring implements WordScoring {
 
-    public int multiplier(Square square) {
-        return square.getMultiplier();
+    public int multiplier(int wordMultiplier) {
+        return wordMultiplier;
     }
-
 }

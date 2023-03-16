@@ -3,6 +3,7 @@ package pij.main;
 public class StandardSquare extends Square {
 
     public StandardSquare() {
+        super(1, 1);
         LetterScoring letterScoring = new StandardLetterScoring();
         setLetterScoring(letterScoring);
         WordScoring wordScoring = new StandardWordScoring();
@@ -23,8 +24,4 @@ public class StandardSquare extends Square {
         return string;
     }
 
-    protected int getMultiplier() {
-        throw new UnsupportedOperationException(
-                "StandardSquares do not have a multiplier");
-    }
 }

@@ -5,6 +5,13 @@ public abstract class Square {
     private Tile tile;
     private LetterScoring letterScoring;
     private WordScoring wordScoring;
+    private final int letterMultiplier;
+    private final int wordMultiplier;
+
+    public Square(int letterMultiplier, int wordMultiplier) {
+        this.letterMultiplier = letterMultiplier;
+        this.wordMultiplier = wordMultiplier;
+    }
 
     private static int parsePremiumValue(String token) {
         String value = token.substring(1, token.length() - 1);
@@ -63,14 +70,14 @@ public abstract class Square {
         return string;
     }
 
-    public String toString() {
-        return ":-D";
+    public int getLetterMultiplier() {
+        return this.letterMultiplier;
     }
 
-    protected abstract int getMultiplier();
-
-    public int getLetterScore() {
-        int letterScore = this.letterScoring.score(this);
+    public int calculateLetterScore() {
+        int tileScore = this.tile.getScore();
+        int letterScore = 
+                this.letterScoring.score(this.letterMultiplier, tileScore);
         return letterScore;
     }
 
@@ -79,7 +86,7 @@ public abstract class Square {
     }
 
     public int getWordMultiplier() {
-        int wordMultiplier = this.wordScoring.multiplier(this);
+        int wordMultiplier = this.wordScoring.multiplier(this.wordMultiplier);
         return wordMultiplier;
     }
 

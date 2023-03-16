@@ -1,5 +1,5 @@
 package pij.main;
 
 public interface WordScoring {
-    public int multiplier(Square square);
+    public int multiplier(int wordMultiplier);
 }

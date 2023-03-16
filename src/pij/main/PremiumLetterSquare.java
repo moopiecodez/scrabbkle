@@ -2,25 +2,15 @@ package pij.main;
 
 public class PremiumLetterSquare extends Square {
 
-    private int multiplier;
-
     /**
      * PremiumLetterSquares require a multiplier in the range -9 to 99.
      */
     public PremiumLetterSquare(int multiplier) {
-        this.setMultiplier(multiplier);
+        super(multiplier, 1);
         LetterScoring letterScoring = new PremiumLetterScoring();
         setLetterScoring(letterScoring);
         WordScoring wordScoring = new StandardWordScoring();
         setWordScoring(wordScoring);
-    }
-
-    /**
-     * Set the value of the letter score multiplier.
-     */
-
-    private void setMultiplier(int multiplier) {
-        this.multiplier = multiplier;
     }
 
     /** 
@@ -32,12 +22,9 @@ public class PremiumLetterSquare extends Square {
         if(getTile() != null) {
             string = String.format("%-3s", getTile());
         } else {
-            string = squareDetailToString(this.multiplier, "(", ")");
+            string = squareDetailToString(getLetterMultiplier(), "(", ")");
         }
         return string;
     }
 
-    public int getMultiplier() {
-        return this.multiplier;
-    }
 }

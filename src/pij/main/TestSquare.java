@@ -55,7 +55,7 @@ public class TestSquare {
         String token = "(3)";
 
         Square square = Square.create(token);
-        int actualMultiplier = square.getMultiplier();
+        int actualMultiplier = square.getLetterMultiplier();
 
         assertInstanceOf(expectedType, square);
         assertEquals(expectedMultiplier, actualMultiplier);
@@ -69,7 +69,7 @@ public class TestSquare {
         String token = "{2}";
 
         Square square = Square.create(token);
-        int actualMultiplier = square.getMultiplier();
+        int actualMultiplier = square.getWordMultiplier();
         
         assertInstanceOf(expectedType, square);
         assertEquals(expectedMultiplier, actualMultiplier);
@@ -82,7 +82,7 @@ public class TestSquare {
         Tile tile = new Tile('P', 3);
         square.setTile(tile);        
 
-        int actualLetterScore = square.getLetterScore();
+        int actualLetterScore = square.calculateLetterScore();
 
         assertEquals(expectedLetterScore, actualLetterScore);
     }
@@ -94,7 +94,7 @@ public class TestSquare {
         Tile tile = new Tile('P', 3);
         square.setTile(tile);
 
-        int actualLetterScore = square.getLetterScore();
+        int actualLetterScore = square.calculateLetterScore();
 
         assertEquals(expectedLetterScore, actualLetterScore);
     }

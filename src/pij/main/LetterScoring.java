@@ -1,5 +1,5 @@
 package pij.main;
 
 public interface LetterScoring {
-    public int score(Square square);
+    public int score(int letterMultiplier, int tileScore);
 }
