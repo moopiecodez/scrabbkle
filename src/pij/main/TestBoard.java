@@ -42,7 +42,45 @@ public class TestBoard {
 
         assertEquals(expectedString, actualString);
     }
-    
+
+    @Test
+    public void pickSquare() {
+        int size = 4;
+        int row = 3;
+        char column = 'B';
+
+        Tile tileA = new Tile('Z', 10);
+        Tile tileB = new Tile('I', 1);
+        Tile tileC = new Tile('P', 3);
+        Square [][] squareMatrix =  new Square [size][size];
+            squareMatrix[0][0] = new PremiumWordSquare(3);
+            squareMatrix[0][1] = new StandardSquare();
+            squareMatrix[0][2] = new PremiumLetterSquare(5);
+            squareMatrix[0][3] = new StandardSquare();
+            squareMatrix[1][0] = new StandardSquare();
+            squareMatrix[1][1] = new PremiumWordSquare(21);
+            squareMatrix[1][2] = new PremiumLetterSquare(-8);
+            squareMatrix[1][3] = new StandardSquare();
+            squareMatrix[2][0] = new StandardSquare();
+            squareMatrix[2][1] = new PremiumWordSquare(2);
+            squareMatrix[2][2] = new PremiumLetterSquare(3);
+            squareMatrix[2][3] = new StandardSquare();
+            squareMatrix[3][0] = new PremiumWordSquare(3);
+            squareMatrix[3][1] = new StandardSquare();
+            squareMatrix[3][2] = new PremiumLetterSquare(5);
+            squareMatrix[3][3] = new StandardSquare();
+            
+        squareMatrix[2][0].setTile(tileA);
+        squareMatrix[2][1].setTile(tileB);
+        squareMatrix[2][2].setTile(tileC);
+
+        Board board = new Board(size, squareMatrix);
+        Square expectedSquare = squareMatrix[2][1];
+
+        Square actualSquare = board.getSquare(row, column);
+
+        assertEquals(expectedSquare, actualSquare);
+    }
     /* Saving for later composite test
      *  "    a  b  c  d  e  f  g  h  i  j  k  l  m  n  o \n"
       + " 1 {3} .  . (2) .  .  . {3} .  .  . (2) .  . {3}\n"

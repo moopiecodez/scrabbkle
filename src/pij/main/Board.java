@@ -45,4 +45,10 @@ public class Board {
         return string;
     }
 
+    public Square getSquare(int row, char column) {
+        int rowIndex = row -1;
+        int columnIndex = column - 'A';
+        Square square = this.matrix[rowIndex][columnIndex] ;
+        return square;
+    }
 }
