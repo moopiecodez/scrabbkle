@@ -10,6 +10,12 @@ public class Board {
     public static final int MIN_BOARD_SIZE = 12;
     public static final int MAX_BOARD_SIZE = 26;
 
+    /**
+     * Boards must have a size within the range 12 -26.
+     * @param size of the Board, must be between 12-26.
+     * @param squareString of tokens determining Squares to be added to the
+     * Board.
+     */
     public Board(int size, String squareString) {
         if(size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
             String message =
@@ -64,6 +70,10 @@ public class Board {
         return string;
     }
 
+    /**
+     * Converts the Board into a String with alpha column headers and
+     * numerical row references.
+     */
     public String toString() {
         char c;
         String string = "  ";
@@ -80,6 +90,12 @@ public class Board {
         return string;
     }
 
+    /**
+     * Returns the Square at a given coordinates on the Board.
+     * @param row of the Square to be returned.
+     * @param column of the Square to be returned.
+     * @return the Square at the given coordinates.
+     */
     public Square getSquare(int row, char column) {
         int rowIndex = row -1;
         int columnIndex = column - 'A';
@@ -88,4 +104,8 @@ public class Board {
         return square;
     }
 
+    public void placeTile(int row, char column, Tile tile) {
+        Square square = getSquare(row, column);
+        square.setTile(tile);
+    }
 }
