@@ -40,7 +40,13 @@ public class Bag {
         
         Collections.shuffle(tiles); //what is Collections here?
     }
-    
+
+    /**
+     * Creates a given number of tiles with the given letter and value.
+     * @param letter on the tile.
+     * @param score of the tile.
+     * @param multiple number of the same type of tile created.
+     */
     private void createTiles(char letter, int score, int multiple) {
         for (int i = 0; i < multiple; i++) {
             Tile tile = new Tile(letter, score);
@@ -48,6 +54,10 @@ public class Bag {
         }
     }
 
+    /**
+     * Take a tile from the bag. Throws an exception if the bag is empty.
+     * @return a tile from the bag.
+     */
     public Tile takeTile() {
         if(tiles.isEmpty()) {
             throw new InsufficientTilesException();
@@ -56,6 +66,10 @@ public class Bag {
         return tile;
     }
 
+    /**
+     * Checks if there are any tiles left.
+     * @return isEmpty if no tiles left.
+     */
     public boolean isEmpty() {
         return tiles.isEmpty();
     }

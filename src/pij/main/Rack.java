@@ -10,6 +10,10 @@ public class Rack {
     public static final int RACK_SIZE = 7; 
     private ArrayList<Tile> tiles = new ArrayList<Tile>(RACK_SIZE);
 
+    /**
+     * Adds a Tile to the Rack. Throws an exception if the Rack is full.
+     * @param aTile to be added.
+     */
     public void add(Tile aTile) {
         if(tiles.size() < RACK_SIZE) {
             tiles.add(aTile);
@@ -26,6 +30,9 @@ public class Rack {
     }
     
 
+    /**
+     * Returns a String of the Tiles on the Rack.
+     */
     public String toString() {
         String string = "";
         int n = tiles.size();
@@ -38,6 +45,13 @@ public class Rack {
         return string;
     }
 
+    /**
+     * Takes a Tile with the given letter from the Rack if there is at least
+     * one Tile on the Rack with that letter, otherwise returns null. If
+     * multiple Tiles have that letter, only one is taken.
+     * @param letter indicating which Tile to take.
+     * @return a Tile with the given letter.
+     */
     public Tile take(char letter) {
         for(Tile tile : tiles) {
             if(tile.getLetter() == letter) {
