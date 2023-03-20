@@ -2,89 +2,143 @@ package pij.main;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import pij.main.square.Square;
 
 public class BoardFileLoader {
-    
-    public static ArrayList<String> loadLines(String pathname) throws IOException {
-        ArrayList<String> lines = new ArrayList<String>();
-        File file = new File(pathname);
-        FileReader reader = new FileReader(file);
-        BufferedReader buff = new BufferedReader(reader);
-        String line = "";
+    private File file;
+    private ArrayList<String> lines;
+    private int boardSize;
+    private String squareString;
 
-        while ( (line = buff.readLine()) != null) {
-            lines.add(line);
-        }
-        buff.close();
-
-        return lines;
+    public BoardFileLoader(String fileName) {
+        this.file = new File(fileName);
+        this.lines = new ArrayList<String>();
     }
 
-    public static int parseFirstLine(String line) {
-        int size = Integer.parseInt(line);
-
-        if(size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
-            String message =
-                    "Invalid board size: " + size + " not in range "
-                    + Board.MIN_BOARD_SIZE + "-" + Board.MAX_BOARD_SIZE;
-            throw new IllegalArgumentException(message);
-        }
-
-        return size;
+    public Boolean validateFile() {
+        Boolean validFile;
+        validFile = this.file.exists();
+        validFile &= this.file.isFile();
+        validFile &= this.file.canRead();
+        return validFile;
     }
 
-    public static Square[][] squaresMatrix(int size, ArrayList<String> lines) {
-        Square[][] matrix = new Square[size][];
-
-        for(int i = 0; i < size; i++) {
-            String line = lines.get(i);
-            String[] tokens = tokensRow(size, line);
-            Square[] row = squaresRow(tokens);
-            matrix[i] = row;
+    public Boolean validateContents() {
+        Boolean valid;
+        valid = parseFirstLine();
+        if(valid) {
+            valid = correctNumberOfLines();
         }
-
-        return matrix;
+        if(valid) {
+            valid = parseSquareTypeLines();
+        }
+        
+        return valid;
     }
 
-    public static String[] tokensRow(int size, String line) {
-        String[] row = new String[size];
-        String token = "";
-        int j = 0;
-        for( int i = 0; i< line.length(); i++) {
-            char c = line.charAt(i);
-            token += c;
-            if( c == '.' || c == ')'|| c == '}') {
-                row[j] = token;
-                token = "";
-                j++;
+    public Boolean validateBoardFile() {
+        Boolean valid = validateFile();
+
+        if(valid) {
+            valid = loadLines();
+        }
+        if (valid) {
+            valid = validateContents();
+        }
+
+        return valid;
+    }
+
+    private Boolean loadLines() {
+        Boolean success = true;
+        FileReader reader = null;
+        
+        try {
+            reader = new FileReader(this.file);
+        } catch (FileNotFoundException exception) {
+            success = false;
+        }
+
+        if(success) {
+            BufferedReader buff = new BufferedReader(reader);
+            String line = "";
+
+            try {
+                while ((line = buff.readLine()) != null) {
+                    this.lines.add(line);
+                }
+                buff.close();
+            } catch (IOException exception) {
+                success = false;
             }
         }
-        //add illegalArgumentException "incorrect token from line."
-        return row;
+
+        return success;
     }
 
-    public static Square[] squaresRow(String[] tokens) {
-        int size = tokens.length;
-        Square[] row = new Square[size];
-        for(int i = 0; i < size; i++) {
-            String token = tokens[i];
-            row[i] = Square.create(token);
+    private Boolean parseFirstLine() {
+        boolean success = true;
+        int size = 0;
+        String line = this.lines.remove(0);
+
+        try {
+            size = Integer.parseInt(line);
+        } catch(NumberFormatException exception) {
+            success = false;
         }
 
-        return row;
+        if(size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
+            success = false;
+        }
+
+        this.boardSize = size;
+
+        return success;
     }
 
-    public static Square[][] load(String fileName) throws IOException {
-        ArrayList<String> lines = loadLines(fileName);
-        String firstLine = lines.remove(0);
-        int size = parseFirstLine(firstLine);
-        Square[][] squareMatrix = squaresMatrix(size, lines);
-        return squareMatrix;
+    private Boolean correctNumberOfLines() {
+        return this.lines.size() == this.boardSize;
     }
 
+    public static String parseLine(int size, String line) {
+        String string = "";
+        String standard = "\\.";
+        String multiplier = "(-\\d|\\d{1,2})";
+        String premiumLetter = String.format("\\(%s\\)", multiplier);
+        String premiumWord = String.format("\\{%s\\}", multiplier);
+        String regex = String.format("(%s|%s|%s){%d}",
+                standard, premiumLetter, premiumWord, size);
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(line);
+        if(matcher.matches()) {
+            string = matcher.group();
+        }
+        return string;
+    }
+
+    private Boolean parseSquareTypeLines() {
+        Boolean success = true;
+
+        for(int i = 0; i < boardSize; i++) {
+            String line = this.lines.remove(0);
+            String parsedLine = parseLine(boardSize, line);
+            success &= line.equals(parsedLine);
+            this.squareString += parsedLine;
+        }
+
+        return success;
+    }
+
+    public Board createBoard() {
+        Board board = new Board(this.boardSize, this.squareString);
+        return board;
+    }
 }

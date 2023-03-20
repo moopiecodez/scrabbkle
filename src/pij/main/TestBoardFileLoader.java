@@ -2,6 +2,7 @@ package pij.main;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
@@ -15,76 +16,49 @@ import pij.main.square.StandardSquare;
 
 public class TestBoardFileLoader {
 
-    @Test
-    void loadLinesReallySimpleBoard() {
-        String fileName = "resources/reallySimpleBoard.txt";
-        ArrayList<String> expectedLines = new ArrayList<String>();
-        
-        expectedLines.add("12");
-        expectedLines.add("............");
+    @Test 
+    void parseLine() {
+        String expectedLine = ".(33)(4){0}.{-2}..(9).{11}.";
+        int size = 12;
 
-        ArrayList<String> actualLines = null;
-        try {
-            actualLines = BoardFileLoader.loadLines(fileName);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        String actualLine = BoardFileLoader.parseLine(size, expectedLine);
 
-        assertEquals(expectedLines, actualLines);
-    }
-
-    @Test
-    void parseFirstLineValid() {
-        int expectedInt = 12;
-        String line = "12";
-
-        int actualInt = BoardFileLoader.parseFirstLine(line);
-
-        assertEquals(expectedInt, actualInt);
-    }
-
-    @Test
-    void parseFirstLineInvalid() {
-        String line = "27";
-        String expectedMessage = "Invalid board size: 27 not in range 12-26";
-
-        try {
-            BoardFileLoader.parseFirstLine(line);
-            fail("expected IllegalArgumentException");
-        }
-        catch (IllegalArgumentException exception) {
-            String actualMessage = exception.getMessage();
-            assertEquals(expectedMessage, actualMessage);
-        }
+        assertEquals(expectedLine, actualLine);
     }
 
     @Test
     void createSquaresMatrixFor1By1Board() {
+        int expectedHeight = 1;
+        int expectedWidth = 1;
+        Class<StandardSquare> expectedType = StandardSquare.class;
+
         int size = 1;
         ArrayList<String> lines = new ArrayList<String>();
         lines.add(".");
 
-        Square[][] expectedMatrix = new Square[size][size];
-        expectedMatrix[0][0] = new StandardSquare();
-
         Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
-        assertArrayEquals(expectedMatrix, actualMatrix); 
+        int actualHeight = actualMatrix.length;
+        int actualWidth = actualMatrix[0].length;
+
+        assertEquals(expectedHeight, actualHeight);
+        assertEquals(expectedHeight, actualWidth);
+        assertInstanceOf(expectedType, actualMatrix[0][0]);
     }
 
     @Test
     void createSquaresRowForASimpleLine() {
+        int expectedLength =  3;
+        Class<StandardSquare> expectedType = StandardSquare.class;
+
         String[] tokens  = {".", ".", "."};
-        Square[] expectedRow = {
-            new StandardSquare(),
-            new StandardSquare(),
-            new StandardSquare()
-        };
+
         Square[] actualRow = BoardFileLoader.squaresRow(tokens);
-        assertArrayEquals(expectedRow, actualRow);
+        int actualLength = actualRow.length;
+
+        assertEquals(expectedLength, actualLength);
+        assertInstanceOf(expectedType, actualRow[0]);
+        assertInstanceOf(expectedType, actualRow[1]);
+        assertInstanceOf(expectedType, actualRow[2]);
     }
 
     @Test
@@ -97,29 +71,6 @@ public class TestBoardFileLoader {
         assertArrayEquals(expectedRow, actualRow);
     }
 
-    @Test
-    void createSquaresMatrixFor3By3Board() {
-        int size = 3;
-        ArrayList<String> lines = new ArrayList<String>();
-        lines.add("...");
-        lines.add("...");
-        lines.add("...");
-
-        Square[][] expectedMatrix = new Square[size][size];
-        expectedMatrix[0][0] = new StandardSquare();
-        expectedMatrix[0][1] = new StandardSquare();
-        expectedMatrix[0][2] = new StandardSquare();
-        expectedMatrix[1][0] = new StandardSquare();
-        expectedMatrix[1][1] = new StandardSquare();
-        expectedMatrix[1][2] = new StandardSquare();
-        expectedMatrix[2][0] = new StandardSquare();
-        expectedMatrix[2][1] = new StandardSquare();
-        expectedMatrix[2][2] = new StandardSquare();
-        
-        Square[][] actualMatrix = BoardFileLoader.squaresMatrix(size, lines);
-
-        assertArrayEquals(expectedMatrix, actualMatrix); 
-    }
     @Test
     void loadSimpleBoard() {
         String fileName = "resources/simpleBoard.txt";
@@ -145,4 +96,23 @@ public class TestBoardFileLoader {
 
         assertArrayEquals(expectedMatrix, actualMatrix); 
     }
+
+    /* Saving for later composite test
+     *  "    a  b  c  d  e  f  g  h  i  j  k  l  m  n  o \n"
+      + " 1 {3} .  . (2) .  .  . {3} .  .  . (2) .  . {3}\n"
+      + " 2  . {2} .  .  . (3) .  .  . (3) .  .  . {2} . \n"
+      + " 3  .  . {2} .  .  . (2) . (2) .  .  . {2} .  . \n"
+      + " 4 (2) .  . {2} .  .  . (2) .  .  . {2} .  . (2)\n"
+      + " 5  .  .  .  . {2} .  .  .  .  . {2} .  .  .  . \n"
+      + " 6  . (3) .  .  . (3) .  .  . (3) .  .  . (3) . \n"
+      + " 7  .  . (2) .  .  . (2) . (2) .  .  . (2) .  . \n"
+      + " 8 {3} .  . (2) .  .  . {2} .  .  . (2) .  . {3}\n"
+      + " 9  .  . (2) .  .  . (2) . (2) .  .  . (2) .  . \n"
+      + "10  . (3) .  .  . (3) .  .  . (3) .  .  . (3) . \n"
+      + "11  .  .  .  . {2} .  .  .  .  . {2} .  .  .  . \n"
+      + "12 (2) .  . {2} .  .  . (2) .  .  . {2} .  . (2)\n"
+      + "13  .  . {2} .  .  . (2) . (2) .  .  . {2} .  . \n"
+      + "14  . {2} .  .  . (3) .  .  . (3) .  .  . {2} . \n"
+      + "15 {3} .  . (2) .  .  . {3} .  .  . (2) .  . {3}\n";
+     */
 }
