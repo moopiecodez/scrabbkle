@@ -10,6 +10,12 @@ public abstract class Square {
     private final int letterMultiplier;
     private final int wordMultiplier;
 
+    /**
+     * Squares have a letterMultiplier and wordMultiplier, both of which are 1
+     * in a StandardSquare.
+     * @param letterMultiplier
+     * @param wordMultiplier
+     */
     public Square(int letterMultiplier, int wordMultiplier) {
         this.letterMultiplier = letterMultiplier;
         this.wordMultiplier = wordMultiplier;
@@ -21,6 +27,12 @@ public abstract class Square {
         return multiplier;
     }
 
+    /**
+     * Factory method to create Squares from the token read from a board file.
+     * @param token
+     * @return either a StandardSquare, PremiumLetterSquare or PremiumWordSquare
+     * depending on the token.
+     */
     public static Square create(String token) {
         Square square = null;
         int multiplier;
@@ -43,6 +55,11 @@ public abstract class Square {
         return square;
     }
 
+    /**
+     * Sets a given Tile onto the Square if the Square is empty. An exception
+     * is thrown if the Square already holds a Tile.
+     * @param tile to be placed.
+     */
     public void setTile(Tile tile) {
         if (this.tile != null) {
             String message =
@@ -52,16 +69,22 @@ public abstract class Square {
         this.tile = tile;
     }
 
+    /**
+     * Returns the Tile on a Square.
+     * @return Tile.
+     */
     public Tile getTile() {
         return this.tile;
     }
 
-    public boolean equals(Object obj) {
-        Class<?> thisClass = this.getClass();
-        boolean isSame = thisClass.isInstance(obj);
-        return isSame;
-    }
-
+    /**
+     * Creates a String from the given Square details for premium squares.
+     * @param multiplier the word or letter multiplier value.
+     * @param frontBracket either '{' or '(' depending on the Square type.
+     * @param endBracket either '}' or ')' depending on the Square type
+     * @return the details of the premium square as a String of no more than 3
+     * characters.
+     */
     protected static String squareDetailToString(
             int multiplier, String frontBracket, String endBracket) {
 
@@ -72,10 +95,19 @@ public abstract class Square {
         return string;
     }
 
+    /**
+     * Returns the letter multiplier value.
+     * @return letterMultiplier.
+     */
     public int getLetterMultiplier() {
         return this.letterMultiplier;
     }
 
+    /**
+     * Returns the letter score of a Square by combining the letter value of
+     * the Tile on the Square and the premium letter multiplier of the Square.
+     * @return letter score.
+     */
     public int calculateLetterScore() {
         int tileScore = this.tile.getScore();
         int letterScore = 
@@ -83,15 +115,29 @@ public abstract class Square {
         return letterScore;
     }
 
+    /**
+     * Sets the letterScoring variable. That determines how the letter value is
+     * calculated.
+     * @param letterScoring.
+     */
     public void setLetterScoring(LetterScoring letterScoring) {
         this.letterScoring = letterScoring;
     }
 
+    /**
+     * Returns the wordMultiplier variable.
+     * @return wordMultiplier.
+     */
     public int getWordMultiplier() {
         int wordMultiplier = this.wordScoring.multiplier(this.wordMultiplier);
         return wordMultiplier;
     }
 
+    /**
+     * Sets the wordScoring variable. That determines how word scoring is
+     * calculated.
+     * @param wordScoring.
+     */
     public void setWordScoring(WordScoring wordScoring) {
         this.wordScoring = wordScoring;
     }
