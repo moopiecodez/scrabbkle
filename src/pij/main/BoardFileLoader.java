@@ -124,6 +124,11 @@ public class BoardFileLoader {
         return string;
     }
 
+    /**
+     * Parse lines in board file to confirm valid number and format of square
+     * tokens. 
+     * @return success if valid number and format of tokens.
+     */
     private Boolean parseSquareTypeLines() {
         Boolean success = true;
 
