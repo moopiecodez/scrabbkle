@@ -8,7 +8,7 @@ package pij.main;
  * Creates the racks to hold the players' tiles.
  * Loads the dictionary of words from a file.
  * Creates the human and computer players.
- * @author moopie
+ * @author Maurane van der Stoep
  *
  */
 public class Initialisation {
@@ -21,7 +21,7 @@ public class Initialisation {
     private static final String REQUEST_FILENAME_MSG =
             "Please enter the file name of the board:";
 
-    public static Board setupGame() {
+    public static Game setupGame() {
         Board board = null;
         String input = null;
         do {
@@ -44,7 +44,8 @@ public class Initialisation {
                 break;
         }
         board = boardLoader.createBoard();
-        return board;
+        Game game = new Game(board);
+        return game;
     }
 
     /**
