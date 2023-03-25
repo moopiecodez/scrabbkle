@@ -84,7 +84,7 @@ public class TestBoard {
     public void pickSquare() {
         int size = 15;
         int row = 2;
-        char column = 'B';
+        char column = 'b';
 
         String squareString =
                 "{3}..(2)...{3}...(2)..{3}.{2}...(3)...(3)...{2}."
@@ -108,7 +108,7 @@ public class TestBoard {
     public void placeTile() {
         int size = 15;
         int row = 2;
-        char column = 'B';
+        char column = 'b';
         Tile tile = new Tile ('A', 1);
 
         String squareString =
@@ -144,4 +144,45 @@ public class TestBoard {
         String actualString = board.toString();
         assertEquals(expectedString, actualString);
     }
+
+    @Test
+    public void findCentreSquareOddBoard() {
+        int size = 15;
+        String expectedCoordinates = "h8";
+        String squareString =
+                "{3}..(2)...{3}...(2)..{3}.{2}...(3)...(3)...{2}."
+                +"..{2}...(2).(2)...{2}..(2)..{2}...(2)...{2}..(2)"
+                +"....{2}.....{2}.....(3)...(3)...(3)...(3)."
+                +"..(2)...(2).(2)...(2)..{3}..(2)...{2}...(2)..{3}"
+                +"..(2)...(2).(2)...(2)...(3)...(3)...(3)...(3)."
+                +"....{2}.....{2}....(2)..{2}...(2)...{2}..(2)"
+                +"..{2}...(2).(2)...{2}...{2}...(3)...(3)...{2}."
+                +"{3}..(2)...{3}...(2)..{3}";
+        
+        Board board = new Board(size, squareString);
+        String actualCoordinates = board.centreSquare();
+        
+        assertEquals(expectedCoordinates, actualCoordinates);
+    }
+
+    @Test
+    public void findCentreSquareEvenBoard() {
+        int size = 14;
+        String expectedCoordinates = "g7";
+        String squareString =
+                "{3}..(2)...{3}...(2)..{3}.{2}...(3)...(3)...{2}"
+                +"..{2}...(2).(2)...{2}..(2)..{2}...(2)...{2}.."
+                +"....{2}.....{2}.....(3)...(3)...(3)...(3)"
+                +"..(2)...(2).(2)...(2)..{3}..(2)...{2}...(2).."
+                +"..(2)...(2).(2)...(2)...(3)...(3)...(3)...(3)"
+                +"....{2}.....{2}....(2)..{2}...(2)...{2}.."
+                +"..{2}...(2).(2)...{2}...{2}...(3)...(3)...{2}"
+                +"{3}..(2)...{3}...(2)..{3}";
+        
+        Board board = new Board(size, squareString);
+        String actualCoordinates = board.centreSquare();
+        
+        assertEquals(expectedCoordinates, actualCoordinates);
+    }
+
 }

@@ -91,14 +91,34 @@ public class Board {
     }
 
     /**
-     * Returns the Square at a given coordinates on the Board.
+     * Finds the coordinates of the centre Square on the Board. If it is an
+     * even sized Board, there are technically 4 options for Squares closest to
+     * the centre. The centre Square is the top left of these Squares.
+     * @return string of coordinates of the centre Square.
+     */
+    public String centreSquare() {
+        int index = this.size / 2;
+        if(this.size % 2 == 0) {
+            //even sized Board
+            index--;
+        }
+
+        int row = index + 1;
+        char column = (char)('a' + index);
+        String string = String.format("%c%d", column, row);
+
+        return string;
+    }
+
+    /**
+     * Returns the Square at the given coordinates on the Board.
      * @param row of the Square to be returned.
      * @param column of the Square to be returned.
      * @return the Square at the given coordinates.
      */
     public Square getSquare(int row, char column) {
         int rowIndex = row -1;
-        int columnIndex = column - 'A';
+        int columnIndex = (int)(column - 'a');
         Square square = this.matrix[rowIndex][columnIndex];
 
         return square;
