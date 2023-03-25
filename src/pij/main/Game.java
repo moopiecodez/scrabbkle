@@ -9,8 +9,6 @@ public class Game {
 
     private Board board;
     private Bag bag;
-    private Rack userRack;
-    private Rack computerRack;
     private Player player1;
     private Player player2;
     private Player activePlayer;
@@ -29,12 +27,10 @@ public class Game {
             + "Entering just two commas passes.";
 
     public Game(
-            Board board, Bag bag, Rack userRack, Rack computerRack,
+            Board board, Bag bag,
             Player human, Player computer) {
         this.board = board;
         this.bag = bag;
-        this.userRack = userRack;
-        this.computerRack = computerRack;
         this.player1 = human;
         this.player2 = computer;
         this.activePlayer = player1;
@@ -43,18 +39,18 @@ public class Game {
     public void play() {
         //game opening
         System.out.println(this.board);
-        System.out.println(TILE_MSG);
+        //System.out.println(TILE_MSG);
         //move to human  turn System.out.println(this.userRack.toString());
         //from user
         activePlayer.getMove();
         //make loop until game ends
-        System.out.println(String.format(SCORE_MSG_FMT, humanScore, computerScore));
-        System.out.println(this.board);
+       // System.out.println(String.format(SCORE_MSG_FMT, humanScore, computerScore));
+        //System.out.println(this.board);
         //if human only
-        System.out.println(this.userRack.toString()));
+        //System.out.println(this.userRack.toString()));
         // gets user or computer move, validates it and updates score
-        getMove();
-        System.out.println(String.format(MOVE_MSG_FMT, word, position, direction));
+        //getMove();
+        //System.out.println(String.format(MOVE_MSG_FMT, word, position, direction));
     }
 
 }
