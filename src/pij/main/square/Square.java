@@ -12,7 +12,7 @@ public abstract class Square {
 
     /**
      * Squares have a letterMultiplier and wordMultiplier, both of which are 1
-     * in a StandardSquare.
+     * in a StandardSquare. Constructor only used by Square subclasses.
      * @param letterMultiplier
      * @param wordMultiplier
      */
