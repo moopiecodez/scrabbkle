@@ -21,6 +21,14 @@ public class Initialisation {
     private static final String REQUEST_FILENAME_MSG =
             "Please enter the file name of the board:";
 
+    public static Rack setupRack(Bag bag) {
+        Rack rack = new Rack();
+        for(int i = 0; i < rack.RACK_SIZE; i++) {
+            Tile aTile = bag.takeTile();
+            rack.add(aTile);
+        }
+        return rack;
+    }
     public static Game setupGame() {
         Board board = null;
         String input = null;
@@ -44,7 +52,14 @@ public class Initialisation {
                 break;
         }
         board = boardLoader.createBoard();
-        Game game = new Game(board);
+        
+        Bag bag = new Bag();
+        Rack userRack = setupRack(bag);
+        Rack computerRack = setupRack(bag);
+        
+        Player human = new Human(userRack);
+        Player computer = new Computer(computerRack);
+        Game game = new Game(board, bag, human, computer);
         return game;
     }
 
