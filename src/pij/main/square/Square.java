@@ -21,6 +21,11 @@ public abstract class Square {
         this.wordMultiplier = wordMultiplier;
     }
 
+    /**
+     * Helper method to parse multiplier for premium squares from a token.
+     * @param token
+     * @return multiplier for a premium square.
+     */
     private static int parsePremiumValue(String token) {
         String value = token.substring(1, token.length() - 1);
         int multiplier = Integer.parseInt(value);
