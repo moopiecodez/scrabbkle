@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import pij.main.square.PremiumLetterSquare;
-import pij.main.square.PremiumWordSquare;
 import pij.main.square.Square;
 import pij.main.square.StandardSquare;
 
