@@ -38,6 +38,7 @@ public class Board {
         Square[][] matrix = new Square[size][size];
         Scanner scanner = new Scanner(squareString);
         String standard = "\\.";
+        //multiplier in range -9 - 99
         String multiplier = "(-\\d|\\d{1,2})";
         String premiumLetter = String.format("\\(%s\\)", multiplier);
         String premiumWord = String.format("\\{%s\\}", multiplier);
