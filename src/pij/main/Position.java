@@ -3,7 +3,12 @@ package pij.main;
 public class Position {
     private final int row;
     private final char column;
-    
+
+    public static Position fromIndices(int rowIndex, int columnIndex) {
+        int row = rowIndex + 1;
+        char column = (char)('a' + columnIndex);
+        return new Position(row, column);
+    }
     public Position(int row, char column) {
         this.row = row;
         this.column = column;

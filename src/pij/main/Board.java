@@ -104,9 +104,7 @@ public class Board {
             //even sized Board
             index--;
         }
-        int row = index + 1;
-        char column = (char)('a' + index);
-        Position position = new Position(row, column);
+        Position position = Position.fromIndices(index, index);
 
         return position;
     }
