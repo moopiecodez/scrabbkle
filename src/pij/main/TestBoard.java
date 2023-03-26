@@ -81,8 +81,7 @@ public class TestBoard {
     @Test
     public void pickSquare() {
         int size = 15;
-        int row = 2;
-        char column = 'b';
+        Position position = new Position(2, 'b');
 
         String squareString =
                 "{3}..(2)...{3}...(2)..{3}.{2}...(3)...(3)...{2}."
@@ -97,7 +96,7 @@ public class TestBoard {
         Board board = new Board(size, squareString);
         String expectedString = "{2}";
 
-        Square square = board.getSquare(row, column);
+        Square square = board.getSquare(position);
         String actualString = square.toString();
         assertEquals(expectedString, actualString);
     }
@@ -105,8 +104,7 @@ public class TestBoard {
     @Test
     public void placeTile() {
         int size = 15;
-        int row = 2;
-        char column = 'b';
+        Position position = new Position(2, 'b');
         Tile tile = new Tile ('A', 1);
 
         String squareString =
@@ -138,7 +136,7 @@ public class TestBoard {
               + "15 {3} .  . (2) .  .  . {3} .  .  . (2) .  . {3}\n";
 
         Board board = new Board(size, squareString);
-        board.placeTile(row, column, tile);
+        board.placeTile(position, tile);
         String actualString = board.toString();
         assertEquals(expectedString, actualString);
     }
@@ -158,8 +156,9 @@ public class TestBoard {
                 +"{3}..(2)...{3}...(2)..{3}";
         
         Board board = new Board(size, squareString);
-        String actualCoordinates = board.centreSquare();
-        
+        Position position = board.centreSquare();
+        String actualCoordinates = position.toString();
+
         assertEquals(expectedCoordinates, actualCoordinates);
     }
 
@@ -178,7 +177,8 @@ public class TestBoard {
                 +"{3}..(2)...{3}...(2)..{3}";
         
         Board board = new Board(size, squareString);
-        String actualCoordinates = board.centreSquare();
+        Position position = board.centreSquare();
+        String actualCoordinates = position.toString();
         
         assertEquals(expectedCoordinates, actualCoordinates);
     }
