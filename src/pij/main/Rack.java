@@ -59,6 +59,29 @@ public class Rack {
                 return tile;
             }
         }
+
        return null;
+    }
+
+    public boolean hasLetters(String letters) {
+        boolean success = false;
+        ArrayList<Tile> found = new ArrayList<Tile>();
+        
+        for(int i = 0; i < letters.length(); i++) {
+            Character letter = letters.charAt(i);
+            letter = Character.isLowerCase(letter) ? ' ' : letter;
+            Tile tile = take(letter);
+
+            success = tile != null; 
+            if(!success) {
+                break;
+            }
+            found.add(tile);
+        }
+        for(Tile tile : found) {
+            add(tile);
+        }
+
+        return success;
     }
 }

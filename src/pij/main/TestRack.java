@@ -1,9 +1,8 @@
 package pij.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
@@ -96,4 +95,51 @@ public class TestRack {
         
         assertEquals(expectedSize, actualSize);
     }
+
+    @Test
+    void hasLetters() {
+        String letters = "ASTR";
+        Rack rack = new Rack();
+        Tile tileA = new Tile('A',1);
+        Tile tileB = new Tile('A',1);
+        Tile tileC = new Tile('S',1);
+        Tile tileD = new Tile('T',1);
+        Tile tileE = new Tile('R',1);
+        Tile tileF = new Tile(' ',3);
+        Tile tileG = new Tile('D',2);
+
+        rack.add(tileA);
+        rack.add(tileB);
+        rack.add(tileC);
+        rack.add(tileD);
+        rack.add(tileE);
+        rack.add(tileF);
+        rack.add(tileG);
+
+        assertTrue(rack.hasLetters(letters));
+    }
+
+    @Test
+    void hasWildTile() {
+        String letters = "ASaR";
+        Rack rack = new Rack();
+        Tile tileA = new Tile('A',1);
+        Tile tileB = new Tile('A',1);
+        Tile tileC = new Tile('S',1);
+        Tile tileD = new Tile('T',1);
+        Tile tileE = new Tile('R',1);
+        Tile tileF = new Tile(' ',3);
+        Tile tileG = new Tile('D',2);
+
+        rack.add(tileA);
+        rack.add(tileB);
+        rack.add(tileC);
+        rack.add(tileD);
+        rack.add(tileE);
+        rack.add(tileF);
+        rack.add(tileG);
+
+        assertTrue(rack.hasLetters(letters));
+    }
+
 }
