@@ -1,27 +1,44 @@
 package pij.main;
 
-import pij.main.square.Square;
-
 public class Move {
+    public static enum Direction { RIGHT, DOWN }
 
-    public static int letterScoring(Square[] word) {
-        int wordLetterScore = 0;
-        for(int i = 0; i < word.length; i++) {
-            wordLetterScore += word[i].calculateLetterScore();
+    private String letters;
+    private Position position;
+    private Direction direction;
+
+
+    public static Move fromString(String string) {
+        String[] parts = string.split(",");
+        String letters = parts[0];
+        Position position = Position.fromString(parts[1]);
+        Direction direction = null;
+        switch(parts[2]) {
+            case "r":
+                direction = Direction.RIGHT;
+                break;
+            case "d":
+                direction = Direction.DOWN;
+                break;
         }
-        return wordLetterScore;
+        return new Move(letters, position, direction);
     }
 
-    public static int fullWordMultiplier(Square[] word) {
-        int fullWordMultiplier = 1;
-        for (int i = 0; i < word.length; i++) {
-            fullWordMultiplier = fullWordMultiplier * word[i].getWordMultiplier();
-        }
-        return fullWordMultiplier;
+    public Move(String letters, Position position, Direction direction) {
+        this.letters = letters;
+        this.position = position;
+        this.direction = direction;
     }
 
-    public static int wordScoring(Square[] word) {
-        int wordScore = letterScoring(word) * fullWordMultiplier(word);
-        return wordScore;    
+    public String getLetters() {
+        return this.letters;
+    }
+
+    public Position getPosition() {
+        return this.position;
+    }
+
+    public Direction getDirection() {
+        return this.direction;
     }
 }
