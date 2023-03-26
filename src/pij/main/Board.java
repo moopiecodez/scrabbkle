@@ -1,6 +1,7 @@
 package pij.main;
 
 import java.util.Scanner;
+
 import pij.main.square.Square;
 
 public class Board {
@@ -97,18 +98,17 @@ public class Board {
      * the centre. The centre Square is the top left of these Squares.
      * @return string of coordinates of the centre Square.
      */
-    public String centreSquare() {
+    public Position centreSquare() {
         int index = this.size / 2;
         if(this.size % 2 == 0) {
             //even sized Board
             index--;
         }
-
         int row = index + 1;
         char column = (char)('a' + index);
-        String string = String.format("%c%d", column, row);
+        Position position = new Position(row, column);
 
-        return string;
+        return position;
     }
 
     /**
@@ -117,16 +117,16 @@ public class Board {
      * @param column of the Square to be returned.
      * @return the Square at the given coordinates.
      */
-    public Square getSquare(int row, char column) {
-        int rowIndex = row -1;
-        int columnIndex = (int)(column - 'a');
+    public Square getSquare(Position position) {
+        int rowIndex = position.getRowIndex();
+        int columnIndex = position.getColumnIndex();
         Square square = this.matrix[rowIndex][columnIndex];
 
         return square;
     }
 
-    public void placeTile(int row, char column, Tile tile) {
-        Square square = getSquare(row, column);
+    public void placeTile(Position position, Tile tile) {
+        Square square = getSquare(position);
         square.setTile(tile);
     }
 }
