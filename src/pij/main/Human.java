@@ -45,7 +45,7 @@ public class Human extends Player {
         String letters = ("\\p{Alpha}{1,7}");
         String position = ("\\p{Lower}\\d{1,2}");
         String direction = ("[rd]");
-        String moveFmt = "%s,%s,%s";
+        String moveFmt = "%s,%s,%s|,,";
         String regex = String.format(moveFmt, letters, position, direction);
 
         return Pattern.matches(regex, input);

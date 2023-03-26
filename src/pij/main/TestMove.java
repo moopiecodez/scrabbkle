@@ -14,4 +14,14 @@ public class TestMove {
 
         assertTrue(valid);
     }
+
+    @Test
+    void validPass() {
+        String input = ",,";
+
+        boolean valid = Human.validateInput(input);
+
+        assertTrue(valid);
+    }
+
 }
