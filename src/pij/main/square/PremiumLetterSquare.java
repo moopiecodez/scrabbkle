@@ -1,5 +1,7 @@
 package pij.main.square;
 
+import pij.main.Tile;
+
 public class PremiumLetterSquare extends Square {
 
     /**
@@ -17,14 +19,8 @@ public class PremiumLetterSquare extends Square {
      * The string representation of a PremiumLetterSquare is the premium
      * letter multiplier value enclosed in two round brackets.
      */
-    public String toString() {
-        String string;
-        if(getTile() != null) {
-            string = String.format("%-3s", getTile());
-        } else {
-            string = squareDetailToString(getLetterMultiplier(), "(", ")");
-        }
-        return string;
+    protected String toStringEmpty() {
+        return squareDetailToString(getLetterMultiplier(), "(", ")");
     }
 
 }

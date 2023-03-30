@@ -43,7 +43,7 @@ public abstract class Square {
         int multiplier;
         char first = token.charAt(0);
 
-        switch(first) {
+        switch (first) {
             case '.':
                 square = new StandardSquare();
                 break;
@@ -55,6 +55,8 @@ public abstract class Square {
                 multiplier = parsePremiumValue(token);
                 square = new PremiumWordSquare(multiplier);
                 break;
+            default:
+                break;
         }
 
         return square;
@@ -65,8 +67,8 @@ public abstract class Square {
      * is thrown if the Square already holds a Tile.
      * @param tile to be placed.
      */
-    public void setTile(Tile tile) {
-        if (this.tile != null) {
+    public void setTile(final Tile tile) {
+        if (!isEmpty()) {
             String message =
                     "Full square, this square already contains a tile.";
             throw new IllegalStateException(message);
@@ -75,11 +77,22 @@ public abstract class Square {
     }
 
     /**
-     * Returns the Tile on a Square.
-     * @return Tile.
+     * Checks if a square is empty.
+     * @return true if square is empty.
      */
-    public Tile getTile() {
-        return this.tile;
+    public boolean isEmpty() {
+        return this.tile == null;
+    }
+
+    public String toString() {
+        String string;
+        if(isEmpty()) {
+            string = toStringEmpty();
+        } else {
+            string = this.tile.toString();
+        }
+        string = String.format("%-3s", string);
+        return string;
     }
 
     /**
@@ -146,4 +159,6 @@ public abstract class Square {
     public void setWordScoring(WordScoring wordScoring) {
         this.wordScoring = wordScoring;
     }
+
+    protected abstract String toStringEmpty();
 }

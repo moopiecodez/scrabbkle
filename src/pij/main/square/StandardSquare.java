@@ -14,13 +14,8 @@ public class StandardSquare extends Square {
      * The string representation of a StandardSquare is a dot enclosed in two 
      * spaces.
      */
-    public String toString() {
-        String string;
-        if( getTile() != null) {
-            string = getTile().toString();
-        } else {
-            string = " . ";
-        }
+    protected String toStringEmpty() {
+        String string = " . ";
         return string;
     }
 

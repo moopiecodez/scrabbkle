@@ -17,14 +17,8 @@ public class PremiumWordSquare extends Square {
      * The string representation of a PremiumWordSquare is the premium
      * word multiplier value enclosed in two curly brackets.
      */
-    public String toString() {
-        String string;
-        if(getTile() != null){
-            string =  String.format("%-3s", getTile());
-        } else {
-            string = squareDetailToString(getWordMultiplier(), "{", "}");
-        }
-        return string;
+    protected String toStringEmpty() {
+        return squareDetailToString(getWordMultiplier(), "{", "}");
     }
 
 }
