@@ -66,7 +66,7 @@ public class Board {
         String squares = "";
         Square[] row = this.matrix[rowIndex];
         for(int i = 0; i < this.size; i++) {
-            squares += row[i];
+            squares += String.format("%s", row[i]);
         }
         String string = String.format("%2d %s\n", rowNumber, squares);
         return string;
@@ -111,16 +111,29 @@ public class Board {
 
     /**
      * Returns the Square at the given coordinates on the Board.
-     * @param row of the Square to be returned.
-     * @param column of the Square to be returned.
+     * @param position of the Square to be returned.
      * @return the Square at the given coordinates.
      */
     public Square getSquare(Position position) {
         int rowIndex = position.getRowIndex();
         int columnIndex = position.getColumnIndex();
+
         Square square = this.matrix[rowIndex][columnIndex];
 
         return square;
+    }
+
+    public boolean positionExists(Position position) {
+        int rowIndex = position.getRowIndex();
+        int columnIndex = position.getColumnIndex();
+        boolean success = (rowIndex < this.size && columnIndex < this.size);
+
+        return success;
+    }
+
+    public boolean isPositionFree(Position position) {
+        Square square = getSquare(position);
+        return square.isEmpty();
     }
 
     public void placeTile(Position position, Tile tile) {
