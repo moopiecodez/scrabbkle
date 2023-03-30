@@ -53,13 +53,22 @@ public class Rack {
      * @return a Tile with the given letter.
      */
     public Tile take(char letter) {
-        for(Tile tile : tiles) {
-            if(tile.getLetter() == letter) {
+        for (Tile tile : tiles) {
+            if (Character.isLowerCase(letter)) {
+                char wildCardLetter = letter;
+                letter = ' ';
+                if (tile.getLetter() == letter) {
+                    tile.setWildCard(letter, wildCardLetter);
+                    tiles.remove(tile);
+                    return tile;
+                }
+
+            } else if (tile.getLetter() == letter) {
                 tiles.remove(tile);
+
                 return tile;
             }
         }
-
        return null;
     }
 

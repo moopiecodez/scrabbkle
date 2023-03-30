@@ -75,13 +75,26 @@ public class TestRack {
         Rack rack = new Rack();
         rack.add(new Tile('R', 1));
         char letter = 'A';
-        
+
         Tile tile = rack.take(letter);
         Tile actualTile = tile;
         String actualRack = rack.toString();
-        
+
         assertEquals(expectedTile, actualTile);
         assertEquals(expectedRack, actualRack);
+    }
+
+    @Test
+    void takeWildCardFromRack() {
+        String expectedTile = "b3";
+        Rack rack = new Rack();
+        rack.add(new Tile(' ', 3));
+        char letter = 'b';
+
+        Tile tile = rack.take(letter);
+        String actualTile = tile.toString();
+
+        assertEquals(expectedTile, actualTile);
     }
 
     @Test

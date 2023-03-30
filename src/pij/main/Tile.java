@@ -79,4 +79,11 @@ public class Tile {
         }
         this.letter = letter;
     }
+
+    public void setWildCard(final char symbol, final char letter) {
+        if (symbol == ' ') {
+            this.letter = letter;
+        }
+    }
+
 }
