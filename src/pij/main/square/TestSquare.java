@@ -11,26 +11,24 @@ public class TestSquare {
 
     @Test
     public void setTileOnEmptySquare() {
-        Tile expectedTile = new Tile('A', 1);
-        Square aSquare = Square.create(".");
-        
-        aSquare.setTile(expectedTile);
-        Tile actualTile = aSquare.getTile();
-        
-        assertEquals(expectedTile, actualTile);
-        
-        
+        String expectedSquare = "A1 ";
+        Tile tile = new Tile('A', 1);
+        Square square = Square.create(".");
+
+        square.setTile(tile);
+        String actualSquare = square.toString();
+
+        assertEquals(expectedSquare, actualSquare);
     }
-    
+
     @Test
     public void setTileOnFullSquare() {
         Tile aTile = new Tile('A', 1);
         Square fullSquare = Square.create(".");
         String expectedMessage = 
                 "Full square, this square already contains a tile.";
-       
         fullSquare.setTile(aTile);
-        
+
         try {
             fullSquare.setTile(aTile);
             fail("expected IllegalStateException");
