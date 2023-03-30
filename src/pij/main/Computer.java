@@ -5,7 +5,7 @@ public class Computer extends Player {
     public Computer(Rack rack) {
         super(rack);
     }
-    public void getMove() {
+    public void chooseMove() {
         // TODO Auto-generated method stub
 
     }

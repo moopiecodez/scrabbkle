@@ -13,5 +13,11 @@ public abstract class Player {
         this.rack = rack;
     }
 
-    public abstract void getMove();
+    public abstract Move chooseMove(Board board);
+
+    public void playMove(Board board, Move move) {
+        move.place(board, this.rack);
+    }
+        
+    
 }
