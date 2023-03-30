@@ -1,44 +1,64 @@
 package pij.main;
 
-public class Move {
-    public static enum Direction { RIGHT, DOWN }
+import java.util.regex.Pattern;
 
-    private String letters;
-    private Position position;
-    private Direction direction;
+public abstract class Move {
+    public enum Direction { right, down }
 
+    /**
+     * Takes a string representation of a move and checks it is syntactically
+     * valid as a move
+     *
+     * (e.g. GIT,f8,d or ,, for a pass).
+     *
+     * @param input string representation of the move.
+     * @return boolean true if valid syntax for a move.
+     */
+    public static boolean validateString(final String input) {
+        String letters = ("\\p{Alpha}{1,7}");
+        String position = ("\\p{Lower}\\d{1,2}");
+        String direction = ("[rd]");
+        String moveFmt = "%s,%s,%s|,,";
+        String regex = String.format(moveFmt, letters, position, direction);
 
-    public static Move fromString(String string) {
-        String[] parts = string.split(",");
-        String letters = parts[0];
-        Position position = Position.fromString(parts[1]);
-        Direction direction = null;
-        switch(parts[2]) {
-            case "r":
-                direction = Direction.RIGHT;
+        return Pattern.matches(regex, input);
+    }
+
+    public static Move fromString(final String string) {
+        Move move;
+
+        switch (string) {
+            case ",,":
+                move = new Pass();
                 break;
-            case "d":
-                direction = Direction.DOWN;
-                break;
+            default:
+                String[] parts = string.split(",");
+                String letters = parts[0];
+                Position position = Position.fromString(parts[1]);
+                Direction direction;
+                switch (parts[2]) {
+                    case "r":
+                        direction = Direction.right;
+                        break;
+                    case "d":
+                        direction = Direction.down;
+                        break;
+                    default:
+                        direction = null;
+                }
+                move = new WordMove(letters, position, direction);
         }
-        return new Move(letters, position, direction);
+        return move;
     }
 
-    public Move(String letters, Position position, Direction direction) {
-        this.letters = letters;
-        this.position = position;
-        this.direction = direction;
-    }
+    public abstract String getLetters();
 
-    public String getLetters() {
-        return this.letters;
-    }
+    public abstract Position getPosition();
 
-    public Position getPosition() {
-        return this.position;
-    }
+    public abstract Direction getDirection();
 
-    public Direction getDirection() {
-        return this.direction;
-    }
+    public abstract boolean validate(Rack rack, Board board); 
+
+    public abstract void place(Board board, Rack rack);
+
 }
