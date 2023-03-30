@@ -1,5 +1,7 @@
 package pij.main;
 
+import pij.main.Move.Direction;
+
 public class Position {
     private final int row;
     private final char column;
@@ -44,5 +46,14 @@ public class Position {
 
     public int getColumnIndex() {
         return (int)(this.column - 'a');
+    }
+
+    public Position next(Direction direction) {
+        int row = this.row;
+        char column = this.column;
+        return switch (direction) {
+            case down -> new Position(++row, column);
+            case right -> new Position(row, ++column);
+        };
     }
 }
