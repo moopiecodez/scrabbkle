@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import pij.main.Move.Direction;
 import pij.main.square.Square;
 import pij.main.square.StandardSquare;
 
@@ -162,8 +163,8 @@ public class TestBoard {
         String expectedHorizontalString = "[h8, g8, f8, e8, d8, c8, b8, a8]";
         String expectedVerticalString = "[h8, h7, h6, h5, h4, h3, h2, h1]";
 
-        horizontalOrigins = board.getHorizontalOrigins();
-        verticalOrigins = board.getVerticalOrigins();
+        horizontalOrigins = board.getOrigins(Direction.right);
+        verticalOrigins = board.getOrigins(Direction.down);
 
         String actualHorizontalString = horizontalOrigins.toString();
         String actualVerticalString = verticalOrigins.toString();

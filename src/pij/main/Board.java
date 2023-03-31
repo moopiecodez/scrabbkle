@@ -148,12 +148,16 @@ public class Board {
         square.setTile(tile);
     }
 
-    public ArrayList<Position> getHorizontalOrigins() {
-        return this.horizontalOrigins;
-    }
-
-    public ArrayList<Position> getVerticalOrigins() {
-        return this.verticalOrigins;
+    public ArrayList<Position> getOrigins(Direction direction) {
+        ArrayList<Position> origins = switch(direction) {
+            case right -> {
+                yield this.horizontalOrigins;
+            }
+            case down -> {
+                 yield this.verticalOrigins;
+            }
+        };
+        return origins;
     }
 
     private void findOrigins(Position position, Direction direction) {
