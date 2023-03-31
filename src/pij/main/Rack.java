@@ -46,32 +46,33 @@ public class Rack {
     }
 
     /**
-     * Takes a Tile with the given letter from the Rack if there is at least
-     * one Tile on the Rack with that letter, otherwise returns null. If
-     * multiple Tiles have that letter, only one is taken.
-     * @param letter indicating which Tile to take.
+     * Linear search of Rack for a Tile matching the letter passed to it.
+     * Returns a Tile removing it from Rack as soon as a correct Tile is found,
+     * to ensure if multiple Tiles have that letter, only one is taken.
+     * @param letter indicating which Tile to take, lower case for wildcards.
      * @return a Tile with the given letter.
      */
-    public Tile take(char letter) {
+    public Tile take(final char letter) {
+        char matchLetter = Character.isLowerCase(letter) ? ' ' : letter;
+
         for (Tile tile : tiles) {
-            if (Character.isLowerCase(letter)) {
-                char wildCardLetter = letter;
-                letter = ' ';
-                if (tile.getLetter() == letter) {
-                    tile.setWildCard(letter, wildCardLetter);
-                    tiles.remove(tile);
-                    return tile;
-                }
-
-            } else if (tile.getLetter() == letter) {
+            if (tile.getLetter() == matchLetter) {
                 tiles.remove(tile);
-
+                if (matchLetter == ' ') {
+                    tile.setWildCard(letter);
+                }
                 return tile;
             }
         }
-       return null;
+        return null;
     }
 
+/**
+ * Checks if the given letters are present on the Rack. Breaks out of loop if
+ * any letter is missing from the Rack.
+ * @param letters to be checked.
+ * @return whether or not tiles on the Rack.
+ */
     public boolean hasLetters(String letters) {
         boolean success = false;
         ArrayList<Tile> found = new ArrayList<Tile>();

@@ -80,8 +80,8 @@ public class Tile {
         this.letter = letter;
     }
 
-    public void setWildCard(final char symbol, final char letter) {
-        if (symbol == ' ') {
+    public void setWildCard(final char letter) {
+        if (this.letter == ' ') {
             this.letter = letter;
         }
     }
