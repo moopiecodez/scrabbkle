@@ -1,7 +1,9 @@
 package pij.main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import pij.main.Move.Direction;
 import pij.main.square.Square;
 
 public class Board {
@@ -10,6 +12,8 @@ public class Board {
     private int size;
     public static final int MIN_BOARD_SIZE = 12;
     public static final int MAX_BOARD_SIZE = 26;
+    private ArrayList<Position> horizontalOrigins = new ArrayList<Position>();
+    private ArrayList<Position> verticalOrigins = new ArrayList<Position>();
 
     /**
      * Boards must have a size within the range 12 -26.
@@ -26,6 +30,9 @@ public class Board {
         }
         this.size = size;
         this.matrix = squaresMatrix(size, squareString);
+        Position centreSquare = centreSquare();
+        findOrigins(centreSquare, Direction.right);
+        findOrigins(centreSquare, Direction.down);
     }
 
     /**
@@ -140,4 +147,39 @@ public class Board {
         Square square = getSquare(position);
         square.setTile(tile);
     }
+
+    public ArrayList<Position> getHorizontalOrigins() {
+        return this.horizontalOrigins;
+    }
+
+    public ArrayList<Position> getVerticalOrigins() {
+        return this.verticalOrigins;
+    }
+
+    private void findOrigins(Position position, Direction direction) {
+        int columnDelta = 0;
+        int rowDelta = 0;
+        ArrayList<Position> origins = switch(direction) {
+            case right -> {
+                columnDelta = -1;
+                yield this.horizontalOrigins;
+            }
+            case down -> {
+                rowDelta = -1;
+                yield this.verticalOrigins;
+            }
+        };
+        origins.add(position);
+        int row = position.getRow();
+        char column = position.getColumn();
+
+        for (char i = column; i > 'a'; i--) {
+            column += columnDelta;
+            row += rowDelta;
+            Position newPosition = new Position(row, column);
+            //check is position blocked if so don't add
+            origins.add(newPosition);
+        }
+    }
+
 }
