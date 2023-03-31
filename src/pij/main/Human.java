@@ -11,13 +11,14 @@ public class Human extends Player {
             + "direction (d for down, r for right) separated by commas.\n"
             + "Entering just two commas passes.\n";
     private static final String INVALID_MOVE = "This is not a valid move.";
-
+    
     public Human(Rack rack) {
         super(rack);
     }
 
     public Move chooseMove(Board board) {
         Move move = null;
+        String errorMsg = "";
         boolean valid = false;
         displayStartOfUserTurnMsg();
 
@@ -28,10 +29,31 @@ public class Human extends Player {
 
             if (valid) {
                 move = Move.fromString(moveString);
-                //valid = move.validate(this.rack, board);
+                valid &= move.validLetters(rack);
+                if (!valid) {
+                    errorMsg += "You don't have the tiles.\n";
+                }
+                valid &= move.validOrigin(board);
+                if (!valid) {
+                    errorMsg += "Invalid starting position for your word.\n";
+                }
+                valid &= move.wordFits(board); 
+                if (!valid){
+                    errorMsg += "Word doesn't fit.\n";
+                }
+                valid &= move.validWord();
+                if (!valid) {
+                    errorMsg += "Invalid word.\n";
+                }
+
+              //validMove &= validateWord();
+                //check wordfits
+                //validateletters
+                //errorMSg = blob
             }
             if (!valid) {
                 System.out.println(INVALID_MOVE);
+                System.out.println(errorMsg);
             }
 
         } while (!valid);

@@ -57,7 +57,13 @@ public abstract class Move {
 
     public abstract Direction getDirection();
 
-    public abstract boolean validate(Rack rack, Board board); 
+    public abstract boolean validLetters(Rack rack);
+
+    public abstract boolean validOrigin(Board board);
+
+    public abstract boolean wordFits(Board board);
+
+    public abstract boolean validWord();
 
     public abstract void place(Board board, Rack rack);
 

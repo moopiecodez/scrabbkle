@@ -23,13 +23,24 @@ public final class Pass extends Move {
         throw new UnsupportedOperationException();
     }
 
-    public boolean validate(Rack rack, Board board) {
-        return true;
-    }
-
     public String toString() {
         return PASS_MSG;
     }
 
+    public boolean validLetters(Rack rack) {
+        return true;
+    }
+
+    public boolean validOrigin(Board board) {
+        return true;
+    }
+
+    public boolean wordFits(Board board) {
+        return true;
+    }
+
+    public boolean validWord() {
+        return true;
+    }
 
 }

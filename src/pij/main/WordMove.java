@@ -1,5 +1,7 @@
 package pij.main;
 
+import java.util.ArrayList;
+
 import pij.main.Move.Direction;
 
 public class WordMove extends Move {
@@ -7,6 +9,7 @@ public class WordMove extends Move {
     private String letters;
     private Position position;
     private Direction direction;
+    private String word;
     
     public WordMove(String letters, Position position, Direction direction) {
         this.letters = letters;
@@ -47,21 +50,50 @@ public class WordMove extends Move {
         return this.direction;
     }
 
-    public boolean validate(Rack rack, Board board) {
-        boolean validMove = false;
+    public boolean validLetters(Rack rack) {
+        return rack.hasLetters(letters);
+    }
 
-/*
-        validMove &= this.rack.hasLetters(move.getLetters());
-        validMove &= Board.positionExists(move.getPosition());
-        //validMove &= validOrigin();
-        //validMove &= validateWord();
-        //artificial way for passing test atm
-        if(input.contains("bob")){
-            validMove = true;
+    public boolean validOrigin(Board board) {
+        ArrayList<Position> origins = board.getOrigins(direction);
+        return origins.contains(position) &&
+                !board.getSquare(position).isblocked(direction);
+    }
+
+    public boolean wordFits(Board board) {
+        word = "";
+        char letter;
+        Position currentPosition = position;
+        String remainingLetters = letters;
+
+        while (!remainingLetters.isEmpty()) {
+            if (!board.isPositionFree(currentPosition)) {
+                word += board.getSquare(currentPosition).toString().charAt(0);
+            } else {
+                word += remainingLetters.charAt(0);
+            }
+            if (remainingLetters.length() == 1) {
+                remainingLetters = "";
+            } else {
+                remainingLetters = remainingLetters.substring(1);
+            }
+            currentPosition = currentPosition.next(this.direction);
         }
+        do {
+            word += board.getSquare(currentPosition).toString().charAt(0);
+            currentPosition = currentPosition.next(this.direction);
+        } while (!board.isPositionFree(currentPosition));
 
-        return validMove;
-        */
+        System.out.println(word);
+        //needs to check previous position from current
+        //ispositionfree will error if hit end of board
+
+        return board.positionExists(currentPosition);
+    }
+
+    public boolean validWord() {
+        //TODO letters + tiles on board
+        //return dictionary.contains(word);
         return true;
     }
 
