@@ -1,5 +1,6 @@
 package pij.main.square;
 
+import pij.main.Move.Direction;
 import pij.main.Tile;
 
 public abstract class Square {
@@ -9,6 +10,8 @@ public abstract class Square {
     private WordScoring wordScoring;
     private final int letterMultiplier;
     private final int wordMultiplier;
+    private boolean blockedRight;
+    private boolean blockedDown;
 
     /**
      * Squares have a letterMultiplier and wordMultiplier, both of which are 1
@@ -19,6 +22,9 @@ public abstract class Square {
     public Square(int letterMultiplier, int wordMultiplier) {
         this.letterMultiplier = letterMultiplier;
         this.wordMultiplier = wordMultiplier;
+        this.blockedRight = false;
+        this.blockedDown = false;
+
     }
 
     /**
@@ -84,6 +90,21 @@ public abstract class Square {
         return this.tile == null;
     }
 
+    public boolean isblocked(Direction direction) {
+        boolean blocked = switch(direction) {
+            case right -> this.blockedRight;
+            case down -> this.blockedDown;
+        };
+        return blocked;
+    }
+    
+    public void setBlocked(Direction direction) {
+        switch(direction) {
+            case right -> this.blockedRight = true;
+            case down -> this.blockedDown = true;
+        }
+    }
+    
     public String toString() {
         String string;
         if(isEmpty()) {
