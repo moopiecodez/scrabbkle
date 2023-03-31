@@ -150,12 +150,8 @@ public class Board {
 
     public ArrayList<Position> getOrigins(Direction direction) {
         ArrayList<Position> origins = switch(direction) {
-            case right -> {
-                yield this.horizontalOrigins;
-            }
-            case down -> {
-                 yield this.verticalOrigins;
-            }
+            case right -> this.horizontalOrigins;
+            case down -> this.verticalOrigins;
         };
         return origins;
     }
@@ -163,16 +159,11 @@ public class Board {
     private void findOrigins(Position position, Direction direction) {
         int columnDelta = 0;
         int rowDelta = 0;
-        ArrayList<Position> origins = switch(direction) {
-            case right -> {
-                columnDelta = -1;
-                yield this.horizontalOrigins;
-            }
-            case down -> {
-                rowDelta = -1;
-                yield this.verticalOrigins;
-            }
-        };
+        ArrayList<Position> origins = getOrigins(direction);
+        switch (direction) {
+            case right -> columnDelta = -1;
+            case down -> rowDelta = -1;
+        }
         origins.add(position);
         int row = position.getRow();
         char column = position.getColumn();
