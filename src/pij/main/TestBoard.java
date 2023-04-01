@@ -156,20 +156,28 @@ public class TestBoard {
     }
 
     @Test
-    public void validOrigins() {
+    public void validVerticalOrigins() {
         Board board = new Board(defaultSize, defaultSquareString);
-        ArrayList<Position> horizontalOrigins = new ArrayList<Position>();
         ArrayList<Position> verticalOrigins = new ArrayList<Position>();
-        String expectedHorizontalString = "[h8, g8, f8, e8, d8, c8, b8, a8]";
-        String expectedVerticalString = "[h8, h7, h6, h5, h4, h3, h2, h1]";
+        String expectedVerticalString = "[h8, h7, h6, h5, h4, h3, h2]";
 
-        horizontalOrigins = board.getOrigins(Direction.right);
         verticalOrigins = board.getOrigins(Direction.down);
 
-        String actualHorizontalString = horizontalOrigins.toString();
         String actualVerticalString = verticalOrigins.toString();
 
-        assertEquals(expectedHorizontalString, actualHorizontalString);
         assertEquals(expectedVerticalString, actualVerticalString);
+    }
+
+    @Test
+    public void validHorizontalOrigins() {
+        Board board = new Board(defaultSize, defaultSquareString);
+        ArrayList<Position> horizontalOrigins = new ArrayList<Position>();
+        String expectedHorizontalString = "[h8, g8, f8, e8, d8, c8, b8]";
+
+        horizontalOrigins = board.getOrigins(Direction.right);
+
+        String actualHorizontalString = horizontalOrigins.toString();
+
+        assertEquals(expectedHorizontalString, actualHorizontalString);
     }
 }

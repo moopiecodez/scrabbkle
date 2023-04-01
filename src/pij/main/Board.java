@@ -159,22 +159,29 @@ public class Board {
     private void findOrigins(Position position, Direction direction) {
         int columnDelta = 0;
         int rowDelta = 0;
+        int rowIndex = position.getRowIndex();
+        int columnIndex = position.getColumnIndex();
         ArrayList<Position> origins = getOrigins(direction);
-        switch (direction) {
-            case right -> columnDelta = -1;
-            case down -> rowDelta = -1;
-        }
-        origins.add(position);
-        int row = position.getRow();
-        char column = position.getColumn();
+        int i = switch (direction) {
+            case right -> {
+                columnDelta = -1;
+                yield columnIndex;
+            }
+            case down -> {
+                rowDelta = -1;
+                yield rowIndex;
+            }
+        };
 
-        for (char i = column; i > 'a'; i--) {
-            column += columnDelta;
-            row += rowDelta;
-            Position newPosition = new Position(row, column);
+        int j = 0;
+        while (i >= 0 && j < Rack.RACK_SIZE) {
+            origins.add(position);
+            columnIndex += columnDelta;
+            rowIndex += rowDelta;
+            position = Position.fromIndices(rowIndex, columnIndex);
             //TODO check is position blocked if so don't add
-            //limited to 7 letters RACK_SIZE
-            origins.add(newPosition);
+            i--;
+            j++;
         }
     }
 
