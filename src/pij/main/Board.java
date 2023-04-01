@@ -172,9 +172,49 @@ public class Board {
             column += columnDelta;
             row += rowDelta;
             Position newPosition = new Position(row, column);
-            //check is position blocked if so don't add
+            //TODO check is position blocked if so don't add
+            //limited to 7 letters RACK_SIZE
             origins.add(newPosition);
         }
     }
 
+    public boolean hasValidOrigin(Move move) {
+        Position position = move.getPosition();
+        Direction direction = move.getDirection();
+        Square square = getSquare(position);
+        ArrayList<Position> origins = getOrigins(direction);
+        boolean validStartingPosition = origins.contains(position);
+        boolean positionFreeInDirection = !square.isblocked(direction);
+
+        return validStartingPosition && positionFreeInDirection;
+    }
+
+    public boolean checkPlacement(Move move) {
+        Position position = move.getPosition();
+        String remainingLetters = move.getLetters();
+        Direction direction = move.getDirection();
+
+        while (!remainingLetters.isEmpty()) {
+            if (!positionExists(position)) {
+                return false;
+            }
+
+            if (isPositionFree(position)) {
+                Square square = getSquare(position);
+                if (square.isblocked(direction)) {
+                    return false;
+                } else {
+                    if (remainingLetters.length() > 1) {
+                        remainingLetters = remainingLetters.substring(1);
+                    } else {
+                        remainingLetters = "";
+                    }
+                }
+            }
+            position = position.next(direction);
+        }
+        return true;
+    }
+
 }
+
