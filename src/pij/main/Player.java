@@ -18,7 +18,7 @@ public abstract class Player {
     public abstract Move chooseMove(Board board);
 
     public void playMove(Board board, Move move) {
-        move.place(board, this.rack);
+        this.score += move.place(board, this.rack);
     }
 
     public void replenishRack(Bag bag) {

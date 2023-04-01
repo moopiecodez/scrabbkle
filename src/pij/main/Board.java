@@ -143,9 +143,24 @@ public class Board {
         return square.isEmpty();
     }
 
+    public int getLetterScore(final Position position) {
+        Square square = getSquare(position);
+        return square.calculateLetterScore();
+    }
+
+    public int getWordMultiplier(final Position position) {
+        Square square = getSquare(position);
+        return square.getWordMultiplier();
+    }
+
     public void placeTile(Position position, Tile tile) {
         Square square = getSquare(position);
         square.setTile(tile);
+    }
+
+    public void setStandardScoring(final Position position) {
+        Square square = getSquare(position);
+        square.setStandardScoring();
     }
 
     public ArrayList<Position> getOrigins(Direction direction) {

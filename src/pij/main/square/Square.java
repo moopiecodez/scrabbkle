@@ -181,5 +181,12 @@ public abstract class Square {
         this.wordScoring = wordScoring;
     }
 
+    public void setStandardScoring() {
+        LetterScoring letterScoring = new StandardLetterScoring();
+        WordScoring wordScoring = new StandardWordScoring();
+        setLetterScoring(letterScoring);
+        setWordScoring(wordScoring);
+    }
+
     protected abstract String toStringEmpty();
 }

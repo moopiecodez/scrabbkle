@@ -60,7 +60,6 @@ public abstract class Move {
     public abstract boolean validate(final Board board, final Rack rack);
 
     public abstract String getErrorMsg();
-    
-    public abstract void place(Board board, Rack rack);
 
+    public abstract int place(Board board, Rack rack);
 }

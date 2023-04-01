@@ -22,25 +22,34 @@ public class WordMove extends Move {
         this.errorMsg = "";
     }
 
-    public void place(Board board, Rack rack) {
-        Position currentPosition = this.position;
+    public int place(Board board, Rack rack) {
+        int letterScore = 0;
+        int wordMultiplier = 1;
+        Position position = this.position;
         String remainingLetters = this.letters;
         char letter;
         Tile tile;
         Direction direction = this.getDirection();
+        //fix as doesn't skip
         while (!remainingLetters.isEmpty()) {
-            if (board.isPositionFree(currentPosition)) {
+            if (board.isPositionFree(position)) {
                 letter = remainingLetters.charAt(0);
                 tile = rack.take(letter);
-                board.placeTile(currentPosition, tile);
+                board.placeTile(position, tile);
             }
             if (remainingLetters.length() == 1) {
                 remainingLetters = "";
             } else {
                 remainingLetters = remainingLetters.substring(1);
             }
-            currentPosition = currentPosition.next(direction);
+            letterScore += board.getLetterScore(position);
+            wordMultiplier *= board.getWordMultiplier(position);
+            board.setStandardScoring(position);
+
+            position = position.next(direction);
         }
+
+        return letterScore * wordMultiplier;
     }
 
     public String getLetters() {
