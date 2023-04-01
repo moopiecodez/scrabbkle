@@ -16,55 +16,45 @@ public class Human extends Player {
         super(rack);
     }
 
-    public Move chooseMove(Board board) {
+    /*
+     * Checks the syntax of that move is valid.
+     * If the syntax is valid a Move is generated and then undergoes additional
+     * checks.
+     */
+
+    /**
+     * Asks the user to type in a move repeatedly until a valid move is
+     * provided.
+     *
+     * @param board current board that the move will be played.
+     * @return the validated move.
+     */
+    public Move chooseMove(final Board board) {
         Move move = null;
-        String errorMsg = "";
-        boolean valid = false;
+
         displayStartOfUserTurnMsg();
 
-        do {
-            String moveString = getMoveStringFromUser();
-
-            valid = Move.validateString(moveString);
-
-            if (valid) {
-                move = Move.fromString(moveString);
-                valid &= move.validLetters(rack);
-                if (!valid) {
-                    errorMsg += "You don't have the tiles.\n";
-                }
-                valid &= move.validOrigin(board);
-                if (!valid) {
-                    errorMsg += "Invalid starting position for your word.\n";
-                }
-                valid &= move.wordFits(board); 
-                if (!valid){
-                    errorMsg += "Word doesn't fit.\n";
-                }
-                valid &= move.validWord();
-                if (!valid) {
-                    errorMsg += "Invalid word.\n";
-                }
-
-              //validMove &= validateWord();
-                //check wordfits
-                //validateletters
-                //errorMSg = blob
+        while (move == null) {
+            String string = getMoveStringFromUser();
+            MoveVerifier verifier = new MoveVerifier(board, this.rack, string);
+            if (verifier.isValid()) {
+                move = verifier.getMove();
+            } else {
+                String errorMsg = verifier.getErrorMsg();
+                displayErrors(errorMsg);
             }
-            if (!valid) {
-                System.out.println(INVALID_MOVE);
-                System.out.println(errorMsg);
-            }
-
-        } while (!valid);
-
+        }
         return move;
     }
-
 
     public void displayStartOfUserTurnMsg() {
         System.out.println(TILE_MSG);
         System.out.println(this.rack.toString() + "\n");
+    }
+
+    public void displayErrors(final String errorMsg) {
+        System.out.println(INVALID_MOVE);
+        System.out.println(errorMsg);
     }
 
     public String getMoveStringFromUser() {

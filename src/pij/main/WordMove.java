@@ -1,20 +1,25 @@
 package pij.main;
 
-import java.util.ArrayList;
-
-import pij.main.Move.Direction;
-
 public class WordMove extends Move {
+
+    private static final String RACK_LETTERS_ERR =
+            "You don't have the tiles.\n";
+    private static final String ORIGIN_ERR =
+            "Invalid starting position for your word.\n";
+    private static final String PLACEMENT_ERR =
+            "This move can't be placed here.\n";
 
     private String letters;
     private Position position;
     private Direction direction;
-    private String word;
+    private String errorMsg;
+    private boolean valid;
     
     public WordMove(String letters, Position position, Direction direction) {
         this.letters = letters;
         this.position = position;
         this.direction = direction;
+        this.errorMsg = "";
     }
 
     public void place(Board board, Rack rack) {
@@ -50,51 +55,48 @@ public class WordMove extends Move {
         return this.direction;
     }
 
-    public boolean validLetters(Rack rack) {
-        return rack.hasLetters(letters);
+    public boolean validate(Board board, Rack rack) {
+        this.valid = true;
+        validLetters(rack);
+        validOrigin(board);
+        validPlacement(board);
+        return this.valid;
     }
 
-    public boolean validOrigin(Board board) {
-        ArrayList<Position> origins = board.getOrigins(direction);
-        return origins.contains(position) &&
-                !board.getSquare(position).isblocked(direction);
+    private void validLetters(final Rack rack) {
+        boolean error = !rack.hasLetters(letters);
+        handleError(error, RACK_LETTERS_ERR);
     }
 
-    public boolean wordFits(Board board) {
-        word = "";
-        char letter;
-        Position currentPosition = position;
-        String remainingLetters = letters;
+    private void validOrigin(final Board board) {
+        boolean error = !board.hasValidOrigin(this);
+        handleError(error, ORIGIN_ERR);
+    }
 
-        while (!remainingLetters.isEmpty()) {
-            if (!board.isPositionFree(currentPosition)) {
-                word += board.getSquare(currentPosition).toString().charAt(0);
-            } else {
-                word += remainingLetters.charAt(0);
-            }
-            if (remainingLetters.length() == 1) {
-                remainingLetters = "";
-            } else {
-                remainingLetters = remainingLetters.substring(1);
-            }
-            currentPosition = currentPosition.next(this.direction);
-        }
-        do {
-            word += board.getSquare(currentPosition).toString().charAt(0);
-            currentPosition = currentPosition.next(this.direction);
-        } while (!board.isPositionFree(currentPosition));
-
-        System.out.println(word);
-        //needs to check previous position from current
-        //ispositionfree will error if hit end of board
-
-        return board.positionExists(currentPosition);
+    private void validPlacement(final Board board) {
+        boolean error = !board.checkPlacement(this);
+        handleError(error, PLACEMENT_ERR);
     }
 
     public boolean validWord() {
         //TODO letters + tiles on board
         //return dictionary.contains(word);
-        return true;
+            System.out.println("All hail King Bob!\n Banana!?");
+            return true;
+    }
+    
+    /*
+    if (!move.validWord()) {
+        this.errorMsg += "Invalid word.\n";
+        this.valid = false;
+    }
+    */
+
+    private void handleError(boolean error, String errorMsg) {
+        if (error) {
+            this.errorMsg += errorMsg;
+            this.valid = false;
+        }
     }
 
     public String toString() {
@@ -102,6 +104,10 @@ public class WordMove extends Move {
                 "Word: %s at position %s, direction: %s",
                 this.letters, this.position, this.direction);
         return string;
+    }
+
+    public String getErrorMsg() {
+        return this.errorMsg;
     }
 
 }
