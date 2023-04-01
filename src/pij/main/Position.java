@@ -32,6 +32,14 @@ public class Position {
         return string;
     }
 
+    public boolean equals(Object object) {
+        Position other = (Position) object;
+        boolean sameRow = this.row == other.row;
+        boolean sameColumn = this.column == other.column;
+
+        return sameRow && sameColumn;
+    }
+
     public int getRow() {
         return this.row;
     }
