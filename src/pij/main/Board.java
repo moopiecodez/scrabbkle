@@ -174,7 +174,11 @@ public class Board {
         };
 
         int j = 0;
-        while (i >= 0 && j < Rack.RACK_SIZE) {
+        boolean blocked = false;
+        while (i >= 0 && j < Rack.RACK_SIZE && !blocked) {
+            Square square = getSquare(position);
+            blocked = square.isblocked(direction);
+            //TODO doesn't work as could have block, break works
             origins.add(position);
             columnIndex += columnDelta;
             rowIndex += rowDelta;
