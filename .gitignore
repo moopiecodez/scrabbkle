@@ -5,6 +5,9 @@
 # JavaDoc
 /doc/
 
+# Checkstyle
+.checkstyle
+
 # Log file
 *.log
 
