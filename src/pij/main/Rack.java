@@ -74,15 +74,14 @@ public class Rack {
  * @return whether or not tiles on the Rack.
  */
     public boolean hasLetters(String letters) {
-        boolean success = false;
+        boolean success = true;
         ArrayList<Tile> found = new ArrayList<Tile>();
-        
         for(int i = 0; i < letters.length(); i++) {
             Character letter = letters.charAt(i);
             letter = Character.isLowerCase(letter) ? ' ' : letter;
             Tile tile = take(letter);
-
             success = tile != null; 
+
             if(!success) {
                 break;
             }
