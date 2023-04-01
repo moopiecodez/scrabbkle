@@ -57,14 +57,10 @@ public abstract class Move {
 
     public abstract Direction getDirection();
 
-    public abstract boolean validLetters(Rack rack);
+    public abstract boolean validate(final Board board, final Rack rack);
 
-    public abstract boolean validOrigin(Board board);
-
-    public abstract boolean wordFits(Board board);
-
-    public abstract boolean validWord();
-
+    public abstract String getErrorMsg();
+    
     public abstract void place(Board board, Rack rack);
 
 }
