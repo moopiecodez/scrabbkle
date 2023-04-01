@@ -19,4 +19,10 @@ public abstract class Player {
         move.place(board, this.rack);
     }
 
+    public void replenishRack(Bag bag) {
+        while (rack.size() < Rack.RACK_SIZE) {
+            Tile aTile = bag.takeTile();
+            rack.add(aTile);
+        }
+    }
 }

@@ -30,13 +30,15 @@ public class Game {
 
     public void play() {
         Move move;
-        //game opening
-        displayBoard(this.board);
-        move = activePlayer.chooseMove(this.board);
-        displayMove(move);
-        activePlayer.playMove(this.board, move);
-        displayBoard(this.board);
+        while (true) {
+            //game opening
+            displayBoard(this.board);
+            move = activePlayer.chooseMove(this.board);
+            displayMove(move);
+            activePlayer.playMove(this.board, move);
+            activePlayer.replenishRack(this.bag);
         }
+    }
         //make loop until game ends, switch active player, print score and board
        // System.out.println(String.format(SCORE_MSG_FMT, humanScore, computerScore));
         //System.out.println(this.board);
