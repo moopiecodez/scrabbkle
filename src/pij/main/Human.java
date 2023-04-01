@@ -16,12 +16,6 @@ public class Human extends Player {
         super(rack);
     }
 
-    /*
-     * Checks the syntax of that move is valid.
-     * If the syntax is valid a Move is generated and then undergoes additional
-     * checks.
-     */
-
     /**
      * Asks the user to type in a move repeatedly until a valid move is
      * provided.
