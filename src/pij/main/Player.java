@@ -8,9 +8,11 @@ package pij.main;
 public abstract class Player {
 
     protected Rack rack;
+    protected int score;
 
     public Player(Rack rack) {
         this.rack = rack;
+        this.score = 0;
     }
 
     public abstract Move chooseMove(Board board);
@@ -24,5 +26,9 @@ public abstract class Player {
             Tile aTile = bag.takeTile();
             rack.add(aTile);
         }
+    }
+
+    public int getScore() {
+        return this.score;
     }
 }

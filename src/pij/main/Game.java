@@ -14,7 +14,7 @@ public class Game {
     private Player player2;
     private Player activePlayer;
 
-    private static final String MOVE_MSG_FMT = "The move is:\t%s";
+    private static final String MOVE_MSG_FMT = "The move is:\t%s\n";
     private static final String SCORE_MSG_FMT = 
               "Human player score:       %d \n"
             + "Computer player score:    %d \n";
@@ -36,16 +36,14 @@ public class Game {
             move = activePlayer.chooseMove(this.board);
             displayMove(move);
             activePlayer.playMove(this.board, move);
+            displayScore();
             activePlayer.replenishRack(this.bag);
         }
     }
-        //make loop until game ends, switch active player, print score and board
-       // System.out.println(String.format(SCORE_MSG_FMT, humanScore, computerScore));
-        //System.out.println(this.board);
-        //if human only
-        // gets user or computer move, validates it and updates score
-        //getMove();
-    //}
+        //make loop until game ends, switch active player,
+        //validate words
+        // gets computer move 
+        //updates score
 
     /** Displays the current board. */
     public static void displayBoard(final Board board) {
@@ -58,7 +56,10 @@ public class Game {
         System.out.println(msg);
     }
 
-    public static void displayScore() {
-        //TODO implement displayscore method
+    public void displayScore() {
+        int score1 = this.player1.getScore();
+        int score2 = this.player2.getScore();
+        String msg = String.format(SCORE_MSG_FMT, score1, score2);
+        System.out.println(msg);
     }
 }
