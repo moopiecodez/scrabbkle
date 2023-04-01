@@ -18,6 +18,5 @@ public abstract class Player {
     public void playMove(Board board, Move move) {
         move.place(board, this.rack);
     }
-        
-    
+
 }
