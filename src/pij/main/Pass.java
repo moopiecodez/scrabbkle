@@ -10,37 +10,29 @@ public final class Pass extends Move {
 
     /** Letters of move relevant for a pass. */
     public String getLetters() {
-        throw new UnsupportedOperationException();
+        return "";
     }
 
     /** Position of move relevant for a pass. */
     public Position getPosition() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     /** Direction of move relevant for a pass. */
     public Direction getDirection() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     public String toString() {
         return PASS_MSG;
     }
 
-    public boolean validLetters(Rack rack) {
+    public boolean validate(final Board board, final Rack rack) {
         return true;
     }
 
-    public boolean validOrigin(Board board) {
-        return true;
-    }
-
-    public boolean wordFits(Board board) {
-        return true;
-    }
-
-    public boolean validWord() {
-        return true;
+    public String getErrorMsg() {
+        return "";
     }
 
 }
