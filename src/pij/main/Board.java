@@ -156,6 +156,7 @@ public class Board {
     public void placeTile(Position position, Tile tile) {
         Square square = getSquare(position);
         square.setTile(tile);
+        setBlockedSquares(position);
     }
 
     public void setStandardScoring(final Position position) {
@@ -189,16 +190,13 @@ public class Board {
         };
 
         int j = 0;
-        boolean blocked = false;
-        while (i >= 0 && j < Rack.RACK_SIZE && !blocked) {
-            Square square = getSquare(position);
-            blocked = square.isblocked(direction);
-            //TODO doesn't work as could have block, break works
+        while (i >= 0
+                && j < Rack.RACK_SIZE
+                && !isBlocked(position, direction)) {
             origins.add(position);
             columnIndex += columnDelta;
             rowIndex += rowDelta;
             position = Position.fromIndices(rowIndex, columnIndex);
-            //TODO check is position blocked if so don't add
             i--;
             j++;
         }
@@ -207,15 +205,37 @@ public class Board {
     public boolean hasValidOrigin(Move move) {
         Position position = move.getPosition();
         Direction direction = move.getDirection();
-        Square square = getSquare(position);
         ArrayList<Position> origins = getOrigins(direction);
         boolean validStartingPosition = origins.contains(position);
-        boolean positionFreeInDirection = !square.isblocked(direction);
+        boolean positionFreeInDirection = !isBlocked(position, direction);
 
         return validStartingPosition && positionFreeInDirection;
     }
 
-    public boolean checkPlacement(Move move) {
+    public boolean isBlocked(Position position, Direction direction) {
+        Square square = getSquare(position);
+        return square.isBlocked(direction);
+    }
+
+    private void setBlockedSquares(final Position position) {
+        final int i = position.getRowIndex();
+        final int j = position.getColumnIndex();
+
+        setBlockedSquare(i, j - 1, Direction.down);
+        setBlockedSquare(i, j + 1, Direction.down);
+        setBlockedSquare(i - 1, j, Direction.right);
+        setBlockedSquare(i + 1, j, Direction.right);
+    }
+
+    private void setBlockedSquare(
+            final int rowIndex, final int columnIndex,
+            final Direction direction) {
+        Position position = Position.fromIndices(rowIndex, columnIndex);
+        Square square = getSquare(position);
+        square.setBlocked(direction);
+    }
+
+    public boolean checkPlacement(final Move move) {
         Position position = move.getPosition();
         String remainingLetters = move.getLetters();
         Direction direction = move.getDirection();
@@ -226,8 +246,7 @@ public class Board {
             }
 
             if (isPositionFree(position)) {
-                Square square = getSquare(position);
-                if (square.isblocked(direction)) {
+                if (isBlocked(position, direction)) {
                     return false;
                 } else {
                     if (remainingLetters.length() > 1) {
@@ -241,6 +260,7 @@ public class Board {
         }
         return true;
     }
+
 /**
  * Gets a word by combining the letters in a Move with letters on the Board,
  * starting from the origin provided in the Move until there are no more letters

@@ -90,7 +90,7 @@ public abstract class Square {
         return this.tile == null;
     }
 
-    public boolean isblocked(Direction direction) {
+    public boolean isBlocked(Direction direction) {
         boolean blocked = switch(direction) {
             case right -> this.blockedRight;
             case down -> this.blockedDown;

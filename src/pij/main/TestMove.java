@@ -94,7 +94,7 @@ public class TestMove {
     void checkSquareEmpty() {
         Board board = defaultBoard();
         Position position = Position.fromString("a3");
-        
+
         assertTrue(board.isPositionFree(position));
     }
 
