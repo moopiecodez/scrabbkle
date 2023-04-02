@@ -3,6 +3,8 @@ package pij.main;
 import java.io.Console;
 import java.util.regex.Pattern;
 
+import pij.main.dictionary.Dictionary;
+
 public class Human extends Player {
 
     private static final String TILE_MSG = "It's your turn! Your tiles:";
@@ -11,7 +13,7 @@ public class Human extends Player {
             + "direction (d for down, r for right) separated by commas.\n"
             + "Entering just two commas passes.\n";
     private static final String INVALID_MOVE = "This is not a valid move.";
-    
+
     public Human(Rack rack) {
         super(rack);
     }
@@ -23,14 +25,15 @@ public class Human extends Player {
      * @param board current board that the move will be played.
      * @return the validated move.
      */
-    public Move chooseMove(final Board board) {
+    public Move chooseMove(final Board board, final Dictionary dictionary) {
         Move move = null;
 
         displayStartOfUserTurnMsg();
 
         while (move == null) {
             String string = getMoveStringFromUser();
-            MoveVerifier verifier = new MoveVerifier(board, this.rack, string);
+            MoveVerifier verifier = new MoveVerifier(
+                    board, this.rack, string, dictionary);
             if (verifier.isValid()) {
                 move = verifier.getMove();
             } else {
@@ -54,7 +57,7 @@ public class Human extends Player {
     public String getMoveStringFromUser() {
         System.out.println(USER_PLAY_MSG);
         Console console = System.console();
-        String moveString = console.readLine(); 
+        String moveString = console.readLine();
 
         return moveString;
     }

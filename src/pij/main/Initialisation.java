@@ -1,5 +1,8 @@
 package pij.main;
 
+import pij.main.dictionary.Dictionary;
+import pij.main.dictionary.DictionaryLoader;
+
 /**
  * Initialisation of a Scrabbkle game. This class is a collection of static
  * helper methods to create all necessary elements of the game.
@@ -21,6 +24,8 @@ public class Initialisation {
     private static final String REQUEST_FILENAME_MSG =
             "Please enter the file name of the board:";
 
+    private static final String SCRABBKLE_WORDLIST = "resources/wordlist.txt";
+
     public static Rack setupRack(Bag bag) {
         Rack rack = new Rack();
         for(int i = 0; i < rack.RACK_SIZE; i++) {
@@ -34,16 +39,17 @@ public class Initialisation {
         String input = null;
         do {
             if (input != null) {
-                System.out.printf("Sorry, '%s' is not a valid choice.\n", input);
+                System.out.printf("Sorry, '%s' is not a valid choice.\n",
+                        input);
             }
             System.out.println(INTRO_MSG);
             input = System.console().readLine();
-        } while(!(input.equals("l") || input.equals("d")));
+        } while (!(input.equals("l") || input.equals("d")));
 
         char choice = input.charAt(0);
 
         BoardFileLoader boardLoader = null;
-        switch(choice) {
+        switch (choice) {
             case 'l':
                 boardLoader = userBoardFileLoader();
                 break;
@@ -52,14 +58,16 @@ public class Initialisation {
                 break;
         }
         board = boardLoader.createBoard();
-        
+
         Bag bag = new Bag();
+        Dictionary dictionary =
+                DictionaryLoader.dictionaryFromFile(SCRABBKLE_WORDLIST);
         Rack userRack = setupRack(bag);
         Rack computerRack = setupRack(bag);
-        
+
         Player human = new Human(userRack);
         Player computer = new Computer(computerRack);
-        Game game = new Game(board, bag, human, computer);
+        Game game = new Game(board, dictionary, bag, human, computer);
         return game;
     }
 
@@ -68,7 +76,7 @@ public class Initialisation {
      * BoardFileLoader object, which is then used to validate the file
      * according to the Scrabbkle board file format. The process will repeat
      * until a valid file is provided.
-     * 
+     *
      * @return A BoardFileLoader based on a file provided by user.
      */
     private static BoardFileLoader userBoardFileLoader() {
