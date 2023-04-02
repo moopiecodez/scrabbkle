@@ -1,5 +1,7 @@
 package pij.main;
 
+import pij.main.dictionary.Dictionary;
+
 public class WordMove extends Move {
 
     private static final String RACK_LETTERS_ERR =
@@ -8,13 +10,15 @@ public class WordMove extends Move {
             "Invalid starting position for your word.\n";
     private static final String PLACEMENT_ERR =
             "This move can't be placed here.\n";
+    private static final String WORD_ERR =
+            "The word is not valid.\n";
 
     private String letters;
     private Position position;
     private Direction direction;
     private String errorMsg;
     private boolean valid;
-    
+
     public WordMove(String letters, Position position, Direction direction) {
         this.letters = letters;
         this.position = position;
@@ -64,48 +68,45 @@ public class WordMove extends Move {
         return this.direction;
     }
 
-    public boolean validate(Board board, Rack rack) {
+    public boolean validate(
+            final Board board, final Rack rack, final Dictionary dictionary) {
         this.valid = true;
         validLetters(rack);
         validOrigin(board);
         validPlacement(board);
+        validWord(dictionary, board);
         return this.valid;
     }
 
     private void validLetters(final Rack rack) {
-        boolean error = !rack.hasLetters(letters);
-        handleError(error, RACK_LETTERS_ERR);
+        if (!rack.hasLetters(this.letters)) {
+            handleError(RACK_LETTERS_ERR);
+        }
     }
 
     private void validOrigin(final Board board) {
-        boolean error = !board.hasValidOrigin(this);
-        handleError(error, ORIGIN_ERR);
+        if (!board.hasValidOrigin(this)) {
+            handleError(ORIGIN_ERR);
+        }
     }
 
     private void validPlacement(final Board board) {
-        boolean error = !board.checkPlacement(this);
-        handleError(error, PLACEMENT_ERR);
-    }
-
-    public boolean validWord() {
-        //TODO letters + tiles on board
-        //return dictionary.contains(word);
-            System.out.println("All hail King Bob!\n Banana!?");
-            return true;
-    }
-    
-    /*
-    if (!move.validWord()) {
-        this.errorMsg += "Invalid word.\n";
-        this.valid = false;
-    }
-    */
-
-    private void handleError(boolean error, String errorMsg) {
-        if (error) {
-            this.errorMsg += errorMsg;
-            this.valid = false;
+        if (!board.checkPlacement(this)) {
+            handleError(PLACEMENT_ERR);
         }
+    }
+
+    public void validWord(final Dictionary dictionary, final Board board) {
+        String word = board.getWord(this);
+        if (!dictionary.contains(word)) {
+            handleError(WORD_ERR);
+        }
+        
+    }
+
+    private void handleError( String errorMsg) {
+        this.errorMsg += errorMsg;
+        this.valid = false;
     }
 
     public String toString() {

@@ -2,6 +2,8 @@ package pij.main;
 
 import java.util.regex.Pattern;
 
+import pij.main.dictionary.Dictionary;
+
 public abstract class Move {
     public enum Direction { right, down }
 
@@ -57,7 +59,8 @@ public abstract class Move {
 
     public abstract Direction getDirection();
 
-    public abstract boolean validate(final Board board, final Rack rack);
+    public abstract boolean validate(
+            final Board board, final Rack rack, final Dictionary dictionary);
 
     public abstract String getErrorMsg();
 

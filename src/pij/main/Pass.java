@@ -1,12 +1,14 @@
 package pij.main;
 
+import pij.main.dictionary.Dictionary;
+
 public final class Pass extends Move {
 
     private static final String PASS_MSG = "a pass.";
 
     /** It's a pass so do nothing. */
     public int place(Board board, Rack rack) {
-        return 0; 
+        return 0;
     }
 
     /** Letters of move relevant for a pass. */
@@ -28,7 +30,8 @@ public final class Pass extends Move {
         return PASS_MSG;
     }
 
-    public boolean validate(final Board board, final Rack rack) {
+    public boolean validate(
+            final Board board, final Rack rack, final Dictionary dictionary) {
         return true;
     }
 

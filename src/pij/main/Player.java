@@ -1,5 +1,7 @@
 package pij.main;
 
+import pij.main.dictionary.Dictionary;
+
 /**
  * Abstract class for players in the Scrabbkle game.
  * @author Maurane van der Stoep
@@ -15,7 +17,8 @@ public abstract class Player {
         this.score = 0;
     }
 
-    public abstract Move chooseMove(Board board);
+    public abstract Move chooseMove(
+            final Board board, final Dictionary dictionary);
 
     public void playMove(Board board, Move move) {
         this.score += move.place(board, this.rack);
