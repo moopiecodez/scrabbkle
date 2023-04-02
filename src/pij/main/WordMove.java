@@ -34,20 +34,21 @@ public class WordMove extends Move {
         char letter;
         Tile tile;
         Direction direction = this.getDirection();
-        //fix as doesn't skip
-        while (!remainingLetters.isEmpty()) {
+        while (!remainingLetters.isEmpty() || !board.isPositionFree(position)) {
             if (board.isPositionFree(position)) {
                 letter = remainingLetters.charAt(0);
                 tile = rack.take(letter);
                 board.placeTile(position, tile);
-            }
-            if (remainingLetters.length() == 1) {
-                remainingLetters = "";
-            } else {
-                remainingLetters = remainingLetters.substring(1);
+
+                if (remainingLetters.length() == 1) {
+                    remainingLetters = "";
+                } else {
+                    remainingLetters = remainingLetters.substring(1);
+                }
             }
             letterScore += board.getLetterScore(position);
             wordMultiplier *= board.getWordMultiplier(position);
+            //happens even on full squares
             board.setStandardScoring(position);
 
             position = position.next(direction);
