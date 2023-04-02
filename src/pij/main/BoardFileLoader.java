@@ -31,20 +31,20 @@ public class BoardFileLoader {
     public Boolean validateContents() {
         Boolean valid;
         valid = parseFirstLine();
-        if(valid) {
+        if (valid) {
             valid = correctNumberOfLines();
         }
-        if(valid) {
+        if (valid) {
             valid = parseSquareTypeLines();
         }
-        
+
         return valid;
     }
 
-    public Boolean validateBoardFile() {
-        Boolean valid = validateFile();
+    public boolean validateBoardFile() {
+        boolean valid = validateFile();
 
-        if(valid) {
+        if (valid) {
             valid = loadLines();
         }
         if (valid) {
@@ -54,17 +54,17 @@ public class BoardFileLoader {
         return valid;
     }
 
-    private Boolean loadLines() {
-        Boolean success = true;
+    private boolean loadLines() {
+        boolean success = true;
         FileReader reader = null;
-        
+
         try {
             reader = new FileReader(this.file);
         } catch (FileNotFoundException exception) {
             success = false;
         }
 
-        if(success) {
+        if (success) {
             BufferedReader buff = new BufferedReader(reader);
             String line = "";
 
@@ -81,18 +81,18 @@ public class BoardFileLoader {
         return success;
     }
 
-    private Boolean parseFirstLine() {
+    private boolean parseFirstLine() {
         boolean success = true;
         int size = 0;
         String line = this.lines.remove(0);
 
         try {
             size = Integer.parseInt(line);
-        } catch(NumberFormatException exception) {
+        } catch (NumberFormatException exception) {
             success = false;
         }
 
-        if(size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
+        if (size < Board.MIN_BOARD_SIZE || size > Board.MAX_BOARD_SIZE) {
             success = false;
         }
 
@@ -101,7 +101,7 @@ public class BoardFileLoader {
         return success;
     }
 
-    private Boolean correctNumberOfLines() {
+    private boolean correctNumberOfLines() {
         return this.lines.size() == this.boardSize;
     }
 
@@ -115,7 +115,7 @@ public class BoardFileLoader {
                 standard, premiumLetter, premiumWord, size);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
-        if(matcher.matches()) {
+        if (matcher.matches()) {
             string = matcher.group();
         }
         return string;
@@ -123,13 +123,13 @@ public class BoardFileLoader {
 
     /**
      * Parse lines in board file to confirm valid number and format of square
-     * tokens. 
+     * tokens.
      * @return success if valid number and format of tokens.
      */
     private Boolean parseSquareTypeLines() {
         Boolean success = true;
 
-        for(int i = 0; i < boardSize; i++) {
+        for (int i = 0; i < boardSize; i++) {
             String line = this.lines.remove(0);
             String parsedLine = parseLine(boardSize, line);
             success &= line.equals(parsedLine);
