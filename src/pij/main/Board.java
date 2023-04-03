@@ -207,9 +207,89 @@ public class Board {
         Direction direction = move.getDirection();
         ArrayList<Position> origins = getOrigins(direction);
         boolean validStartingPosition = origins.contains(position);
+        //block check only to apply to empty squares
         boolean positionFreeInDirection = !isBlocked(position, direction);
 
         return validStartingPosition && positionFreeInDirection;
+    }
+
+    /** 
+     * For a given move check if the starting position is within 7 squares of
+     * the centre tile either horizontally or vertically. If it is return true.
+     * @param move
+     * @return true if the starting position is within 7 squares of centre
+     * square
+     */
+    public boolean validFirstStart(final Move move) {
+        Direction direction = move.getDirection();
+        int numOfLetters = move.getLetters().length();
+
+        Position position = move.getPosition();
+        int positionRow = position.getRowIndex();
+        int positionColumn = position.getColumnIndex();
+
+        Position centre = centreSquare();
+        int centreRow = centre.getRowIndex();
+        int centreColumn = centre.getColumnIndex();
+
+        boolean valid = switch (direction) {
+            case right -> checkRowStart(centreRow, positionRow,
+                        centreColumn, positionColumn, numOfLetters);
+            case down -> checkRowStart(centreColumn, positionColumn,
+                        centreRow, positionRow, numOfLetters);
+            };
+
+        return valid;
+     }
+
+    private static boolean checkRowStart(
+            final int centreFixed, final int actualFixed,
+            final int centreVar, final int actualVar, final int numOfLetters) {
+        return (actualFixed == centreFixed)
+                && (actualVar > 0)
+                && (actualVar > (centreVar - Rack.RACK_SIZE))
+                && (actualVar > (centreVar - numOfLetters))
+                && (actualVar <= centreVar);
+    }
+
+    public boolean validStart(final Move move) {
+        boolean valid = false;
+        boolean previousFree;
+        boolean hitsTile = false;
+        boolean allTilesFit = true;
+        Position position = move.getPosition();
+        Direction direction = move.getDirection();
+        String letters = move.getLetters();
+        int numOfLetters = letters.length();
+        final int i = position.getRowIndex();
+        final int j = position.getColumnIndex();
+        // previous square must be empty or board edge
+        Position previous = switch (direction) {
+        case right -> Position.fromIndices(i, j - 1);
+        case down -> Position.fromIndices(i - 1, j);
+        };
+        previousFree = !positionExists(previous)
+                || isPositionFree(previous);
+        //start on square with tile think covered by below
+
+        //start on empty square must hit tile BUT what if letters don't fit
+        hitsTile = false;
+        while (numOfLetters > 0) {
+            if (isPositionFree(position)) {
+                numOfLetters--;
+            }
+            if (!isPositionFree(position)) {
+                hitsTile = true; //pull out to own function so can return true
+                break;
+            }
+            position = position.next(direction);
+            if (!positionExists(position)) {
+                allTilesFit = false;
+                break;
+            }
+        }
+        valid = previousFree && hitsTile && allTilesFit;
+        return valid;
     }
 
     public boolean isBlocked(Position position, Direction direction) {
