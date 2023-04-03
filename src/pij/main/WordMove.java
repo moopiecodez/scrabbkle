@@ -86,7 +86,10 @@ public class WordMove extends Move {
     }
 
     private void validOrigin(final Board board) {
-        if (!board.hasValidOrigin(this)) {
+        //if (!board.hasValidOrigin(this)) {
+        //    handleError(ORIGIN_ERR);
+        //}
+        if (!board.validStart(this)) {
             handleError(ORIGIN_ERR);
         }
     }

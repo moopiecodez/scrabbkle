@@ -133,7 +133,8 @@ public class Board {
     public boolean positionExists(Position position) {
         int rowIndex = position.getRowIndex();
         int columnIndex = position.getColumnIndex();
-        boolean success = (rowIndex < this.size && columnIndex < this.size);
+        boolean success = (rowIndex >= 0 && columnIndex >= 0
+                && rowIndex < this.size && columnIndex < this.size);
 
         return success;
     }
@@ -254,6 +255,7 @@ public class Board {
 
     public boolean validStart(final Move move) {
         boolean valid = false;
+        boolean previousEmpty = false;
         boolean previousFree;
         boolean hitsTile = false;
         boolean allTilesFit = true;
@@ -268,27 +270,39 @@ public class Board {
         case right -> Position.fromIndices(i, j - 1);
         case down -> Position.fromIndices(i - 1, j);
         };
-        previousFree = !positionExists(previous)
-                || isPositionFree(previous);
-        //start on square with tile think covered by below
 
-        //start on empty square must hit tile BUT what if letters don't fit
-        hitsTile = false;
-        while (numOfLetters > 0) {
-            if (isPositionFree(position)) {
-                numOfLetters--;
+        if (isPositionFree(centreSquare())) {
+            valid = validFirstStart(move);
+        } else {
+            
+            
+            if (positionExists(previous)) {
+                previousEmpty = isPositionFree(previous);
+                }
+            previousFree = !positionExists(previous) || previousEmpty;
+    
+    
+            //start on square with tile think covered by below
+    
+            //start on empty square must hit tile BUT what if letters don't fit
+            hitsTile = false;
+            while (numOfLetters > 0) {
+                if (isPositionFree(position)) {
+                    numOfLetters--;
+                }
+                if (!isPositionFree(position)) {
+                    hitsTile = true; //pull out to own function so can return true
+                    break;
+                    //need to cover if place all letters and next one is connector tile
+                }
+                position = position.next(direction);
+                if (!positionExists(position)) {
+                    allTilesFit = false;
+                    break;
+                }
             }
-            if (!isPositionFree(position)) {
-                hitsTile = true; //pull out to own function so can return true
-                break;
-            }
-            position = position.next(direction);
-            if (!positionExists(position)) {
-                allTilesFit = false;
-                break;
-            }
+            valid = previousFree && hitsTile && allTilesFit;
         }
-        valid = previousFree && hitsTile && allTilesFit;
         return valid;
     }
 

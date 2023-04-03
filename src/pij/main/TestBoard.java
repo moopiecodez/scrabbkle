@@ -477,17 +477,23 @@ public class TestBoard {
         Rack rack = catRack();
         Move move = Move.fromString("CAT,g8,r");
         move.place(board, rack);
+        String letters = "ABCDEFG";
 
         for (int i = 0; i < hStarts.length; i++) {
             for (int j = 0; j < hStarts.length; j++) {
                 Position position = Position.fromIndices(i, j);
+                Move moveRight = new WordMove(
+                        letters, position, Direction.right);
+                Move moveDown = new WordMove(
+                        letters, position, Direction.down);
+
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(move);
+                        board.validStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(move);
-                
+                        board.validStart(moveDown);
+
                 if (expectedVertical != actualVertical) {
                     System.out.println(position);
                     System.out.print("\nvertical");
@@ -555,6 +561,8 @@ public class TestBoard {
         Rack rack = catRack();
         Move move = Move.fromString("CAT,g8,r");
         move.place(board, rack);
+        String letters = "ABCDEFG";
+
 
         for (int i = 0; i < hStarts.length; i++) {
             for (int j = 0; j < hStarts.length; j++) {
