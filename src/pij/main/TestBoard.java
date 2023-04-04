@@ -1,6 +1,7 @@
 package pij.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 
@@ -425,9 +426,22 @@ public class TestBoard {
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validFirstStart(moveRight);
+                        board.validStart(moveRight);
                 boolean actualVertical =
-                        board.validFirstStart(moveDown);
+                        board.validStart(moveDown);
+
+                if (expectedVertical != actualVertical) {
+                    System.out.println(position);
+                    System.out.print("\nvertical");
+                    System.out.print(expectedVertical);
+                    System.out.println(actualVertical);
+                }
+                if (expectedHorizontal != actualHorizontal) {
+                    System.out.println(position);
+                    System.out.println("\nhorizontal");
+                    System.out.print(expectedHorizontal);
+                    System.out.println(actualHorizontal);
+                }
 
                 assertEquals(expectedHorizontal, actualHorizontal);
                 assertEquals(expectedVertical, actualVertical);
@@ -456,7 +470,7 @@ public class TestBoard {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         };
         int[][] vStarts = {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0},
@@ -496,6 +510,8 @@ public class TestBoard {
 
                 if (expectedVertical != actualVertical) {
                     System.out.println(position);
+                    System.out.print(i);
+                    System.out.print(j);
                     System.out.print("\nvertical");
                     System.out.print(expectedVertical);
                     System.out.println(actualVertical);
@@ -506,6 +522,7 @@ public class TestBoard {
                     System.out.print(expectedHorizontal);
                     System.out.println(actualHorizontal);
                 }
+
                 assertEquals(expectedHorizontal, actualHorizontal);
                 assertEquals(expectedVertical, actualVertical);
             }
@@ -528,11 +545,11 @@ public class TestBoard {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -557,27 +574,53 @@ public class TestBoard {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         };
 
+        String letters = "ABCDEFG";
+
         Board board = defaultBoard();
         Rack rack = catRack();
         Move move = Move.fromString("CAT,g8,r");
         move.place(board, rack);
-        String letters = "ABCDEFG";
 
+        rack.add(new Tile('B', 3));
+        rack.add(new Tile('O', 1));
+        rack.add(new Tile('R', 1));
+        rack.add(new Tile('D', 2));
+        move = Move.fromString("BORD,h6,d");
+        move.place(board, rack);
 
         for (int i = 0; i < hStarts.length; i++) {
             for (int j = 0; j < hStarts.length; j++) {
                 Position position = Position.fromIndices(i, j);
+                Move moveRight = new WordMove(
+                        letters, position, Direction.right);
+                Move moveDown = new WordMove(
+                        letters, position, Direction.down);
+
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(move);
+                        board.validStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(move);
+                        board.validStart(moveDown);
+
+                if (expectedVertical != actualVertical) {
+                    System.out.println(position);
+                    System.out.print("\nvertical");
+                    System.out.print(expectedVertical);
+                    System.out.println(actualVertical);
+                }
+                if (expectedHorizontal != actualHorizontal) {
+                    System.out.println(position);
+                    System.out.println("\nhorizontal");
+                    System.out.print(expectedHorizontal);
+                    System.out.println(actualHorizontal);
+                }
                 assertEquals(expectedHorizontal, actualHorizontal);
                 assertEquals(expectedVertical, actualVertical);
             }
         }
     }
+
     @Test
     void startPositionsAfterSecondLongerWord() {
         /*      
@@ -589,16 +632,17 @@ public class TestBoard {
         */
          
         int[][] hStarts = {
+        //   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -606,7 +650,7 @@ public class TestBoard {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         };
         int[][] vStarts = {
-            {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
@@ -623,23 +667,85 @@ public class TestBoard {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         };
 
+        String letters = "ABCDEFG";
+
         Board board = defaultBoard();
         Rack rack = catRack();
-        Move move = Move.fromString("CAT,g8,r");
+        Move move = Move.fromString("CATS,g8,r");
+        move.place(board, rack);
+
+        rack.add(new Tile('B', 3));
+        rack.add(new Tile('O', 1));
+        rack.add(new Tile('R', 1));
+        rack.add(new Tile('D', 2));
+        move = Move.fromString("BORD,h6,d");
         move.place(board, rack);
 
         for (int i = 0; i < hStarts.length; i++) {
             for (int j = 0; j < hStarts.length; j++) {
                 Position position = Position.fromIndices(i, j);
+                Move moveRight = new WordMove(
+                        letters, position, Direction.right);
+                Move moveDown = new WordMove(
+                        letters, position, Direction.down);
+
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(move);
+                        board.validStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(move);
+                        board.validStart(moveDown);
+
+                if (expectedVertical != actualVertical) {
+                    System.out.println(position);
+                    System.out.print("\nvertical");
+                    System.out.print(expectedVertical);
+                    System.out.println(actualVertical);
+                }
+                if (expectedHorizontal != actualHorizontal) {
+                    System.out.println(position);
+                    System.out.println("\nhorizontal");
+                    System.out.print(expectedHorizontal);
+                    System.out.println(actualHorizontal);
+                }
                 assertEquals(expectedHorizontal, actualHorizontal);
                 assertEquals(expectedVertical, actualVertical);
             }
         }
     }
+
+    @Test
+    void startPositionsBob() {
+        /*      
+                B
+                O
+               CATS
+                R
+                D
+        */
+
+        Board board = defaultBoard();
+        Rack rack = catRack();
+        Move move = Move.fromString("CATS,g8,r");
+        move.place(board, rack);
+
+        rack.add(new Tile('B', 3));
+        rack.add(new Tile('O', 1));
+        rack.add(new Tile('R', 1));
+        rack.add(new Tile('D', 2));
+        move = Move.fromString("BORD,h6,d");
+        move.place(board, rack);
+
+        boolean expectedBob = true;
+        Position b = Position.fromString("f6");
+        Position fail = Position.fromString("e6");
+        Move bob = new WordMove("BO", b, Direction.right);
+        Move failBob = new WordMove("BO", fail, Direction.right);
+        boolean actualBob = board.validStart(bob);
+        boolean expectedFailBob = board.validStart(failBob);
+
+        assertEquals(expectedBob, actualBob);
+        assertFalse(expectedBob == expectedFailBob);
+
+        }
 }
