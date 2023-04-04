@@ -380,5 +380,13 @@ public class Board {
         }
         return word;
     }
+
+    /**
+     * Returns the length of the sides of the Board.
+     * @return size of the Board
+     */
+    public int getSize() {
+        return this.size;
+    }
 }
 
