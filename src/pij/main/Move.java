@@ -53,6 +53,8 @@ public abstract class Move {
         return move;
     }
 
+    public abstract void updatePassCounter(final Player player);
+    
     public abstract String getLetters();
 
     public abstract Position getPosition();

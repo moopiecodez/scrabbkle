@@ -29,6 +29,7 @@ public class WordMove extends Move {
     public int place(Board board, Rack rack) {
         int letterScore = 0;
         int wordMultiplier = 1;
+        int bonus;
         Position position = this.position;
         String remainingLetters = this.letters;
         char letter;
@@ -53,8 +54,9 @@ public class WordMove extends Move {
 
             position = position.next(direction);
         }
+        bonus = this.letters.length() == Rack.RACK_SIZE ? 70 : 0;
 
-        return letterScore * wordMultiplier;
+        return (letterScore * wordMultiplier) + bonus;
     }
 
     public String getLetters() {
@@ -73,9 +75,12 @@ public class WordMove extends Move {
             final Board board, final Rack rack, final Dictionary dictionary) {
         this.valid = true;
         validLetters(rack);
-        validOrigin(board);
+        validStart(board);
         validPlacement(board);
-        validWord(dictionary, board);
+        if (this.valid) {
+            validWord(dictionary, board);
+        }
+
         return this.valid;
     }
 
@@ -85,11 +90,8 @@ public class WordMove extends Move {
         }
     }
 
-    private void validOrigin(final Board board) {
-        //if (!board.hasValidOrigin(this)) {
-        //    handleError(ORIGIN_ERR);
-        //}
-        if (!board.validStart(this)) {
+    private void validStart(final Board board) {
+        if (!board.checkStart(this)) {
             handleError(ORIGIN_ERR);
         }
     }
@@ -105,7 +107,6 @@ public class WordMove extends Move {
         if (!dictionary.contains(word)) {
             handleError(WORD_ERR);
         }
-        
     }
 
     private void handleError( String errorMsg) {
@@ -122,6 +123,10 @@ public class WordMove extends Move {
 
     public String getErrorMsg() {
         return this.errorMsg;
+    }
+
+    public void updatePassCounter(final Player player) {
+        player.passCounter = 0;
     }
 
 }

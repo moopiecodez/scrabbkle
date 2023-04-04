@@ -3,8 +3,6 @@ package pij.main;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import pij.main.Move.Direction;
@@ -13,8 +11,8 @@ import pij.main.square.StandardSquare;
 
 public class TestBoard {
 
-    static final int defaultSize = 15;
-    static final String defaultSquareString =
+    static final int DEFAULT_SIZE = 15;
+    static final String DEFAULT_SQUARE_STRING =
                      "{3}..(2)...{3}...(2)..{3}"
                     + ".{2}...(3)...(3)...{2}."
                     + "..{2}...(2).(2)...{2}.."
@@ -50,7 +48,7 @@ public class TestBoard {
           + "15 {3} .  . (2) .  .  . {3} .  .  . (2) .  . {3}\n";
 
     Board defaultBoard() {
-        Board board = new Board(defaultSize, defaultSquareString);
+        Board board = new Board(DEFAULT_SIZE, DEFAULT_SQUARE_STRING);
         return board;
     }
 
@@ -171,49 +169,6 @@ public class TestBoard {
         String actualCoordinates = position.toString();
 
         assertEquals(expectedCoordinates, actualCoordinates);
-    }
-
-    @Test
-    void validVerticalOrigins() {
-        Board board = defaultBoard();
-        ArrayList<Position> verticalOrigins = new ArrayList<Position>();
-        String expectedVerticalString = "[h8, h7, h6, h5, h4, h3, h2]";
-
-        verticalOrigins = board.getOrigins(Direction.down);
-
-        String actualVerticalString = verticalOrigins.toString();
-
-        assertEquals(expectedVerticalString, actualVerticalString);
-    }
-
-    @Test
-    void validHorizontalOrigins() {
-        Board board = defaultBoard();
-        ArrayList<Position> horizontalOrigins = new ArrayList<Position>();
-        String expectedHorizontalString = "[h8, g8, f8, e8, d8, c8, b8]";
-
-        horizontalOrigins = board.getOrigins(Direction.right);
-
-        String actualHorizontalString = horizontalOrigins.toString();
-
-        assertEquals(expectedHorizontalString, actualHorizontalString);
-    }
-
-    @Test
-    void findOriginsOnPlacement () {
-        Board board = defaultBoard();
-        Rack rack = catRack();
-        ArrayList<Position> horizontalOrigins = new ArrayList<Position>();
-
-        String expectedHorizontalString = "[f8, e8, d8, c8, b8, a8]";
-
-        Move move = Move.fromString("CAT,f8,r");
-        move.place(board, rack);
-        horizontalOrigins = board.getOrigins(Direction.right);
-
-        String actualHorizontalString = horizontalOrigins.toString();
-
-        assertEquals(expectedHorizontalString, actualHorizontalString);
     }
 
     @Test
@@ -426,9 +381,9 @@ public class TestBoard {
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(moveRight);
+                        board.checkStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(moveDown);
+                        board.checkStart(moveDown);
 
                 if (expectedVertical != actualVertical) {
                     System.out.println(position);
@@ -504,9 +459,9 @@ public class TestBoard {
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(moveRight);
+                        board.checkStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(moveDown);
+                        board.checkStart(moveDown);
 
                 if (expectedVertical != actualVertical) {
                     System.out.println(position);
@@ -599,9 +554,9 @@ public class TestBoard {
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(moveRight);
+                        board.checkStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(moveDown);
+                        board.checkStart(moveDown);
 
                 if (expectedVertical != actualVertical) {
                     System.out.println(position);
@@ -623,14 +578,13 @@ public class TestBoard {
 
     @Test
     void startPositionsAfterSecondLongerWord() {
-        /*      
+        /*
                 B
                 O
                CATS
                 R
                 D
         */
-         
         int[][] hStarts = {
         //   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -692,9 +646,9 @@ public class TestBoard {
                 boolean expectedHorizontal =  hStarts[i][j] != 0;
                 boolean expectedVertical =  vStarts[i][j] != 0;
                 boolean actualHorizontal =
-                        board.validStart(moveRight);
+                        board.checkStart(moveRight);
                 boolean actualVertical =
-                        board.validStart(moveDown);
+                        board.checkStart(moveDown);
 
                 if (expectedVertical != actualVertical) {
                     System.out.println(position);
@@ -716,7 +670,7 @@ public class TestBoard {
 
     @Test
     void startPositionsBob() {
-        /*      
+        /*
                 B
                 O
                CATS
@@ -741,8 +695,8 @@ public class TestBoard {
         Position fail = Position.fromString("e6");
         Move bob = new WordMove("BO", b, Direction.right);
         Move failBob = new WordMove("BO", fail, Direction.right);
-        boolean actualBob = board.validStart(bob);
-        boolean expectedFailBob = board.validStart(failBob);
+        boolean actualBob = board.checkStart(bob);
+        boolean expectedFailBob = board.checkStart(failBob);
 
         assertEquals(expectedBob, actualBob);
         assertFalse(expectedBob == expectedFailBob);

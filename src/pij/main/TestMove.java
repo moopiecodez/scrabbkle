@@ -184,4 +184,23 @@ public class TestMove {
         assertEquals(expectedScore, actualScore);
 
     }
+
+    @Test
+    void bonusScore() {
+        Board board = defaultBoard();
+        Move move = Move.fromString("ABCDEFG,e8,r");
+        Rack rack = new Rack();
+        rack.add(new Tile('A', 1));
+        rack.add(new Tile('B', 3));
+        rack.add(new Tile('C', 3));
+        rack.add(new Tile('D', 2));
+        rack.add(new Tile('E', 1));
+        rack.add(new Tile('F', 4));
+        rack.add(new Tile('G', 2));
+
+        int expectedScore = 102;
+        int actualScore = move.place(board, rack);
+
+        assertEquals(expectedScore, actualScore);
+    }
 }

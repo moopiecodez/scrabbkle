@@ -12,8 +12,6 @@ public class Board {
     private int size;
     public static final int MIN_BOARD_SIZE = 12;
     public static final int MAX_BOARD_SIZE = 26;
-    private ArrayList<Position> horizontalOrigins = new ArrayList<Position>();
-    private ArrayList<Position> verticalOrigins = new ArrayList<Position>();
 
     /**
      * Boards must have a size within the range 12 -26.
@@ -30,9 +28,7 @@ public class Board {
         }
         this.size = size;
         this.matrix = squaresMatrix(size, squareString);
-        Position centreSquare = centreSquare();
-        findOrigins(centreSquare, Direction.right);
-        findOrigins(centreSquare, Direction.down);
+
     }
 
     /**
@@ -42,7 +38,8 @@ public class Board {
      * @param squareString string of tokens representing squares
      * @return a matrix of squares (standard, premiumletter and premiumword)
      */
-    public static Square[][] squaresMatrix(int size, String squareString) {
+    public static Square[][] squaresMatrix(
+            final int size, final String squareString) {
         Square[][] matrix = new Square[size][size];
         Scanner scanner = new Scanner(squareString);
         String standard = "\\.";
@@ -53,8 +50,8 @@ public class Board {
         String regex = String.format("%s|%s|%s",
                 standard, premiumLetter, premiumWord);
 
-        for(int i = 0; i < size; i ++) {
-            for(int j = 0; j < size; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 String token = scanner.findInLine(regex);
                 matrix[i][j] = Square.create(token);
             }
@@ -67,12 +64,14 @@ public class Board {
     /**
      * Turn a row of Squares into a String.
      *  1 {3} . (5)
+     *  @param rowIndex of the row to be converted
+     *  @return a string representation of the row
      */
-    private String rowToString(int rowIndex) {
+    private String rowToString(final int rowIndex) {
         int rowNumber = rowIndex + 1;
         String squares = "";
         Square[] row = this.matrix[rowIndex];
-        for(int i = 0; i < this.size; i++) {
+        for (int i = 0; i < this.size; i++) {
             squares += String.format("%s", row[i]);
         }
         String string = String.format("%2d %s\n", rowNumber, squares);
@@ -82,17 +81,18 @@ public class Board {
     /**
      * Converts the Board into a String with alpha column headers and
      * numerical row references.
+     * @return a string representation of the board
      */
     public String toString() {
         char c;
         String string = "  ";
-        for(int i = 0; i < size; i ++) {
+        for (int i = 0; i < size; i++) {
             c = (char) ('a' + i);
             string += "  " + c;
         }
         string += " \n";
 
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             string += rowToString(i);
         }
 
@@ -107,7 +107,7 @@ public class Board {
      */
     public Position centreSquare() {
         int index = this.size / 2;
-        if(this.size % 2 == 0) {
+        if (this.size % 2 == 0) {
             //even sized Board
             index--;
         }
@@ -121,7 +121,7 @@ public class Board {
      * @param position of the Square to be returned.
      * @return the Square at the given coordinates.
      */
-    public Square getSquare(Position position) {
+    public Square getSquare(final Position position) {
         int rowIndex = position.getRowIndex();
         int columnIndex = position.getColumnIndex();
 
@@ -130,7 +130,12 @@ public class Board {
         return square;
     }
 
-    public boolean positionExists(Position position) {
+    /**
+     * Confirms if a given position is on the board.
+     * @param position to be checked
+     * @return true if the position is within the limits of the board
+     */
+    public boolean positionExists(final Position position) {
         int rowIndex = position.getRowIndex();
         int columnIndex = position.getColumnIndex();
         boolean success = (rowIndex >= 0 && columnIndex >= 0
@@ -139,89 +144,66 @@ public class Board {
         return success;
     }
 
-    public boolean isPositionFree(Position position) {
+    /**
+     * Checks whether a given position already has a tile on it or is free.
+     * @param position to be checked
+     * @return true if the position is free
+     */
+    public boolean isPositionFree(final Position position) {
         Square square = getSquare(position);
         return square.isEmpty();
     }
 
+    /**
+     * Calculates and returns the letter score of a given position.
+     * @param position
+     * @return letter score of the given position
+     */
     public int getLetterScore(final Position position) {
         Square square = getSquare(position);
         return square.calculateLetterScore();
     }
 
+    /**
+     * Returns the word multiplier value of a given position.
+     * @param position
+     * @return word multiplier of the given position
+     */
     public int getWordMultiplier(final Position position) {
         Square square = getSquare(position);
         return square.getWordMultiplier();
     }
 
-    public void placeTile(Position position, Tile tile) {
+    /**
+     * Places a tile on the square at the given position.
+     * @param position of the square
+     * @param tile to be placed on the square
+     */
+    public void placeTile(final Position position, final Tile tile) {
         Square square = getSquare(position);
         square.setTile(tile);
         setBlockedSquares(position);
     }
 
+    /**
+     * Sets the scoring mechanism of a square to standard.
+     * @param position of the square
+     */
     public void setStandardScoring(final Position position) {
         Square square = getSquare(position);
         square.setStandardScoring();
     }
 
-    public ArrayList<Position> getOrigins(Direction direction) {
-        ArrayList<Position> origins = switch(direction) {
-            case right -> this.horizontalOrigins;
-            case down -> this.verticalOrigins;
-        };
-        return origins;
-    }
-
-    private void findOrigins(Position position, Direction direction) {
-        int columnDelta = 0;
-        int rowDelta = 0;
-        int rowIndex = position.getRowIndex();
-        int columnIndex = position.getColumnIndex();
-        ArrayList<Position> origins = getOrigins(direction);
-        int i = switch (direction) {
-            case right -> {
-                columnDelta = -1;
-                yield columnIndex;
-            }
-            case down -> {
-                rowDelta = -1;
-                yield rowIndex;
-            }
-        };
-
-        int j = 0;
-        while (i >= 0
-                && j < Rack.RACK_SIZE
-                && !isBlocked(position, direction)) {
-            origins.add(position);
-            columnIndex += columnDelta;
-            rowIndex += rowDelta;
-            position = Position.fromIndices(rowIndex, columnIndex);
-            i--;
-            j++;
-        }
-    }
-
-    public boolean hasValidOrigin(Move move) {
-        Position position = move.getPosition();
-        Direction direction = move.getDirection();
-        ArrayList<Position> origins = getOrigins(direction);
-        boolean validStartingPosition = origins.contains(position);
-        //block check only to apply to empty squares
-        boolean positionFreeInDirection = !isBlocked(position, direction);
-
-        return validStartingPosition && positionFreeInDirection;
-    }
 
     /**
-     * For a given move check if the starting position is within 7 squares of
-     * the centre tile either horizontally or vertically. If it is return true.
-     * @param move
-     * @return true if the starting position is within 7 squares of centre
-     * square
-     */
-    public boolean validStart(final Move move) {
+     * For a given move returns a boolean depending on whether the starting
+     * position is valid. On the first move a valid starting position must
+     * include the centre square. Subsequent moves must overlap with a previous
+     * word without passing squares blocked in the direction of the move.
+     * @param move to be checked
+     * @return true if the starting position is valid
+     *      */
+    public boolean checkStart(final Move move) {
         Position position = move.getPosition();
         Direction direction = move.getDirection();
         int numOfLetters = move.getLetters().length();
@@ -247,13 +229,10 @@ public class Board {
             case down -> Position.fromIndices(i - 1, j);
         };
 
-        // previous square must be empty or off the board
         if (positionExists(previous) && !(isPositionFree(previous))) {
             return false;
         }
 
-        // need position to exist and previous to be free/off board
-        //start on square with tile
         if (!isPositionFree(position)) {
             Position next = position.next(direction);
             return checkNextFullTile(next, direction);
@@ -303,7 +282,15 @@ public class Board {
         return checkNextFullTile(next, direction);
     }
 
-    public boolean isBlocked(Position position, Direction direction) {
+    /**
+     * Checks is a given position is blocked in a given direction.
+     * @param position to be checked
+     * @param direction to be checked
+     * @return true if the square at the given position is blocked in the given
+     * direction
+     */
+    public boolean isBlocked(
+            final Position position, final Direction direction) {
         Square square = getSquare(position);
         return square.isBlocked(direction);
     }
@@ -322,10 +309,18 @@ public class Board {
             final int rowIndex, final int columnIndex,
             final Direction direction) {
         Position position = Position.fromIndices(rowIndex, columnIndex);
-        Square square = getSquare(position);
-        square.setBlocked(direction);
+        if (positionExists(position)) {
+            Square square = getSquare(position);
+            square.setBlocked(direction);
+        }
     }
 
+    /**
+     * Check a given move can successfully be placed from the intended position.
+     * @param move to be checked
+     * @return true if the move fits at the location indicated by its starting
+     * position
+     */
     public boolean checkPlacement(final Move move) {
         Position position = move.getPosition();
         String remainingLetters = move.getLetters();
@@ -339,12 +334,11 @@ public class Board {
             if (isPositionFree(position)) {
                 if (isBlocked(position, direction)) {
                     return false;
+                }
+                if (remainingLetters.length() > 1) {
+                    remainingLetters = remainingLetters.substring(1);
                 } else {
-                    if (remainingLetters.length() > 1) {
-                        remainingLetters = remainingLetters.substring(1);
-                    } else {
-                        remainingLetters = "";
-                    }
+                    remainingLetters = "";
                 }
             }
             position = position.next(direction);
@@ -359,14 +353,15 @@ public class Board {
  * @param move to be played
  * @return the word generated by the move on the current Board as a string
  */
-    public String getWord(Move move) {
+    public String getWord(final Move move) {
         String word = "";
         char letter = ' ';
         Position position = move.getPosition();
         String remainingLetters = move.getLetters();
         Direction direction = move.getDirection();
 
-        while (!remainingLetters.isEmpty() || !isPositionFree(position)) {
+        while (!remainingLetters.isEmpty()
+                || (positionExists(position) && !isPositionFree(position))) {
             if (isPositionFree(position) && !remainingLetters.isEmpty()) {
                 letter = remainingLetters.charAt(0);
 

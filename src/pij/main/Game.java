@@ -22,6 +22,18 @@ public class Game {
               "Human player score:       %d \n"
             + "Computer player score:    %d \n";
 
+    private static final String END_MSG_FMT =
+              "Game Over!\n"
+            + "The human player scored %d points.\n"
+            + "The computer player scored %d points.\n"
+            + "%s";
+
+    private static final String HUMAN_WINS = "The human player wins!";
+    private static final String COMPUTER_WINS = "The computer player wins!";
+    private static final String DRAW = "It's a draw!";
+
+
+
     public Game(
             final Board board, final Dictionary dictionary, final Bag bag,
             final Player human, final Player computer) {
@@ -35,36 +47,78 @@ public class Game {
 
     public void play() {
         Move move;
-        while (true) {
+        while (!isEnd()) {
             //game opening
             displayBoard(this.board);
-            move = activePlayer.chooseMove(this.board, this.dictionary);
+            move = this.activePlayer.chooseMove(this.board, this.dictionary);
             displayMove(move);
-            activePlayer.playMove(this.board, move);
+            this.activePlayer.playMove(this.board, move);
             displayScore();
-            activePlayer.replenishRack(this.bag);
+            move.updatePassCounter(activePlayer);
+            this.activePlayer.replenishRack(this.bag);
+            changePlayer(this.activePlayer);
         }
     }
-        //make loop until game ends, switch active player,
-        //validate words
-        // gets computer move
-        //updates score
+
+    public void end() {
+        int score1 = finalScore(player1);
+        int score2 = finalScore(player2);
+
+        displayEndMsg(score1, score2);
+    }
+
+    private boolean isEnd() {
+        if (this.bag.isEmpty()
+                && (player1.rack.size() == 0 || player2.rack.size() == 0)) {
+            return true;
+        }
+        if (this.player1.passCounter >= 2 && this.player2.passCounter >= 2) {
+            return true;
+        }
+        return false;
+    }
+
+    private void changePlayer(Player activePlayer) {
+        this.activePlayer = activePlayer == this.player1 ?
+                this.player2 : this.player1;
+    }
 
     /** Displays the current board. */
-    public static void displayBoard(final Board board) {
+    private static void displayBoard(final Board board) {
         System.out.println(board);
     }
 
     /** Displays the current move. */
-    public static void displayMove(final Move move) {
+    private static void displayMove(final Move move) {
         String msg = String.format(MOVE_MSG_FMT, move);
         System.out.println(msg);
     }
 
-    public void displayScore() {
+    private void displayScore() {
         int score1 = this.player1.getScore();
         int score2 = this.player2.getScore();
         String msg = String.format(SCORE_MSG_FMT, score1, score2);
         System.out.println(msg);
+    }
+
+    private int finalScore(Player player) {
+        int penalty = player.rack.getPenaltyScore();
+        return player.getScore() - penalty;
+    }
+
+    private void displayEndMsg(final int score1, final int score2) {
+        String winner = getWinner(score1, score2);
+        String msg = String.format(END_MSG_FMT, score1, score2, winner);
+        System.out.println(msg);
+    }
+
+    private String getWinner(final int score1, final int score2) {
+        if (score1 > score2) {
+            return HUMAN_WINS;
+        }
+        if (score1 < score2) {
+            return COMPUTER_WINS;
+        }
+        return DRAW;
     }
 }

@@ -22,8 +22,9 @@ public class Human extends Player {
      * Asks the user to type in a move repeatedly until a valid move is
      * provided.
      *
-     * @param board current board that the move will be played.
-     * @return the validated move.
+     * @param board current board that the move will be played on
+     * @param dictionary of valid words
+     * @return the validated move
      */
     public Move chooseMove(final Board board, final Dictionary dictionary) {
         Move move = null;
@@ -41,6 +42,7 @@ public class Human extends Player {
                 displayErrors(errorMsg);
             }
         }
+
         return move;
     }
 

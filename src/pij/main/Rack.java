@@ -4,45 +4,64 @@ import java.util.ArrayList;
 
 public class Rack {
 
-    /* declaring RACK_SIZE as a public constant because
-     * everyone can know racks hold 7 tiles. 
+    /**
+     * Declaring RACK_SIZE as a public constant to be accessed by other methods.
      */
-    public static final int RACK_SIZE = 7; 
+    public static final int RACK_SIZE = 7;
     private ArrayList<Tile> tiles = new ArrayList<Tile>(RACK_SIZE);
 
     /**
      * Adds a Tile to the Rack. Throws an exception if the Rack is full.
      * @param aTile to be added.
      */
-    public void add(Tile aTile) {
-        if(tiles.size() < RACK_SIZE) {
-            tiles.add(aTile);
-        }
-        else {
+    public void add(final Tile aTile) {
+        if (this.tiles.size() < RACK_SIZE) {
+            this.tiles.add(aTile);
+        } else {
             String message = "The rack is full, no more tiles can be added";
             throw new IllegalStateException(message);
         }
     }
-    
-    public int size() {
-        int size = tiles.size();
-        return size;
-    }
-    
 
     /**
-     * Returns a String of the Tiles on the Rack.
+     * Helper method that returns the number of Tiles on a Rack.
+     * @return number of Tiles on the Rack
+     */
+    public int size() {
+        int size = this.tiles.size();
+        return size;
+    }
+
+
+    /**
+     * Converts the Rack and the Tiles it holds to a String.
+     * @return String of the Tiles on the Rack
      */
     public String toString() {
         String string = "";
         int n = tiles.size();
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             string = string + "[" + tiles.get(i) + "]";
-            if(i< n-1) {
+            if (i < n - 1) {
                 string = string + ", ";
             }
         }
         return string;
+    }
+
+    /**
+     * Calculates and returns the sum of the values of the unplayed tiles on the
+     * rack.
+     * @return sum of the values of the tiles on the rack
+     */
+    public int getPenaltyScore() {
+        int n = this.tiles.size();
+        int score = 0;
+        for (int i = 0; i < n; i++) {
+            Tile tile = this.tiles.get(i);
+            score += tile.getScore();
+        }
+        return score;
     }
 
     /**

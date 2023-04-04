@@ -38,5 +38,8 @@ public final class Pass extends Move {
     public String getErrorMsg() {
         return "";
     }
+    public void updatePassCounter(final Player player) {
+        player.passCounter++;
+    }
 
 }

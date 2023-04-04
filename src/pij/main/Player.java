@@ -11,6 +11,7 @@ public abstract class Player {
 
     protected Rack rack;
     protected int score;
+    protected int passCounter;
 
     public Player(Rack rack) {
         this.rack = rack;
