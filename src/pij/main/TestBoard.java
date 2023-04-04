@@ -2,6 +2,7 @@ package pij.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -690,16 +691,15 @@ public class TestBoard {
         move = Move.fromString("BORD,h6,d");
         move.place(board, rack);
 
-        boolean expectedBob = true;
-        Position b = Position.fromString("f6");
-        Position fail = Position.fromString("e6");
-        Move bob = new WordMove("BO", b, Direction.right);
-        Move failBob = new WordMove("BO", fail, Direction.right);
-        boolean actualBob = board.checkStart(bob);
-        boolean expectedFailBob = board.checkStart(failBob);
+        Position position = Position.fromString("f6");
+        move = new WordMove("BO", position, Direction.right);
+        boolean result = board.checkStart(move);
+        assertTrue(result);
 
-        assertEquals(expectedBob, actualBob);
-        assertFalse(expectedBob == expectedFailBob);
+        position = Position.fromString("e6");
+        move = new WordMove("BO", position, Direction.right);
+        result = board.checkStart(move);
+        assertFalse(result);
 
         }
 }
