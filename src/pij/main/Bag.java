@@ -7,6 +7,10 @@ public class Bag {
 
     private ArrayList<Tile> tiles;
 
+    /**
+     * Creates a new bag with the correct number of each type of Tile and
+     * shuffles the order of the Tiles.
+     */
     public Bag() {
         int numOfTiles = 100;
         tiles = new ArrayList<Tile>(numOfTiles);
@@ -37,17 +41,18 @@ public class Bag {
         createTiles('Y', 4, 2);
         createTiles('Z', 10, 1);
         createTiles(' ', 3, 2);
-        
-        Collections.shuffle(tiles); //what is Collections here?
+
+        Collections.shuffle(tiles);
     }
 
     /**
-     * Creates a given number of tiles with the given letter and value.
-     * @param letter on the tile.
-     * @param score of the tile.
-     * @param multiple number of the same type of tile created.
+     * Creates a given number of Tiles with the given letter and value.
+     * @param letter on the Tile
+     * @param score of the Tile
+     * @param multiple number of the same type of Tile created
      */
-    private void createTiles(char letter, int score, int multiple) {
+    private void createTiles(
+            final char letter, final int score, final int multiple) {
         for (int i = 0; i < multiple; i++) {
             Tile tile = new Tile(letter, score);
             this.tiles.add(tile);
@@ -55,11 +60,11 @@ public class Bag {
     }
 
     /**
-     * Take a tile from the bag. Throws an exception if the bag is empty.
-     * @return a tile from the bag.
+     * Take a Tile from the Bag. Throws an exception if the Bag is empty.
+     * @return a Tile
      */
     public Tile takeTile() {
-        if(tiles.isEmpty()) {
+        if (tiles.isEmpty()) {
             throw new InsufficientTilesException();
         }
         Tile tile = tiles.remove(0);
@@ -67,8 +72,8 @@ public class Bag {
     }
 
     /**
-     * Checks if there are any tiles left.
-     * @return isEmpty if no tiles left.
+     * Checks if there are any Tiles left in the Bag.
+     * @return true if no Tiles left
      */
     public boolean isEmpty() {
         return tiles.isEmpty();

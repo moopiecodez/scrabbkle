@@ -15,7 +15,11 @@ public class BoardFileLoader {
     private int boardSize;
     private String squareString;
 
-    public BoardFileLoader(String fileName) {
+    /**
+     * Creates a new BoardFileLoader from a given file name.
+     * @param fileName from which the Board is to be created
+     */
+    public BoardFileLoader(final String fileName) {
         this.file = new File(fileName);
         this.lines = new ArrayList<String>();
     }
