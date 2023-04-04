@@ -50,7 +50,7 @@ public class Game {
         while (!isEnd()) {
             //game opening
             displayBoard(this.board);
-            move = this.activePlayer.chooseMove(this.board, this.dictionary);
+            move = this.activePlayer.chooseMove(this.board);
             displayMove(move);
             this.activePlayer.playMove(this.board, move);
             displayScore();

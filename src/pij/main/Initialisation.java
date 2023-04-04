@@ -28,7 +28,7 @@ public class Initialisation {
 
     public static Rack setupRack(Bag bag) {
         Rack rack = new Rack();
-        for(int i = 0; i < rack.RACK_SIZE; i++) {
+        for (int i = 0; i < Rack.RACK_SIZE; i++) {
             Tile aTile = bag.takeTile();
             rack.add(aTile);
         }
@@ -65,8 +65,8 @@ public class Initialisation {
         Rack userRack = setupRack(bag);
         Rack computerRack = setupRack(bag);
 
-        Player human = new Human(userRack);
-        Player computer = new Computer(computerRack);
+        Player human = new Human(userRack, dictionary);
+        Player computer = new Computer(computerRack, dictionary);
         Game game = new Game(board, dictionary, bag, human, computer);
         return game;
     }

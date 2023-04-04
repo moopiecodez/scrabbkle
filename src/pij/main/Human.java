@@ -14,8 +14,12 @@ public class Human extends Player {
             + "Entering just two commas passes.\n";
     private static final String INVALID_MOVE = "This is not a valid move.";
 
-    public Human(Rack rack) {
-        super(rack);
+    /**
+     * Creates a Human player with the given Rack.
+     * @param rack
+     */
+    public Human(Rack rack, Dictionary dictionary) {
+        super(rack, dictionary);
     }
 
     /**
@@ -26,7 +30,7 @@ public class Human extends Player {
      * @param dictionary of valid words
      * @return the validated move
      */
-    public Move chooseMove(final Board board, final Dictionary dictionary) {
+    public Move chooseMove(final Board board) {
         Move move = null;
 
         displayStartOfUserTurnMsg();
@@ -34,7 +38,7 @@ public class Human extends Player {
         while (move == null) {
             String string = getMoveStringFromUser();
             MoveVerifier verifier = new MoveVerifier(
-                    board, this.rack, string, dictionary);
+                    board, this.rack, string, this.dictionary);
             if (verifier.isValid()) {
                 move = verifier.getMove();
             } else {
