@@ -41,6 +41,7 @@ public class Computer extends Player {
             if (validStart) {
                 System.out.println("Maybe I go, " + direction
                         + " here...: " + position);
+                String rackLetters;
             }
         }
 

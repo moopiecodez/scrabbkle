@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * BoardFileLoaders parse text files into strings to create a Board.
+ * @author Maurane van der Stoep
+ *
+ */
 public class BoardFileLoader {
     private File file;
     private ArrayList<String> lines;
@@ -24,6 +28,10 @@ public class BoardFileLoader {
         this.lines = new ArrayList<String>();
     }
 
+    /**
+     * Checks file to confirm it is a file that exists and can be read.
+     * @return true if file is valid
+     */
     public Boolean validateFile() {
         Boolean validFile;
         validFile = this.file.exists();
@@ -32,6 +40,11 @@ public class BoardFileLoader {
         return validFile;
     }
 
+    /**
+     * Checks file to confirm the contents align to the format of a Board file
+     * (e.g. first line is an integer within the valid range).
+     * @return true if contents conforms to Board file format
+     */
     public Boolean validateContents() {
         Boolean valid;
         valid = parseFirstLine();
@@ -45,6 +58,11 @@ public class BoardFileLoader {
         return valid;
     }
 
+    /**
+     * Checks and confirms a given Board file is a valid file and in the correct
+     * format.
+     * @return true if valid file
+     */
     public boolean validateBoardFile() {
         boolean valid = validateFile();
 
@@ -109,6 +127,13 @@ public class BoardFileLoader {
         return this.lines.size() == this.boardSize;
     }
 
+    /**
+     * Checks a line obtained from a Board file to confirm if it is in the
+     * correct format (i.e. consists of tokens: "."; "{x}" and "(x)".
+     * @param size of each line
+     * @param line of tokens to be parsed
+     * @return String
+     */
     public static String parseLine(int size, String line) {
         String string = "";
         String standard = "\\.";
@@ -143,6 +168,11 @@ public class BoardFileLoader {
         return success;
     }
 
+    /**
+     * Generates a Board from a given size and String representing the Square
+     * types and their location on the Board to be created.
+     * @return Board
+     */
     public Board createBoard() {
         Board board = new Board(this.boardSize, this.squareString);
         return board;

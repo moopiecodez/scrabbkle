@@ -33,7 +33,14 @@ public class Game {
     private static final String DRAW = "It's a draw!";
 
 
-
+/**
+ * Generates a new Game from a given, board, dictionary, bag and players.
+ * @param board
+ * @param dictionary
+ * @param bag
+ * @param human player
+ * @param computer player
+ */
     public Game(
             final Board board, final Dictionary dictionary, final Bag bag,
             final Player human, final Player computer) {
@@ -45,10 +52,14 @@ public class Game {
         this.activePlayer = player1;
     }
 
+    /**
+     * Plays the Game, displaying the updated Board, Move and score at each
+     * turn until the Bag is empty and one Player's Rack is empty or both
+     * Players pass twice in a row.
+     */
     public void play() {
         Move move;
         while (!isEnd()) {
-            //game opening
             displayBoard(this.board);
             move = this.activePlayer.chooseMove(this.board);
             displayMove(move);
@@ -60,6 +71,10 @@ public class Game {
         }
     }
 
+    /**
+     * Ends the Game, calculates the final score of both players and displays
+     * them as part of the end game message.
+     */
     public void end() {
         int score1 = finalScore(player1);
         int score2 = finalScore(player2);
@@ -78,9 +93,9 @@ public class Game {
         return false;
     }
 
-    private void changePlayer(Player activePlayer) {
-        this.activePlayer = activePlayer == this.player1 ?
-                this.player2 : this.player1;
+    private void changePlayer(final Player activePlayer) {
+        this.activePlayer = activePlayer == this.player1
+                ? this.player2 : this.player1;
     }
 
     /** Displays the current board. */
@@ -101,7 +116,7 @@ public class Game {
         System.out.println(msg);
     }
 
-    private int finalScore(Player player) {
+    private int finalScore(final Player player) {
         int penalty = player.rack.getPenaltyScore();
         return player.getScore() - penalty;
     }

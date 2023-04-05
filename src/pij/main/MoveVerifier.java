@@ -2,6 +2,11 @@ package pij.main;
 
 import pij.main.dictionary.Dictionary;
 
+/**
+ * Helper class to check if a Move is valid.
+ * @author Maurane van der Stoep
+ *
+ */
 public class MoveVerifier {
     private static final String INPUT_ERR =
             "The input is not valid.\n";
@@ -15,6 +20,13 @@ public class MoveVerifier {
     private String errorMsg;
     private boolean valid;
 
+    /**
+     * Generates a MoveVerifier for a given Move from its moveString.
+     * @param board
+     * @param rack
+     * @param moveString
+     * @param dictionary
+     */
     public MoveVerifier(final Board board, final Rack rack,
             final String moveString, final Dictionary dictionary) {
 
@@ -50,14 +62,26 @@ public class MoveVerifier {
         this.valid = false;
     }
 
+    /**
+     * Returns a boolean indicating if a Move is valid.
+     * @return true if valid
+     */
     public boolean isValid() {
         return this.valid;
     }
 
+    /**
+     * Returns the String of error messages indicating why a Move is not valid.
+     * @return string
+     */
     public String getErrorMsg() {
         return this.errorMsg;
     }
 
+    /**
+     * Returns the Move being validated by the MoveVerifier.
+     * @return move
+     */
     public Move getMove() {
         return this.move;
     }

@@ -15,10 +15,11 @@ public class Human extends Player {
     private static final String INVALID_MOVE = "This is not a valid move.";
 
     /**
-     * Creates a Human player with the given Rack.
+     * Creates a Human player with the given Rack and Dictionary.
      * @param rack
+     * @param dictionary
      */
-    public Human(Rack rack, Dictionary dictionary) {
+    public Human(final Rack rack, final Dictionary dictionary) {
         super(rack, dictionary);
     }
 
@@ -27,7 +28,6 @@ public class Human extends Player {
      * provided.
      *
      * @param board current board that the move will be played on
-     * @param dictionary of valid words
      * @return the validated move
      */
     public Move chooseMove(final Board board) {
@@ -50,16 +50,28 @@ public class Human extends Player {
         return move;
     }
 
+    /**
+     * Displays a message to the user that it is their turn and what Tiles are
+     * on their Rack.
+     */
     public void displayStartOfUserTurnMsg() {
         System.out.println(TILE_MSG);
         System.out.println(this.rack.toString() + "\n");
     }
 
+    /**
+     * Displays the reasons why a user's Move was invalid.
+     * @param errorMsg
+     */
     public void displayErrors(final String errorMsg) {
         System.out.println(INVALID_MOVE);
         System.out.println(errorMsg);
     }
 
+    /**
+     * Displays text asking the user to input their move in a particular format.
+     * @return string input by the user
+     */
     public String getMoveStringFromUser() {
         System.out.println(USER_PLAY_MSG);
         Console console = System.console();

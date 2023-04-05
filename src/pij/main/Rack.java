@@ -92,21 +92,21 @@ public class Rack {
  * @param letters to be checked.
  * @return whether or not tiles on the Rack.
  */
-    public boolean hasLetters(String letters) {
+    public boolean hasLetters(final String letters) {
         boolean success = true;
         ArrayList<Tile> found = new ArrayList<Tile>();
-        for(int i = 0; i < letters.length(); i++) {
+        for (int i = 0; i < letters.length(); i++) {
             Character letter = letters.charAt(i);
             letter = Character.isLowerCase(letter) ? ' ' : letter;
             Tile tile = take(letter);
-            success = tile != null; 
+            success = tile != null;
 
-            if(!success) {
+            if (!success) {
                 break;
             }
             found.add(tile);
         }
-        for(Tile tile : found) {
+        for (Tile tile : found) {
             add(tile);
         }
 
