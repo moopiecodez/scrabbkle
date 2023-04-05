@@ -2,6 +2,12 @@ package pij.main;
 
 import java.util.ArrayList;
 
+/**
+ * Rack to hold Player's Tiles in Scrabbkle.
+ *
+ * @author Maurane van der Stoep
+ *
+ */
 public class Rack {
 
     /**
@@ -86,6 +92,17 @@ public class Rack {
         return null;
     }
 
+    /**
+     * Generates a String of all the letters of the Tiles on a given Rack.
+     * @return string
+     */
+    public String getLetters() {
+        String letters = "";
+        for (Tile tile : tiles) {
+            letters += tile.getLetter();
+        }
+        return letters;
+    }
 /**
  * Checks if the given letters are present on the Rack. Breaks out of loop if
  * any letter is missing from the Rack.

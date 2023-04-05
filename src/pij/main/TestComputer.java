@@ -46,4 +46,9 @@ public class TestComputer {
         assertTrue(false);
     }
 
+    @Test
+    void powerSet() {
+        String rack = "ABCDEFG";
+        Computer.powerSetPermutations(rack);
+    }
 }
