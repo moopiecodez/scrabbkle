@@ -80,6 +80,10 @@ public class Tile {
         this.letter = letter;
     }
 
+    /**
+     * Sets a wildcard Tile to represent the given lowercase char.
+     * @param letter
+     */
     public void setWildCard(final char letter) {
         if (this.letter == ' ') {
             this.letter = letter;

@@ -3,6 +3,13 @@ package pij.main.square;
 import pij.main.Move.Direction;
 import pij.main.Tile;
 
+/**
+ * Class configuring how individual squares on a board are used in the game of
+ * Scrabbkle.
+ * 
+ * @author Maurane van der Stoep
+ *
+ */
 public abstract class Square {
 
     private Tile tile;
@@ -19,7 +26,7 @@ public abstract class Square {
      * @param letterMultiplier
      * @param wordMultiplier
      */
-    public Square(int letterMultiplier, int wordMultiplier) {
+    public Square(final int letterMultiplier, final int wordMultiplier) {
         this.letterMultiplier = letterMultiplier;
         this.wordMultiplier = wordMultiplier;
         this.blockedRight = false;
@@ -32,7 +39,7 @@ public abstract class Square {
      * @param token
      * @return multiplier for a premium square.
      */
-    private static int parsePremiumValue(String token) {
+    private static int parsePremiumValue(final String token) {
         String value = token.substring(1, token.length() - 1);
         int multiplier = Integer.parseInt(value);
         return multiplier;
@@ -44,7 +51,7 @@ public abstract class Square {
      * @return either a StandardSquare, PremiumLetterSquare or PremiumWordSquare
      * depending on the token.
      */
-    public static Square create(String token) {
+    public static Square create(final String token) {
         Square square = null;
         int multiplier;
         char first = token.charAt(0);
@@ -90,6 +97,11 @@ public abstract class Square {
         return this.tile == null;
     }
 
+    /**
+     * Checks if a Square is blocked in a given direction.
+     * @param direction
+     * @return true if blocked
+     */
     public boolean isBlocked(Direction direction) {
         boolean blocked = switch(direction) {
             case right -> this.blockedRight;
@@ -97,17 +109,25 @@ public abstract class Square {
         };
         return blocked;
     }
-    
-    public void setBlocked(Direction direction) {
-        switch(direction) {
+
+    /**
+     * Sets the blocked status of a Square in a given Direction.
+     * @param direction
+     */
+    public void setBlocked(final Direction direction) {
+        switch (direction) {
             case right -> this.blockedRight = true;
             case down -> this.blockedDown = true;
         }
     }
-    
+
+    /**
+     * Generates the String representation of a given Square.
+     * @return string
+     */
     public String toString() {
         String string;
-        if(isEmpty()) {
+        if (isEmpty()) {
             string = toStringEmpty();
         } else {
             string = this.tile.toString();
@@ -125,10 +145,12 @@ public abstract class Square {
      * characters.
      */
     protected static String squareDetailToString(
-            int multiplier, String frontBracket, String endBracket) {
+            final int multiplier,
+            final String frontBracket,
+            final String endBracket) {
 
-        String string = frontBracket + multiplier;;
-        if(multiplier >= 0 && multiplier <= 9) {
+        String string = frontBracket + multiplier;
+        if (multiplier >= 0 && multiplier <= 9) {
             string += endBracket;
         }
         return string;
@@ -149,7 +171,7 @@ public abstract class Square {
      */
     public int calculateLetterScore() {
         int tileScore = this.tile.getScore();
-        int letterScore = 
+        int letterScore =
                 this.letterScoring.score(this.letterMultiplier, tileScore);
         return letterScore;
     }
@@ -157,7 +179,7 @@ public abstract class Square {
     /**
      * Sets the letterScoring variable. That determines how the letter value is
      * calculated.
-     * @param letterScoring.
+     * @param letterScoring
      */
     public void setLetterScoring(LetterScoring letterScoring) {
         this.letterScoring = letterScoring;
@@ -175,12 +197,15 @@ public abstract class Square {
     /**
      * Sets the wordScoring variable. That determines how word scoring is
      * calculated.
-     * @param wordScoring.
+     * @param wordScoring
      */
     public void setWordScoring(WordScoring wordScoring) {
         this.wordScoring = wordScoring;
     }
 
+    /**
+     * Updates the scoring mechanism of a square to be standard.
+     */
     public void setStandardScoring() {
         LetterScoring letterScoring = new StandardLetterScoring();
         WordScoring wordScoring = new StandardWordScoring();

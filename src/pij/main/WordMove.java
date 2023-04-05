@@ -2,6 +2,11 @@ package pij.main;
 
 import pij.main.dictionary.Dictionary;
 
+/**
+ * A type of Move in Scrabbkle where a word is played on the Board.
+ * @author Maurane van der Stoep
+ *
+ */
 public class WordMove extends Move {
 
     private static final String RACK_LETTERS_ERR =
@@ -19,7 +24,15 @@ public class WordMove extends Move {
     private String errorMsg;
     private boolean valid;
 
-    public WordMove(String letters, Position position, Direction direction) {
+    /**
+     * Generates a Move from given letters to be placed by the Player, position
+     * and direction.
+     * @param letters
+     * @param position
+     * @param direction
+     */
+    public WordMove(final String letters, final Position position,
+            final Direction direction) {
         this.letters = letters;
         this.position = position;
         this.direction = direction;
@@ -135,7 +148,7 @@ public class WordMove extends Move {
         }
     }
 
-    private void handleError( String errorMsg) {
+    private void handleError(final String errorMsg) {
         this.errorMsg += errorMsg;
         this.valid = false;
     }
