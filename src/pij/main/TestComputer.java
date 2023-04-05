@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import pij.main.dictionary.Dictionary;
+import pij.main.dictionary.DictionaryLoader;
 
 public class TestComputer {
 
@@ -38,7 +39,7 @@ public class TestComputer {
         rack.add(new Tile('G', 2));
 
         Board board = new Board(DEFAULT_SIZE, DEFAULT_SQUARE_STRING);
-        Dictionary dictionary = null;
+        Dictionary dictionary = DictionaryLoader.defaultDictionary();
         Player computer = new Computer(rack, dictionary);
 
         Move move = computer.chooseMove(board);
@@ -46,9 +47,4 @@ public class TestComputer {
         assertTrue(false);
     }
 
-    @Test
-    void powerSet() {
-        String rack = "ABCDEFG";
-        Computer.powerSetPermutations(rack);
-    }
 }

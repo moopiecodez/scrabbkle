@@ -55,6 +55,7 @@ public class Computer extends Player {
             Move testMove = new WordMove(rackLetters, position, direction);
             boolean validStart = board.checkStart(testMove);
             if (validStart) {
+                powerSetPermutations(rackLetters, position, direction, board);
                 System.out.println("Maybe I go, " + direction
                         + " here...: " + position);
                 System.out.println("My letters are: " + rackLetters);
@@ -73,25 +74,26 @@ public class Computer extends Player {
      * @param depth
      * @param start
      */
-    private static void combinations(
-            int limit, char[] source, char[] combi,
-            int depth, int start) {
+    private void combinations(
+            int limit, char[] source, char[] combi, int depth, int start,
+            Position position, Direction direction, Board board) {
         if (depth == limit) {
-            String letters = Arrays.toString(combi);
             int length = combi.length;
             char[] permu = new char[length];
             boolean[] visited = new boolean[length];
             for (int i = 0; i < length; i++) {
                 visited[i] = false;
             }
-            permutations(length, combi, permu, visited, -1);
+            permutations(length, combi, permu, visited, -1,
+                    position, direction, board);
             return;
         }
         for (int i = start; i < source.length; i++) {
             combi[depth] = source[i];
             start++;
             depth++;
-            combinations(limit, source, combi, depth, start);
+            combinations(limit, source, combi, depth, start,
+                    position, direction, board);
             depth--;
         }
     }
@@ -100,19 +102,25 @@ public class Computer extends Player {
      * Generate the powerSet permutations of a given String.
      * @param string
      */
-    public static void powerSetPermutations(String string) {
+    private void powerSetPermutations(String string,
+            Position position, Direction direction, Board board) {
         char[] source = string.toCharArray();
         for (int i = 1; i <= source.length; i++) {
             char[] combi = new char[i];
-            combinations(i, source, combi, 0, 0);
+            combinations(i, source, combi, 0, 0, position, direction, board);
         }
     }
 
-    public static void permutations(int length, char[] source, char[] permu,
-            boolean[] visited, int depth) {
+    private void permutations(int length, char[] source, char[] permu,
+            boolean[] visited, int depth,
+            Position position, Direction direction, Board board) {
         if (depth + 1 >= length) {
             String letters = new String(permu);
-            System.out.println(letters);
+            Move move = new WordMove(letters, position, direction);
+            if (move.validate(board, this.rack, this.dictionary)) {
+                System.out.println(move);
+            }
+
             return;
         }
         for (int i = 0; i < source.length; i++) {
@@ -120,7 +128,8 @@ public class Computer extends Player {
                 depth++;
                 permu[depth] = source[i];
                 visited[i] = true;
-                permutations(length, source, permu, visited, depth);
+                permutations(length, source, permu, visited, depth,
+                        position, direction, board);
                 visited[i] = false;
                 depth--;
             }

@@ -24,8 +24,6 @@ public class Initialisation {
     private static final String REQUEST_FILENAME_MSG =
             "Please enter the file name of the board:";
 
-    private static final String SCRABBKLE_WORDLIST = "resources/wordlist.txt";
-
     public static Rack setupRack(Bag bag) {
         Rack rack = new Rack();
         for (int i = 0; i < Rack.RACK_SIZE; i++) {
@@ -60,8 +58,7 @@ public class Initialisation {
         board = boardLoader.createBoard();
 
         Bag bag = new Bag();
-        Dictionary dictionary =
-                DictionaryLoader.dictionaryFromFile(SCRABBKLE_WORDLIST);
+        Dictionary dictionary = DictionaryLoader.defaultDictionary();
         Rack userRack = setupRack(bag);
         Rack computerRack = setupRack(bag);
 

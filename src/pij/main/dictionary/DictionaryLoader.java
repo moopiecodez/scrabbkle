@@ -8,6 +8,15 @@ import java.io.IOException;
 /** DictionaryLoader to load a dictionary from a file. */
 public class DictionaryLoader {
 
+    private static final String SCRABBKLE_WORDLIST = "resources/wordlist.txt";
+
+    /**
+     * Helper method to generate default dictionary.
+     * @return default dictionary
+     */
+    public static Dictionary defaultDictionary() {
+        return dictionaryFromFile(SCRABBKLE_WORDLIST);
+    }
     /**
      * Reads a given wordlist file and creates a dictionary from it.
      * @param wordlist filename
