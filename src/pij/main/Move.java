@@ -11,6 +11,13 @@ import pij.main.dictionary.Dictionary;
  *
  */
 public abstract class Move {
+
+    /**
+     * Direction a move is played in.
+     *
+     * @author Maurane van der Stoep
+     *
+     */
     public enum Direction { right, down }
 
     /**

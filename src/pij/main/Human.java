@@ -5,6 +5,12 @@ import java.util.regex.Pattern;
 
 import pij.main.dictionary.Dictionary;
 
+/**
+ * Implementation of player that takes input from a user via the console.
+ *
+ * @author Maurane van der Stoep
+ *
+ */
 public class Human extends Player {
 
     private static final String TILE_MSG = "It's your turn! Your tiles:";

@@ -6,6 +6,12 @@ import java.util.Scanner;
 import pij.main.Move.Direction;
 import pij.main.square.Square;
 
+/**
+ * Board for the game of Scrabbkle.
+ *
+ * @author Maurane van der Stoep
+ *
+ */
 public class Board {
 
     private Square[][] matrix;

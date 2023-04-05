@@ -3,6 +3,12 @@ package pij.main;
 import java.util.ArrayList;
 import java.util.Collections; 
 
+/**
+ * Bag to hold the Tiles.
+ *
+ * @author Maurane van der Stoep
+ *
+ */
 public class Bag {
 
     private ArrayList<Tile> tiles;
