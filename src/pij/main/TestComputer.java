@@ -1,9 +1,11 @@
 package pij.main;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import pij.main.Move.Direction;
 import pij.main.dictionary.Dictionary;
 import pij.main.dictionary.DictionaryLoader;
 
@@ -29,6 +31,9 @@ public class TestComputer {
                     + "{3}..(2)...{3}...(2)..{3}";
     @Test
     void chooseMove() {
+        String expectedLetters = "BADGE";
+        Position expectedPosition = Position.fromString("d8");
+        Direction expectedDirection = Direction.right;
         Rack rack = new Rack();
         rack.add(new Tile('A', 1));
         rack.add(new Tile('B', 3));
@@ -43,8 +48,14 @@ public class TestComputer {
         Player computer = new Computer(rack, dictionary);
 
         Move move = computer.chooseMove(board);
-        System.out.println(move);
-        assertTrue(false);
+        String actualLetters = move.getLetters();
+        Position actualPosition = move.getPosition();
+        Direction actualDirection = move.getDirection();
+
+        assertEquals(expectedLetters, actualLetters);
+        assertEquals(expectedDirection, actualDirection);
+        assertEquals(expectedPosition, actualPosition);
+
     }
 
 }
