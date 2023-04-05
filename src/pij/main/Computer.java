@@ -13,6 +13,8 @@ import pij.main.dictionary.Dictionary;
  */
 public class Computer extends Player {
 
+    Move bestMove;
+
     public Computer(Rack rack, Dictionary dictionary) {
         super(rack, dictionary);
     }
@@ -23,14 +25,13 @@ public class Computer extends Player {
      * @return Move of Computer player
      */
     public Move chooseMove(final Board board) {
-
+        this.bestMove = new Pass();
         for (int i = 0; i < board.getSize(); i++) {
             getMoveForArray(i, Direction.right, board);
             getMoveForArray(i, Direction.down, board);
         }
 
-        Move move = Move.fromString(",,");
-        return move;
+        return bestMove;
     }
 
     /**
@@ -44,8 +45,6 @@ public class Computer extends Player {
             final int array, final Direction direction, final Board board) {
         Move move = null;
         String rackLetters = this.rack.getLetters();
-        //String fmt = "array: index: %d, direction: %s";
-        //System.out.println(String.format(fmt, array, direction));
 
         for (int i = 0; i < board.getSize(); i++) {
             Position position = switch (direction) {
@@ -56,14 +55,22 @@ public class Computer extends Player {
             boolean validStart = board.checkStart(testMove);
             if (validStart) {
                 powerSetPermutations(rackLetters, position, direction, board);
-                System.out.println("Maybe I go, " + direction
-                        + " here...: " + position);
-                System.out.println("My letters are: " + rackLetters);
-                System.out.println("Move:   " + testMove.toString());
+                /*
+                 System.out.println("Maybe I go, " + direction
+                       + " here...: " + position);
+                */
             }
         }
 
         return move;
+    }
+
+    private void evaluateMove(Move move) {
+        int bestMoveLength = this.bestMove.getLetters().length();
+        int moveLength = move.getLetters().length();
+        if(bestMoveLength < moveLength) {
+            this.bestMove = move;
+        }
     }
 
     /**
@@ -118,10 +125,8 @@ public class Computer extends Player {
             String letters = new String(permu);
             Move move = new WordMove(letters, position, direction);
             if (move.validate(board, this.rack, this.dictionary)) {
-                System.out.println(move);
+                evaluateMove(move);
             }
-
-            return;
         }
         for (int i = 0; i < source.length; i++) {
             if (!visited[i]) {

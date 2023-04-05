@@ -47,7 +47,7 @@ public abstract class Player {
      * @param bag
      */
     public void replenishRack(Bag bag) {
-        while (rack.size() < Rack.RACK_SIZE) {
+        while (rack.size() < Rack.RACK_SIZE && !bag.isEmpty()) {
             Tile aTile = bag.takeTile();
             rack.add(aTile);
         }
