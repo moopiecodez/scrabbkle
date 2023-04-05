@@ -56,7 +56,9 @@ public class WordMove extends Move {
         char letter;
         Tile tile;
         Direction direction = this.getDirection();
-        while (!remainingLetters.isEmpty() || !board.isPositionFree(position)) {
+        while (!remainingLetters.isEmpty()
+                || (board.positionExists(position)
+                        && !board.isPositionFree(position))) {
             if (board.isPositionFree(position)) {
                 letter = remainingLetters.charAt(0);
                 tile = rack.take(letter);
